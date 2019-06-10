@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./DayAndCaloriesNav.module.css";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@material-ui/icons";
 import moment from "moment";
@@ -13,25 +13,26 @@ const {
 } = styles;
 
 function DayAndCaloriesNav(props) {
-  const [todayFullDate, setNewDate] = useState(moment().format("L"));
-  const [dayName, setNewDay] = useState(moment().format("dddd"));
+  // let thisDay = moment();
+  // let thisDayForChanging = thisDay.clone();
 
-  let thisDay = moment();
-  let thisDayForChanging = thisDay.clone();
-
-  function addDay() {
-    thisDayForChanging = thisDayForChanging.add(1, "days");
-    let formatToDayName = thisDayForChanging.format("dddd");
-    let formatToDate = thisDayForChanging.format("L");
-    return { formatToDayName, formatToDate };
-  }
-  function subtractDay() {
-    thisDayForChanging = thisDayForChanging.subtract(1, "days");
-    let formatToDayName = thisDayForChanging.format("dddd");
-    let formatToDate = thisDayForChanging.format("L");
-    return { formatToDayName, formatToDate };
-  }
-
+  // function addDay() {
+  //   thisDayForChanging = thisDayForChanging.add(1, "days");
+  //   let formatToDayName = thisDayForChanging.format("dddd");
+  //   let formatToDate = thisDayForChanging.format("L");
+  //   return { formatToDayName, formatToDate };
+  // }
+  // function subtractDay() {
+  //   thisDayForChanging = thisDayForChanging.subtract(1, "days");
+  //   let formatToDayName = thisDayForChanging.format("dddd");
+  //   let formatToDate = thisDayForChanging.format("L");
+  //   return { formatToDayName, formatToDate };
+  // }
+  const [todayFullDate, setDate] = useState(moment());
+  useEffect(() => {
+    console.log("Witajcie!");
+  }, []);
+  //hmm trzeba tak jakoś zrobić żeby nie zmieniać formatu state na klika a żeby był przekazany tam z formatem
   return (
     <div className={mainContainer}>
       <span className={arrowLeft}>
@@ -39,23 +40,26 @@ function DayAndCaloriesNav(props) {
           fontSize="large"
           color="inherit"
           onClick={() => {
-            console.log(subtractDay());
+            let x = todayFullDate.subtract(1, "days");
+            setDate(x);
+            console.log(x.format("L"));
           }}
         />
       </span>
       <span className={dateAndCaloriesBox}>
         <span className={selectedDay}>
-          <span>{dayName}</span>
-          <span>{todayFullDate}</span>
+          <span>{}</span>
+          <span>{"123"}</span>
         </span>
-        <span className={caloriesBox}>302 Kcal</span>
+        <span className={caloriesBox}>3021 Kcal</span>
       </span>
       <span className={arrowRight}>
         <KeyboardArrowRight
           fontSize="large"
           color="inherit"
           onClick={() => {
-            console.log(addDay());
+            setDate(todayFullDate.add(1, "days"));
+            console.log(todayFullDate.format("L"));
           }}
         />
       </span>
