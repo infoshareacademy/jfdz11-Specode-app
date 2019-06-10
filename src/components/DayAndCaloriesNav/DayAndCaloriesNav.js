@@ -40,16 +40,15 @@ function DayAndCaloriesNav(props) {
           fontSize="large"
           color="inherit"
           onClick={() => {
-            let x = todayFullDate.subtract(1, "days");
+            let x = todayFullDate.clone().subtract(1, "days");
             setDate(x);
-            console.log(x.format("L"));
           }}
         />
       </span>
       <span className={dateAndCaloriesBox}>
         <span className={selectedDay}>
-          <span>{}</span>
-          <span>{"123"}</span>
+          <span>{todayFullDate.format("dddd")}</span>
+          <span>{todayFullDate.format("L")}</span>
         </span>
         <span className={caloriesBox}>3021 Kcal</span>
       </span>
@@ -58,8 +57,7 @@ function DayAndCaloriesNav(props) {
           fontSize="large"
           color="inherit"
           onClick={() => {
-            setDate(todayFullDate.add(1, "days"));
-            console.log(todayFullDate.format("L"));
+            setDate(todayFullDate.clone().add(1, "days"));
           }}
         />
       </span>
