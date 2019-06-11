@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./DayAndCaloriesNav.module.css";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@material-ui/icons";
 import moment from "moment";
+import "moment/locale/pl";
 
 const {
   mainContainer,
@@ -13,26 +14,10 @@ const {
 } = styles;
 
 function DayAndCaloriesNav(props) {
-  // let thisDay = moment();
-  // let thisDayForChanging = thisDay.clone();
-
-  // function addDay() {
-  //   thisDayForChanging = thisDayForChanging.add(1, "days");
-  //   let formatToDayName = thisDayForChanging.format("dddd");
-  //   let formatToDate = thisDayForChanging.format("L");
-  //   return { formatToDayName, formatToDate };
-  // }
-  // function subtractDay() {
-  //   thisDayForChanging = thisDayForChanging.subtract(1, "days");
-  //   let formatToDayName = thisDayForChanging.format("dddd");
-  //   let formatToDate = thisDayForChanging.format("L");
-  //   return { formatToDayName, formatToDate };
-  // }
   const [todayFullDate, setDate] = useState(moment());
   useEffect(() => {
     console.log("Witajcie!");
   }, []);
-  //hmm trzeba tak jakoś zrobić żeby nie zmieniać formatu state na klika a żeby był przekazany tam z formatem
   return (
     <div className={mainContainer}>
       <span className={arrowLeft}>
@@ -48,9 +33,9 @@ function DayAndCaloriesNav(props) {
       <span className={dateAndCaloriesBox}>
         <span className={selectedDay}>
           <span>{todayFullDate.format("dddd")}</span>
-          <span>{todayFullDate.format("L")}</span>
+          <span>{todayFullDate.format("ll")}</span>
         </span>
-        <span className={caloriesBox}>3021 Kcal</span>
+        <span className={caloriesBox}>kcal</span>
       </span>
       <span className={arrowRight}>
         <KeyboardArrowRight
