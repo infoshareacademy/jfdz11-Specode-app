@@ -1,5 +1,5 @@
 import React from "react";
-// import "react-big-calendar/lib/css/react-big-calendar.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import "./App.css";
 import DayAndCaloriesNav from "./components/DayAndCaloriesNav";
@@ -33,8 +33,8 @@ const MyCalendar = props => (
 function App() {
   return (
     <div className="App">
-      <MyCalendar />
       <DayAndCaloriesNav />
+      <MyCalendar />
     </div>
   );
 }
