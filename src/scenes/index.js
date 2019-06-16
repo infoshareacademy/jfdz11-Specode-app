@@ -1,3 +1,4 @@
 import DayView from "./DayView/DayView";
+import DashBoard from "./Dashboard";
 
-export default DayView;
+export { DashBoard, DayView };

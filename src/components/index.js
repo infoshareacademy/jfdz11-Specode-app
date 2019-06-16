@@ -1,3 +1,5 @@
 import DayAndCaloriesNav from "./DayAndCaloriesNav";
+import MyCalendar from "./BigCalendar/BigCalendar";
+import Button from "./Button";
 
-export default DayAndCaloriesNav;
+export { MyCalendar, DayAndCaloriesNav, Button };
