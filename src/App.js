@@ -2,7 +2,7 @@ import React from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import "./App.css";
-import DayAndCaloriesNav from "./components/DayAndCaloriesNav";
+import DayView from "./scenes/index";
 import BigCalendar from "react-big-calendar";
 import moment from "moment";
 
@@ -33,8 +33,8 @@ const MyCalendar = props => (
 function App() {
   return (
     <div className="App">
-      <DayAndCaloriesNav />
-      <MyCalendar />
+      <DayView />
+      {/* <MyCalendar /> */}
     </div>
   );
 }
