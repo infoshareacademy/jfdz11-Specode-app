@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./DayAndCaloriesNav.module.css";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@material-ui/icons";
-import moment from "moment";
+
 import "moment/locale/pl";
 
 const {
@@ -14,10 +14,7 @@ const {
 } = styles;
 
 function DayAndCaloriesNav(props) {
-  const [todayFullDate, setDate] = useState(moment());
-  useEffect(() => {
-    console.log("Witajcie!");
-  }, []);
+  const { setDate, dateProps: todayFullDate } = props;
   return (
     <div className={mainContainer}>
       <span className={arrowLeft}>
@@ -25,8 +22,8 @@ function DayAndCaloriesNav(props) {
           fontSize="large"
           color="inherit"
           onClick={() => {
-            let x = todayFullDate.clone().subtract(1, "days");
-            setDate(x);
+            let prevDate = todayFullDate.clone().subtract(1, "days");
+            setDate(prevDate);
           }}
         />
       </span>
@@ -42,7 +39,8 @@ function DayAndCaloriesNav(props) {
           fontSize="large"
           color="inherit"
           onClick={() => {
-            setDate(todayFullDate.clone().add(1, "days"));
+            let nextDate = todayFullDate.clone().add(1, "days");
+            setDate(nextDate);
           }}
         />
       </span>

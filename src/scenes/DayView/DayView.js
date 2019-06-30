@@ -9,7 +9,10 @@ function DayView(props) {
   return (
     <div className={dayViewWrapper}>
       <Fragment className={dayNav}>
-        <DayAndCaloriesNav />
+        <DayAndCaloriesNav
+          setDate={props.setDate}
+          dateProps={props.dateProps}
+        />
       </Fragment>
       <div className={buttonWrapper}>
         <Button color="blue" text="Breakfast">

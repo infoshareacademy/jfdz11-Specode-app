@@ -8,7 +8,7 @@ const localizer = BigCalendar.momentLocalizer(moment);
 const MyCalendar = props => (
   <div>
     <BigCalendar
-      onDrillDown={() => console.log("ff")}
+      onDrillDown={date => props.setDate(moment(date))}
       localizer={localizer}
       events={[
         {
