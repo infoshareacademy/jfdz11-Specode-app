@@ -1,60 +1,16 @@
-import React from "react";
-import 'react-big-calendar/lib/css/react-big-calendar.css'
-
+import React, { useState } from "react";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./App.css";
-import Button from "@material-ui/core/Button";
-import DayAndCaloriesNav from "./components/DayAndCaloriesNav";
-import BigCalendar from 'react-big-calendar'
-import moment from 'moment'
-
-
-const localizer = BigCalendar.momentLocalizer(moment)
-
-const MyCalendar = props => (
-  <div>
-    <BigCalendar
-    onDoubleClickEvent={() => console.log('ff')}
-      localizer={localizer}
-      events={[{
-        title: 'Sniadanie',
-        start: new Date(),
-        end: new Date(),
-        allDay: false
-      }]}
-      startAccessor="start"
-      endAccessor="end"
-      views={{
-        month: true,
-      }}
-    />
-  </div>
-)
-
+import { DashBoard, DayView } from "./scenes";
+import moment from "moment";
 
 function App() {
-  return (
-    
-    <div className="App">
-      <MyCalendar />
-      <DayAndCaloriesNav />
-      <header className="App-header">
-        
+  const [todayFullDate, setDate] = useState(moment());
 
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <Button variant="contained" style={{backgroundColor:'green'}}>
-          Sniadanie
-        </Button>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  return (
+    <div className="App">
+      <DayView setDate={setDate} dateProps={todayFullDate} />
+      <DashBoard setDate={setDate} />
     </div>
   );
 }

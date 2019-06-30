@@ -1,5 +1,58 @@
 .mainContainer {
-  width: 100vw;
+  width: 80vw;
   height: 15vh;
   border: 1px solid red;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dateAndCaloriesBox {
+  width: 60%;
+  border: 1px solid blue;
+  display: flex;
+  font-size: 1.6em;
+}
+.selectedDay {
+  width: 70%;
+  border: 1px solid red;
+  display: flex;
+  justify-content: space-between;
+}
+.selectedDay span {
+  padding: 10px 20px;
+}
+.caloriesBox {
+  width: 30%;
+  text-align: end;
+  margin: auto;
+}
+
+@media (max-width: 768px) {
+  .mainContainer {
+    width: 100vw;
+    height: 15vh;
+    border: -1px solid red;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .dateAndCaloriesBox {
+    width: 60%;
+    border: 1px solid blue;
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+  }
+  .selectedDay {
+    width: 70%;
+    border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+  }
+  .caloriesBox {
+    width: 30%;
+    text-align: end;
+  }
 }
