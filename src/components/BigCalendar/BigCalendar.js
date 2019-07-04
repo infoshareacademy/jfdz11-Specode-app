@@ -4,15 +4,20 @@ import BigCalendar from "react-big-calendar";
 import moment from "moment";
 import { Modal } from "@material-ui/core";
 import { DayView } from "../../scenes";
+import { useState } from "react";
 
 const localizer = BigCalendar.momentLocalizer(moment);
-
+//ustawic state i przekazac do modala ayb tam guzik go zamykal
 const MyCalendar = props => {
   console.log(props);
+  const [isModalOpen, setModalOpenState] = useState(false);
   return (
     <div>
       <BigCalendar
-        onDrillDown={date => props.setDate(moment(date))}
+        onDrillDown={date => {
+          props.setDate(moment(date));
+          setModalOpenState(true);
+        }}
         localizer={localizer}
         events={[
           {
@@ -28,8 +33,12 @@ const MyCalendar = props => {
           month: true
         }}
       />
-      <Modal open={true}>
-        <DayView setDate={props.setDate} dateProps={props.dateProps} />
+      <Modal open={isModalOpen}>
+        <DayView
+          setModalOpenState={setModalOpenState}
+          setDate={props.setDate}
+          dateProps={props.dateProps}
+        />
       </Modal>
     </div>
   );

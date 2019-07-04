@@ -7,7 +7,11 @@ function Button(props) {
   return (
     <button
       className={mealButton}
-      style={{ backgroundColor: props.color || "red" }}
+      style={
+        ({ backgroundColor: props.color || "white" },
+        { padding: props.padding || "0" },
+        { margin: props.margin || "0" })
+      }
     >
       {props.text}
     </button>
