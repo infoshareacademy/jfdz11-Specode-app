@@ -7,7 +7,10 @@ import { makeStyles } from "@material-ui/core/styles";
 const { buttonWrapper, dayViewWrapper, dayNav, closeButton } = styles;
 
 //todo: data w state i przekazanie do buttona, console.log daty i ktory huzik klikniety
-//zamkniecie modala
+//formularz dodawania (przekazuje nazwe guzika i po dodaniu zmienia np kolor guzika)
+// w formularzu inputy ktore tworza obiekt i dodaja go do local storage
+// jezeli cos w localsie jest to niech to wyswietli buttony na zielono / albo wartosc bo bedzie migac
+//na kalendarzu fajnie by bylo jakby byly wyswietlane gdzie mamy posilki juz dodane (props kalendarza to events)
 const useStyles = makeStyles({
   closeButton: {
     color: "white"
