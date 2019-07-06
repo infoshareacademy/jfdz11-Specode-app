@@ -27,12 +27,12 @@ function DayView(props) {
           onClick={() => props.setModalOpenState(false)}
         />
       </span>
-      <Fragment className={dayNav}>
+      <span className={dayNav}>
         <DayAndCaloriesNav
           setDate={props.setDate}
           dateProps={props.dateProps}
         />
-      </Fragment>
+      </span>
       <div className={buttonWrapper}>
         <Button padding="20px" text="Śniadanie">
           {props.text}
