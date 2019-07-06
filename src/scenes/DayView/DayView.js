@@ -11,6 +11,9 @@ const useStyles = makeStyles({
   }
 });
 
+// addMealToSchedule={props.addMealToSchedule}       *****    propsy do przekazania do formularza
+//       addToMealsArray={props.addToMealsArray}
+
 function DayView(props) {
   const classes = useStyles();
   return (
