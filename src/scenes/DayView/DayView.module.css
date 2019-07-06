@@ -1,9 +1,33 @@
 .dayViewWrapper {
   width: 100%;
   height: 100%;
-}
-.buttonWrapper {
-  height: 70%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.buttonWrapper {
+  margin: 50px;
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: beige;
+  justify-content: space-evenly;
+  width: 80vh;
+}
+.closeButton {
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.closeButton:hover {
+  background-color: black;
+  cursor: pointer;
+  border-radius: 50%;
 }
