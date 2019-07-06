@@ -7,13 +7,19 @@ import { DayView } from "../../scenes";
 import { useState } from "react";
 
 const localizer = BigCalendar.momentLocalizer(moment);
+console.log(localizer);
+var theBigDay = new Date("july 7, 2019");
+console.log(theBigDay);
 //ustawic state i przekazac do modala ayb tam guzik go zamykal
 const MyCalendar = props => {
-  console.log(props);
   const [isModalOpen, setModalOpenState] = useState(false);
   return (
     <div>
       <BigCalendar
+        onSelectEvent={date => {
+          props.setDate(moment(date.start));
+          setModalOpenState(true);
+        }}
         onDrillDown={date => {
           props.setDate(moment(date));
           setModalOpenState(true);
@@ -24,6 +30,12 @@ const MyCalendar = props => {
             title: "Sniadanie",
             start: new Date(),
             end: new Date(),
+            allDay: false
+          },
+          {
+            title: "Sniadanie",
+            start: new Date("july 7, 2019"),
+            end: new Date("july 7, 2019"),
             allDay: false
           }
         ]}

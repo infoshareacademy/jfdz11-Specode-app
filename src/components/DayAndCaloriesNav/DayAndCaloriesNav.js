@@ -14,7 +14,9 @@ const {
 } = styles;
 
 function DayAndCaloriesNav(props) {
-  const { setDate, dateProps: todayFullDate } = props;
+  const { setDate, dateProps } = props;
+
+  console.log(dateProps);
   return (
     <div className={mainContainer}>
       <span className={arrowLeft}>
@@ -22,15 +24,15 @@ function DayAndCaloriesNav(props) {
           fontSize="large"
           color="inherit"
           onClick={() => {
-            let prevDate = todayFullDate.clone().subtract(1, "days");
+            let prevDate = dateProps.clone().subtract(1, "days");
             setDate(prevDate);
           }}
         />
       </span>
       <span className={dateAndCaloriesBox}>
         <span className={selectedDay}>
-          <span>{todayFullDate.format("dddd")}</span>
-          <span>{todayFullDate.format("ll")}</span>
+          <span>{dateProps.format("dddd")}</span>
+          <span>{dateProps.format("ll")}</span>
         </span>
         <span className={caloriesBox}>kcal</span>
       </span>
@@ -39,7 +41,7 @@ function DayAndCaloriesNav(props) {
           fontSize="large"
           color="inherit"
           onClick={() => {
-            let nextDate = todayFullDate.clone().add(1, "days");
+            let nextDate = dateProps.clone().add(1, "days");
             setDate(nextDate);
           }}
         />
