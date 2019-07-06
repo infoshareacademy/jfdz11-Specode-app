@@ -14,6 +14,10 @@ const MyCalendar = props => {
   return (
     <div>
       <BigCalendar
+        onSelectEvent={date => {
+          props.setDate(moment(date));
+          setModalOpenState(true);
+        }}
         onDrillDown={date => {
           props.setDate(moment(date));
           setModalOpenState(true);
