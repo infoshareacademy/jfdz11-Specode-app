@@ -36,6 +36,13 @@ function DayView(props) {
         </Button>
         <Button text="Obiad">{props.text}</Button>
         <Button text="Kolacja">{props.text}</Button>
+        <button
+          onClick={() => {
+            props.addToMealsArray({ Paulina: "trolololo" }); ///ta metoda dodaje do localStorage obiekt, docelowo zamiast Paulina trolololo ma być obiekt zwrócony przez formularz :D
+          }}
+        >
+          DODAJ DO LOCAL
+        </button>
       </div>
     </div>
   );

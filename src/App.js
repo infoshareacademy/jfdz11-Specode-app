@@ -4,7 +4,7 @@ import "./App.css";
 import { DashBoard } from "./scenes";
 import moment from "moment";
 import styles from "./App.css";
-
+import MealsLocalStorage from "./components/MealsLocalStorage/MealsLocalStorage";
 const { appWrapper } = styles;
 
 class App extends React.Component {
@@ -17,14 +17,15 @@ class App extends React.Component {
         JSON.parse(localStorage.getItem("scheduledMealsList")) || []
     };
   }
-  componentWillMount() {
-    this.addMealToSchedule({ troka: "asd" });
+  componentDidUpdate() {
+    console.log(this.state.mealsArray);
   }
   setDate = date => {
     this.setState({ todayFullDate: date });
   };
 
   addToMealsArray = mealObject => {
+    console.log([...this.state.mealsArray]);
     this.setState(
       { mealsArray: [...this.state.mealsArray, mealObject] },
       () => {
@@ -57,6 +58,7 @@ class App extends React.Component {
   render() {
     return (
       <div className={appWrapper}>
+        <MealsLocalStorage />
         <DashBoard
           addMealToSchedule={this.addMealToSchedule}
           addToMealsArray={this.addToMealsArray}
