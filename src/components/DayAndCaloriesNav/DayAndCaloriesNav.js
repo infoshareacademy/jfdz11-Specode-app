@@ -16,7 +16,7 @@ const {
 function DayAndCaloriesNav(props) {
   const { setDate, dateProps } = props;
 
-  console.log(dateProps);
+  // console.log(dateProps);
   return (
     <div className={mainContainer}>
       <span className={arrowLeft}>

@@ -12,20 +12,22 @@ class App extends React.Component {
     super(props);
     this.state = {
       todayFullDate: moment(),
-      mealsArray: JSON.parse(localStorage.getItem("mealsList")) || [],
+      mealsArray: [],
       scheduledMealsArray:
         JSON.parse(localStorage.getItem("scheduledMealsList")) || []
     };
   }
-  componentDidUpdate() {
-    console.log(this.state.mealsArray);
+  componentDidMount() {
+    this.setState({
+      mealsArray: JSON.parse(localStorage.getItem("mealsList"))
+    });
   }
+
   setDate = date => {
     this.setState({ todayFullDate: date });
   };
 
   addToMealsArray = mealObject => {
-    console.log([...this.state.mealsArray]);
     this.setState(
       { mealsArray: [...this.state.mealsArray, mealObject] },
       () => {
