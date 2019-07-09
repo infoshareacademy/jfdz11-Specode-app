@@ -6,3 +6,9 @@
 .rbc-calendar {
   height: 800px;
 }
+
+.form {
+  width: 100%;
+  text-align: center;
+  background-color: rgb(224, 141, 39);
+}

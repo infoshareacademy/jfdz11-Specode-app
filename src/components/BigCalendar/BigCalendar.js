@@ -28,8 +28,8 @@ const MyCalendar = props => {
         events={[
           {
             title: "Sniadanie",
-            start: new Date(),
-            end: new Date(),
+            start: new Date("july 5, 2019"),
+            end: new Date("2019-07-06"),
             allDay: false
           },
           {

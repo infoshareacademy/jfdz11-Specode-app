@@ -2,12 +2,13 @@ import React from "react";
 
 const MealsLocalStorage = () => {
   const mealsArray = [];
-  function createNewMeal(name, calories, type, id) {
+  function createNewMeal(text, kcal, type, id, date) {
     mealsArray.push({
-      name,
-      calories,
+      name: text,
+      calories: kcal,
       type,
-      id
+      id,
+      date
     });
   }
 
