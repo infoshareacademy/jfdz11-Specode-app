@@ -1,5 +1,5 @@
 import React from "react";
-import { DayAndCaloriesNav, Button } from "../../components";
+import { DayAndCaloriesNav, Button, MealForm } from "../../components";
 import { Clear } from "@material-ui/icons";
 import styles from "./DayView.module.css";
 import { makeStyles } from "@material-ui/core/styles";
@@ -43,6 +43,7 @@ function DayView(props) {
         >
           DODAJ DO LOCAL
         </button>
+        <MealForm addToMealsArray={props.addToMealsArray} />
       </div>
     </div>
   );
