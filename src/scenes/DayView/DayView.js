@@ -1,5 +1,10 @@
 import React from "react";
-import { DayAndCaloriesNav, Button, MealForm } from "../../components";
+import {
+  DayAndCaloriesNav,
+  Button,
+  MealForm,
+  MealsSearch
+} from "../../components";
 import { Clear } from "@material-ui/icons";
 import styles from "./DayView.module.css";
 import { makeStyles } from "@material-ui/core/styles";
@@ -41,6 +46,7 @@ function DayView(props) {
           addToMealsArray={props.addToMealsArray}
         />
       </div>
+      <MealsSearch mealsArray={props.mealsArray} />
     </div>
   );
 }
