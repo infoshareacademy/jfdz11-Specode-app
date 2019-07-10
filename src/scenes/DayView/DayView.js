@@ -16,8 +16,6 @@ const useStyles = makeStyles({
   }
 });
 
-// addMealToSchedule={props.addMealToSchedule}
-
 function DayView(props) {
   const classes = useStyles();
   return (
