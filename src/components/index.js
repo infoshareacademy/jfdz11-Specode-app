@@ -3,5 +3,13 @@ import MyCalendar from "./BigCalendar/BigCalendar";
 import Button from "./Button";
 import MealForm from "./MealForm/MealForm";
 import MealsSearch from "./MealsSearch/MealsSearch";
+import PieChart from "./PieChart";
 
-export { MyCalendar, DayAndCaloriesNav, Button, MealForm, MealsSearch };
+export {
+  MyCalendar,
+  DayAndCaloriesNav,
+  Button,
+  MealForm,
+  MealsSearch,
+  PieChart
+};

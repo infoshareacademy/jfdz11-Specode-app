@@ -8,8 +8,15 @@ import {
 import { Clear } from "@material-ui/icons";
 import styles from "./DayView.module.css";
 import { makeStyles } from "@material-ui/core/styles";
+import { PieChart } from "../../components";
 
-const { buttonWrapper, dayViewWrapper, dayNav, closeButton } = styles;
+const {
+  buttonWrapper,
+  dayViewWrapper,
+  dayNav,
+  closeButton,
+  pieContainer
+} = styles;
 const useStyles = makeStyles({
   closeButton: {
     color: "white"
@@ -45,6 +52,9 @@ function DayView(props) {
         />
       </div>
       <MealsSearch mealsArray={props.mealsArray} />
+      <div className={pieContainer}>
+        <PieChart />
+      </div>
     </div>
   );
 }

@@ -31,3 +31,7 @@
   cursor: pointer;
   border-radius: 50%;
 }
+
+.pieContainer {
+  margin-top: 10px;
+}
