@@ -11,8 +11,7 @@ const useStyles = makeStyles({
   }
 });
 
-// addMealToSchedule={props.addMealToSchedule}       *****    propsy do przekazania do formularza
-//       addToMealsArray={props.addToMealsArray}
+// addMealToSchedule={props.addMealToSchedule}
 
 function DayView(props) {
   const classes = useStyles();
@@ -36,14 +35,11 @@ function DayView(props) {
         </Button>
         <Button text="Obiad">{props.text}</Button>
         <Button text="Kolacja">{props.text}</Button>
-        <button
-          onClick={() => {
-            props.addToMealsArray({ Paulina: "trolololo" }); ///ta metoda dodaje do localStorage obiekt, docelowo zamiast Paulina trolololo ma być obiekt zwrócony przez formularz :D
-          }}
-        >
-          DODAJ DO LOCAL
-        </button>
-        <MealForm addToMealsArray={props.addToMealsArray} />
+        <MealForm
+          updateMealId={props.updateMealId}
+          newMealId={props.newMealId}
+          addToMealsArray={props.addToMealsArray}
+        />
       </div>
     </div>
   );

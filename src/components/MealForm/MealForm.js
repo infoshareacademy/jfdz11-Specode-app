@@ -9,6 +9,7 @@ class MealForm extends React.Component {
   }
   handleChangeOne = event => {
     this.setState({ inputValueOne: event.target.value });
+    console.log(this.props);
   };
   handleChangeTwo = event => {
     this.setState({ inputValueTwo: event.target.value });
@@ -21,10 +22,11 @@ class MealForm extends React.Component {
     this.props.addToMealsArray({
       name: this.state.inputValueOne,
       calories: this.state.inputValueTwo,
-      type: this.state.selectValue
+      type: this.state.selectValue,
+      id: this.props.newMealId
     });
-
     event.preventDefault();
+    this.props.updateMealId();
   };
 
   render() {

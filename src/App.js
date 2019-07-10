@@ -12,15 +12,25 @@ class App extends React.Component {
     super(props);
     this.state = {
       todayFullDate: moment(),
+      newMealId: "",
       mealsArray: [],
       scheduledMealsArray:
         JSON.parse(localStorage.getItem("scheduledMealsList")) || []
     };
   }
   componentDidMount() {
-    this.setState({
-      mealsArray: JSON.parse(localStorage.getItem("mealsList"))
-    });
+    this.setState(
+      {
+        mealsArray: JSON.parse(localStorage.getItem("mealsList"))
+      },
+      () => {
+        let nextMealId = this.state.mealsArray.length + 1;
+        this.setState({ newMealId: nextMealId }, () => {
+          console.log(this.state.newMealId);
+          console.log("compinent did mount");
+        });
+      }
+    );
   }
 
   setDate = date => {
@@ -57,11 +67,17 @@ class App extends React.Component {
     );
   };
 
+  updateMealId = () => {
+    this.setState({ newMealId: this.state.newMealId + 1 });
+  };
+
   render() {
     return (
       <div className={appWrapper}>
         <MealsLocalStorage />
         <DashBoard
+          updateMealId={this.updateMealId}
+          newMealId={this.state.newMealId}
           addMealToSchedule={this.addMealToSchedule}
           addToMealsArray={this.addToMealsArray}
           setDate={this.setDate}

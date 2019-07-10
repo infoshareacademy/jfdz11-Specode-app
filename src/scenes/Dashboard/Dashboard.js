@@ -4,6 +4,8 @@ import { MyCalendar } from "../../components";
 function DashBoard(props) {
   return (
     <MyCalendar
+      updateMealId={props.updateMealId}
+      newMealId={props.newMealId}
       addMealToSchedule={props.addMealToSchedule}
       addToMealsArray={props.addToMealsArray}
       setDate={props.setDate}

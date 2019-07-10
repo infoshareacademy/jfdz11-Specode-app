@@ -47,6 +47,8 @@ const MyCalendar = props => {
       />
       <Modal open={isModalOpen}>
         <DayView
+          updateMealId={props.updateMealId}
+          newMealId={props.newMealId}
           addMealToSchedule={props.addMealToSchedule}
           addToMealsArray={props.addToMealsArray}
           setModalOpenState={setModalOpenState}
