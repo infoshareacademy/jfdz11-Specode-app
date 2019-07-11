@@ -4,16 +4,9 @@ import {
   Chart,
   PieSeries,
   Title,
-  AreaSeries,
   Legend
 } from "@devexpress/dx-react-chart-material-ui";
 import { Animation } from "@devexpress/dx-react-chart";
-
-const data2 = [
-  { name: "Jajecznica i pieczywo", kcal: 390, type: "śniadanie" },
-  { name: "Wrap z jajkiem i bekonem", kcal: 421, type: "obiad" },
-  { name: "Placki owsiane z cukinia", kcal: 327, type: "kolacja" }
-];
 
 let localArray = JSON.parse(localStorage.getItem("mealsList"));
 let data = localArray.map(obj => {
