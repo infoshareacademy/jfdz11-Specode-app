@@ -1,8 +1,11 @@
 .mealButton {
-  width: 300px;
+  width: 34%;
   height: 50px;
   border-radius: 10px;
   border: none;
+  background-color: #fff;
+  color: black;
+  border: 2px solid wgreen;
   -webkit-box-shadow: 0px 0px 40px -4px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 40px -4px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 40px -4px rgba(0, 0, 0, 0.75);
