@@ -1,9 +1,9 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { MyCalendar, LineChart } from "../../components";
 
 function DashBoard(props) {
   return (
-    <Fragment>
+    <div>
       <MyCalendar
         mealsArray={props.mealsArray}
         updateMealId={props.updateMealId}
@@ -14,7 +14,7 @@ function DashBoard(props) {
         dateProps={props.dateProps}
       />
       <LineChart />
-    </Fragment>
+    </div>
   );
 }
 
