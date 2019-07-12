@@ -5,6 +5,7 @@ import MealForm from "./MealForm/MealForm";
 import MealsSearch from "./MealsSearch/MealsSearch";
 import PieChart from "./PieChart";
 import LineChart from "./LineChart";
+import Title from "./Title";
 
 export {
   MyCalendar,
@@ -13,5 +14,6 @@ export {
   MealForm,
   MealsSearch,
   PieChart,
-  LineChart
+  LineChart,
+  Title
 };

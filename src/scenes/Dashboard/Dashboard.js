@@ -1,9 +1,10 @@
 import React from "react";
-import { MyCalendar, LineChart } from "../../components";
+import { MyCalendar, LineChart, Title } from "../../components";
 
 function DashBoard(props) {
   return (
     <div>
+      <Title>Planer żywieniowy</Title>
       <MyCalendar
         mealsArray={props.mealsArray}
         updateMealId={props.updateMealId}
