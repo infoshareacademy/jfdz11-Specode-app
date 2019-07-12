@@ -34,11 +34,6 @@ function DayView(props) {
         />
       </span>
       <div className={buttonWrapper}>
-        <Button padding="20px" text="Śniadanie">
-          {props.text}
-        </Button>
-        <Button text="Obiad">{props.text}</Button>
-        <Button text="Kolacja">{props.text}</Button>
         <MealForm
           updateMealId={props.updateMealId}
           newMealId={props.newMealId}

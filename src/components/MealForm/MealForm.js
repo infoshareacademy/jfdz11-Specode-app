@@ -1,4 +1,12 @@
 import React from "react";
+import {
+  formContainer,
+  chooseMealTitle,
+  chooseMealType,
+  chooseMealName,
+  chooseMealCalories,
+  submit
+} from "./MealForm.module.css";
 
 class MealForm extends React.Component {
   constructor(props) {
@@ -31,36 +39,41 @@ class MealForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Wybierz porę posiłku
-          <select
-            value={this.state.selectValue}
-            onChange={this.handleChangeSelect}
-          >
-            <option value="śniadanie">Śniadanie</option>
-            <option value="obiad">Obiad</option>
-            <option value="kolacja">Kolacja</option>
-          </select>
-        </label>
-        <label>
-          <input
-            type="text"
-            placeholder="nazwa posiłku"
-            value={this.state.inputValueOne}
-            onChange={this.handleChangeOne}
-          />
-        </label>
-        <label>
-          <input
-            type="number"
-            placeholder="ilość kalorii"
-            value={this.state.inputValueTwo}
-            onChange={this.handleChangeTwo}
-          />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <div className={formContainer}>
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            <h3>Wybierz posiłek</h3>
+            <select
+              className={chooseMealType}
+              value={this.state.selectValue}
+              onChange={this.handleChangeSelect}
+            >
+              <option value="śniadanie">Śniadanie</option>
+              <option value="obiad">Obiad</option>
+              <option value="kolacja">Kolacja</option>
+            </select>
+          </label>
+          <label>
+            <input
+              className={chooseMealName}
+              type="ext"
+              placeholder="nazwa posiłku"
+              value={this.state.inputValueOne}
+              onChange={this.handleChangeOne}
+            />
+          </label>
+          <label>
+            <input
+              className={chooseMealCalories}
+              type="number"
+              placeholder="ilość kalorii"
+              value={this.state.inputValueTwo}
+              onChange={this.handleChangeTwo}
+            />
+          </label>
+          <input type="submit" value="Submit" className={submit} />
+        </form>
+      </div>
     );
   }
 }
