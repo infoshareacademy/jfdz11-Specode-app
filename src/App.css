@@ -9,7 +9,7 @@
 }
 
 .rbc-today {
-  background-color: lightgreen;
+  background-image: linear-gradient(green, lightgreen);
   color: black;
 }
 
