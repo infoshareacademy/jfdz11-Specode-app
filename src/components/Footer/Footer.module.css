@@ -1,7 +1,14 @@
 .footerStyle {
+  text-align: center;
+}
+
+.footerContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
   color: lightgreen;
   border-top: 1px solid lightgreen;
-  text-align: center;
 }
 
 .teamContainer {
@@ -17,6 +24,7 @@
   width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
 }
 
 .imagePersonContainer {
@@ -29,6 +37,27 @@
 .imagesOfUs {
   border: 1px solid black;
   box-shadow: 0 0 1em black;
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
+}
+
+.secondFooterContainer {
+  display: flex;
+  width: 100%;
+  justify-content: row;
+}
+
+.mapContainer {
+  width: 70%;
+}
+
+.mapWithAdressContainer {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  justify-content: space-around;
+}
+
+.address {
+  width: 25%;
 }

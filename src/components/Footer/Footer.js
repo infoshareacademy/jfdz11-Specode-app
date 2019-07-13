@@ -1,17 +1,23 @@
-import React from "react";
+import React, { Component } from "react";
+import GoogleMapReact from "google-map-react";
 import {
+  footerContainer,
   footerStyle,
   teamContainer,
   imagesOfUs,
   imageOfUsContainer,
-  imagePersonContainer
+  imagePersonContainer,
+  secondFooterContainer,
+  mapContainer,
+  adress,
+  mapWithAdressContainer
 } from "./Footer.module.css";
 import paulina from "./paulina.jpg";
 import marcin from "./marcin.jpg";
 import jaros from "./jaros.jpg";
 
 function FooterCopyright() {
-  return <p className={footerStyle}>Copyright by Specode team</p>;
+  return <p>Copyright by Specode team</p>;
 }
 
 function Team() {
@@ -58,11 +64,53 @@ function Team() {
   );
 }
 
+const AnyReactComponent = ({ text }) => <div>{text}</div>;
+
+class SimpleMap extends Component {
+  static defaultProps = {
+    center: {
+      lat: 54.403139,
+      lng: 18.5695
+    },
+    zoom: 11
+  };
+  render() {
+    return (
+      // Important! Always set the container height explicitly
+      <div className={mapContainer}>
+        <GoogleMapReact
+          defaultCenter={this.props.center}
+          defaultZoom={this.props.zoom}
+        >
+          <AnyReactComponent lat={59.955413} lng={30.337844} text="My Marker" />
+        </GoogleMapReact>
+      </div>
+    );
+  }
+}
+
+function Adress() {
+  return (
+    <div className={adress} style={{ color: "lightgrey" }}>
+      <h4>Adres siedziby:</h4>
+      <p>Olivia Four </p>
+      <p>aleja Grunwaldzka 472b</p> <p>80-309 Gdańsk</p>
+    </div>
+  );
+}
 function Footer() {
   return (
-    <footer>
-      <FooterCopyright />
-      <Team />
+    <footer className={footerContainer}>
+      <div className={secondFooterContainer}>
+        <Team />
+        <div className={mapWithAdressContainer}>
+          <Adress />
+          <SimpleMap />
+        </div>
+      </div>
+      <div className={footerStyle}>
+        <FooterCopyright />
+      </div>
     </footer>
   );
 }
