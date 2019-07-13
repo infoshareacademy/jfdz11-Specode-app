@@ -12,14 +12,14 @@
   width: 26px;
   height: 26px;
   position: absolute;
-  top: 20px;
-  right: 30px;
+  top: 2.5%;
+  right: 5%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .closeButton:hover {
-  background-color: black;
+  background-color: white;
   cursor: pointer;
   border-radius: 50%;
 }
