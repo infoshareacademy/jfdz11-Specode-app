@@ -39,41 +39,35 @@ class MealForm extends React.Component {
 
   render() {
     return (
-      <div className={formContainer}>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            <h3>Wybierz posiłek</h3>
-            <select
-              className={chooseMealType}
-              value={this.state.selectValue}
-              onChange={this.handleChangeSelect}
-            >
-              <option value="śniadanie">Śniadanie</option>
-              <option value="obiad">Obiad</option>
-              <option value="kolacja">Kolacja</option>
-            </select>
-          </label>
-          <label>
-            <input
-              className={chooseMealName}
-              type="ext"
-              placeholder="nazwa posiłku"
-              value={this.state.inputValueOne}
-              onChange={this.handleChangeOne}
-            />
-          </label>
-          <label>
-            <input
-              className={chooseMealCalories}
-              type="number"
-              placeholder="ilość kalorii"
-              value={this.state.inputValueTwo}
-              onChange={this.handleChangeTwo}
-            />
-          </label>
-          <input type="submit" value="Submit" className={submit} />
-        </form>
-      </div>
+      <form className={formContainer} onSubmit={this.handleSubmit}>
+        <label>
+          <h3>Wybierz posiłek</h3>
+        </label>
+        <select
+          className={chooseMealType}
+          value={this.state.selectValue}
+          onChange={this.handleChangeSelect}
+        >
+          <option value="śniadanie">Śniadanie</option>
+          <option value="obiad">Obiad</option>
+          <option value="kolacja">Kolacja</option>
+        </select>
+        <input
+          className={chooseMealName}
+          type="ext"
+          placeholder="nazwa posiłku"
+          value={this.state.inputValueOne}
+          onChange={this.handleChangeOne}
+        />
+        <input
+          className={chooseMealCalories}
+          type="number"
+          placeholder="ilość kalorii"
+          value={this.state.inputValueTwo}
+          onChange={this.handleChangeTwo}
+        />
+        <input type="submit" value="Submit" className={submit} />
+      </form>
     );
   }
 }
