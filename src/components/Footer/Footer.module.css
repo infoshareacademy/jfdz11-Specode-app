@@ -37,14 +37,15 @@
 .imagesOfUs {
   border: 1px solid black;
   box-shadow: 0 0 1em black;
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
 }
 
 .secondFooterContainer {
   display: flex;
   width: 100%;
-  justify-content: row;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
 .mapContainer {
@@ -60,4 +61,5 @@
 
 .address {
   width: 25%;
+  font-size: 0.7rem;
 }

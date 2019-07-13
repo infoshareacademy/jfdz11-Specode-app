@@ -77,7 +77,7 @@ class SimpleMap extends Component {
   render() {
     return (
       // Important! Always set the container height explicitly
-      <div className={mapContainer}>
+      <div className={mapContainer} styles={{ height: "50%" }}>
         <GoogleMapReact
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
@@ -98,6 +98,7 @@ function Adress() {
     </div>
   );
 }
+
 function Footer() {
   return (
     <footer className={footerContainer}>
