@@ -1,4 +1,10 @@
-import React from "react";
+import React, { Fragment } from "react";
+import {
+  Route,
+  BrowserRouter as Router,
+  Switch,
+  Redirect
+} from "react-router-dom";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./App.css";
 import { DashBoard } from "./scenes";
@@ -70,18 +76,26 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className={appWrapper}>
-        <MealsLocalStorage />
-        <DashBoard
-          mealsArray={this.state.mealsArray}
-          updateMealId={this.updateMealId}
-          newMealId={this.state.newMealId}
-          addMealToSchedule={this.addMealToSchedule}
-          addToMealsArray={this.addToMealsArray}
-          setDate={this.setDate}
-          dateProps={this.state.todayFullDate}
-        />
-      </div>
+      <Fragment>
+        <div className={appWrapper}>
+          <MealsLocalStorage />
+          <DashBoard
+            mealsArray={this.state.mealsArray}
+            updateMealId={this.updateMealId}
+            newMealId={this.state.newMealId}
+            addMealToSchedule={this.addMealToSchedule}
+            addToMealsArray={this.addToMealsArray}
+            setDate={this.setDate}
+            dateProps={this.state.todayFullDate}
+          />
+        </div>
+        <Router>
+          <Switch>
+            <Route exact path="/big-calendar" component={DashBoard} />
+            <Redirect exact from="/" to="big-calendar" />
+          </Switch>
+        </Router>
+      </Fragment>
     );
   }
 }
