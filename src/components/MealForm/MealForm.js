@@ -34,7 +34,8 @@ class MealForm extends React.Component {
       name: this.state.inputValueOne,
       calories: this.state.inputValueTwo,
       type: this.state.selectValue,
-      id: this.props.newMealId
+      id: this.props.newMealId,
+      date: this.props.dateProps
     };
     event.preventDefault();
     this.props.addToMealsArray(meal);
