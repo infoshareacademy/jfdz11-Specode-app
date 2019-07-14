@@ -41,7 +41,6 @@ class MealForm extends React.Component {
   };
 
   addMealToSchedule = event => {
-    debugger
     this.props.mealObjectToSchedule({
       name: this.state.inputValueOne,
       calories: this.state.inputValueTwo,
