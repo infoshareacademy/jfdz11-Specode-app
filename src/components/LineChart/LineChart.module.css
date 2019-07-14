@@ -1,3 +1,17 @@
-.lineChartContainer {
-  margin-tp: 10px;
+.container {
+  margin: 0 1% 1% 1%;
+  width: 99%;
+  color: white;
+}
+
+.chartContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+}
+
+.chartTitle {
+  margin-top: 2.5%;
+  padding: 1%;
 }
