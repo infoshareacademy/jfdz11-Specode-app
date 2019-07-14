@@ -4,6 +4,7 @@ import { Clear } from "@material-ui/icons";
 import styles from "./DayView.module.css";
 import { makeStyles } from "@material-ui/core/styles";
 import { PieChart } from "../../components";
+import moment from 'moment';
 
 const {
   buttonWrapper,
@@ -20,6 +21,11 @@ const useStyles = makeStyles({
 });
 
 function DayView(props) {
+  const scheduledMealsList = JSON.parse(window.localStorage.getItem('scheduledMealsList'));
+  const filteredScheduledMealsList = scheduledMealsList.filter((meal) => {
+    return moment(meal.date).format('YYYY-MM-DD') === moment(props.dateProps).format('YYYY-MM-DD')
+  })
+
   const classes = useStyles();
   return (
     <div className={dayViewWrapper}>
@@ -40,7 +46,9 @@ function DayView(props) {
           <div>
             Posilki:
             <div>
-              {}
+              {
+                filteredScheduledMealsList.map(meal => <div>{meal.name}</div>)
+              }
             </div>
           </div>
           <MealForm
@@ -53,7 +61,8 @@ function DayView(props) {
           />
         </div>
         <div className={pieContainer}>
-          <PieChart />
+          <PieChart 
+          dateProps={props.dateProps}/>
         </div>
       </div>
     </div>
