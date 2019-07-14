@@ -1,9 +1,9 @@
-import React from 'react'
-import { DayAndCaloriesNav, Button, MealForm } from '../../components'
-import { Clear } from '@material-ui/icons'
-import styles from './DayView.module.css'
-import { makeStyles } from '@material-ui/core/styles'
-import { PieChart } from '../../components'
+import React from "react";
+import { DayAndCaloriesNav, MealForm } from "../../components";
+import { Clear } from "@material-ui/icons";
+import styles from "./DayView.module.css";
+import { makeStyles } from "@material-ui/core/styles";
+import { PieChart } from "../../components";
 
 const {
   buttonWrapper,
@@ -12,15 +12,15 @@ const {
   closeButton,
   pieContainer,
   dayViewComponents
-} = styles
+} = styles;
 const useStyles = makeStyles({
   closeButton: {
-    color: 'white'
+    color: "white"
   }
-})
+});
 
 function DayView(props) {
-  const classes = useStyles()
+  const classes = useStyles();
   return (
     <div className={dayViewWrapper}>
       <span className={closeButton}>
@@ -51,6 +51,6 @@ function DayView(props) {
         </div>
       </div>
     </div>
-  )
+  );
 }
-export default DayView
+export default DayView;

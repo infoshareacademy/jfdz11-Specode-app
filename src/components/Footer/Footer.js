@@ -30,7 +30,7 @@ function Team() {
           <a
             href="https://www.linkedin.com/in/paulina-ani%C5%9Bkiewicz-4b7247179/"
             target="_blank"
-            rel="noopener nofererrer"
+            rel="noopener noreferrer"
           >
             <img
               src={paulina}
@@ -44,7 +44,7 @@ function Team() {
           <a
             href="https://www.linkedin.com/in/marcin-galera/"
             target="_blank"
-            rel="noopener nofererrer"
+            rel="noopener noreferrer"
           >
             <img src={marcin} className={imagesOfUs} alt="Marcin Galera" />
           </a>
@@ -54,7 +54,7 @@ function Team() {
           <a
             href="https://www.linkedin.com/in/marcin-jarowski/"
             target="_blank"
-            rel="noopener nofererrer"
+            rel="noopener noreferrer"
           >
             <img src={jaros} className={imagesOfUs} alt="Marcin Jarowski" />
           </a>
