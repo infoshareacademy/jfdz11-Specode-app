@@ -86,6 +86,7 @@ class App extends React.Component {
         <MealsLocalStorage />
         <DashBoard
           mealsArray={this.state.mealsArray}
+          scheduledMealsArray={this.state.scheduledMealsArray}
           updateMealId={this.updateMealId}
           newMealId={this.state.newMealId}
           addMealToSchedule={this.addMealToSchedule}

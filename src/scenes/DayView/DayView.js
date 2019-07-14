@@ -38,6 +38,7 @@ function DayView(props) {
       <div className={dayViewComponents}>
         <div className={buttonWrapper}>
           <MealForm
+            dateProps={props.dateProps}
             addMealToSchedule={props.addMealToSchedule}
             updateMealId={props.updateMealId}
             newMealId={props.newMealId}

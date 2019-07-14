@@ -45,7 +45,10 @@ class MealForm extends React.Component {
   selectMeal = event => {
     event.preventDefault()
     if (this.state.selectedMeal !== null) {
-      this.props.addMealToSchedule(this.state.selectedMeal)
+      this.props.addMealToSchedule({
+        ...this.state.selectedMeal,
+        date: this.props.dateProps
+      })
       this.props.updateMealId()
     }
   }
