@@ -12,12 +12,14 @@ class MealForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectValue: "śniadanie"
+      selectValue: "śniadanie",
+      inputValueOne : "",
+      inputValueTwo: "",
+
     };
   }
   handleChangeOne = event => {
     this.setState({ inputValueOne: event.target.value });
-    console.log(this.props);
   };
   handleChangeTwo = event => {
     this.setState({ inputValueTwo: event.target.value });
@@ -25,6 +27,7 @@ class MealForm extends React.Component {
   handleChangeSelect = event => {
     this.setState({ selectValue: event.target.value });
   };
+
 
   handleSubmit = event => {
     this.props.addToMealsArray({
@@ -37,9 +40,20 @@ class MealForm extends React.Component {
     this.props.updateMealId();
   };
 
+  addMealToSchedule = event => {
+    debugger
+    this.props.mealObjectToSchedule({
+      name: this.state.inputValueOne,
+      calories: this.state.inputValueTwo,
+      type: this.state.selectValue,
+    });
+    event.preventDefault()
+    this.props.updateMealId();
+  }
+
   render() {
     return (
-      <form className={formContainer} onSubmit={this.handleSubmit}>
+      <form className={formContainer} onSubmit={this.addMealToSchedule}>
         <label>
           <h3>Wybierz posiłek</h3>
         </label>

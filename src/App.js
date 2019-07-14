@@ -47,6 +47,7 @@ class App extends React.Component {
   };
 
   addMealToSchedule = mealObjectToSchedule => {
+    
     console.log(mealObjectToSchedule);
     this.setState(
       {
