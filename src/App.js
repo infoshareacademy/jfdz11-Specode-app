@@ -17,9 +17,8 @@ class App extends React.Component {
     this.state = {
       todayFullDate: moment(),
       newMealId: "",
-      mealsArray: JSON.parse(localStorage.getItem("mealsList")) || [],
-      scheduledMealsArray:
-        JSON.parse(localStorage.getItem("scheduledMealsList")) || []
+      mealsArray: [],
+      scheduledMealsArray: []
     };
   }
 
