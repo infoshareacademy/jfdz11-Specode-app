@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 const MealsLocalStorage = () => {
   const mealsArray = []
   function createNewMeal(name, calories, type, id) {
@@ -46,10 +47,8 @@ const MealsLocalStorage = () => {
   function createLocalStorageDishList() {
     createMealsArray()
     const mealsString = JSON.stringify(mealsArray)
-    let checkLocalStorage = JSON.parse(localStorage.getItem('mealsList'))
-    if (checkLocalStorage == null) {
+    JSON.parse(localStorage.getItem('mealsList'))
       localStorage.setItem('mealsList', mealsString)
-    }
   }
   return <span>{createLocalStorageDishList()}</span>
 }
