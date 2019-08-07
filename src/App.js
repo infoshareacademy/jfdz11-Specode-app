@@ -22,9 +22,9 @@ class App extends React.Component {
   componentDidMount() {
     firebase
       .database()
-      .ref("meals")
+      .ref("mealsArray")
       .on("value", snapshot => {
-        const mealsList = snapshot.val();
+        const mealsList = snapshot.val() || [];
         this.setState(
           {
             mealsArray: mealsList
@@ -39,23 +39,25 @@ class App extends React.Component {
       .database()
       .ref("scheduledMeals")
       .on("value", snapshot => {
-        const mealsList = snapshot.val();
-        let mealsListArray = Object.entries(mealsList).map(entry => {
-          const [id, meal] = entry;
-          return {
-            ...meal,
-            id
-          };
-        });
+        const scheduledMealsList = snapshot.val() || [];
+        let scheduledMealsListArray = Object.entries(scheduledMealsList).map(
+          entry => {
+            const [id, meal] = entry;
+            return {
+              ...meal,
+              id
+            };
+          }
+        );
         this.setState({
-          scheduledMealsArray: mealsListArray
+          scheduledMealsArray: scheduledMealsListArray
         });
       });
   }
   componentWillUnmount() {
     firebase
       .database()
-      .ref("meals")
+      .ref("mealsArray")
       .off("value");
   }
 
@@ -64,7 +66,17 @@ class App extends React.Component {
   };
 
   addToMealsArray = mealObject => {
-    this.setState({ mealsArray: [...this.state.mealsArray, mealObject] });
+    this.setState(
+      { mealsArray: [...this.state.mealsArray, mealObject] },
+      () => {
+        let { name, calories, type, id } = mealObject;
+        let firebaseMeal = { name, calories, type, id };
+        firebase
+          .database()
+          .ref("mealsArray")
+          .push(firebaseMeal);
+      }
+    );
   };
 
   addMealToSchedule = mealObjectToSchedule => {

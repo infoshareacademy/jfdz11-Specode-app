@@ -3,7 +3,7 @@ import * as firebase from "firebase";
 const db = firebase.initializeApp({
   apiKey: "AIzaSyCm4hot4CmtrZIO-FatVPxfSlNShg785CM",
   authDomain: "specode-app.firebaseapp.com",
-  databaseURL: "https://specode-app.firebaseio.com",
+  databaseURL: "https://jfdz11-specode-diet-plan-app.firebaseio.com/",
   projectId: "specode-app",
   storageBucket: "",
   messagingSenderId: "27552982687",
@@ -11,3 +11,5 @@ const db = firebase.initializeApp({
 });
 
 export default db;
+
+// https://specode-app.firebaseio.com  stare nie wiem jaki mail
