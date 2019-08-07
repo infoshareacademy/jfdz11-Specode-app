@@ -3,15 +3,13 @@ import { DayAndCaloriesNav, MealForm } from "../../components";
 import { Clear } from "@material-ui/icons";
 import styles from "./DayView.module.css";
 import { makeStyles } from "@material-ui/core/styles";
-import { PieChart } from "../../components";
-import moment from 'moment';
+import moment from "moment";
 
 const {
-  buttonWrapper,
+  mealFormWrapper,
   dayViewWrapper,
   dayNav,
   closeButton,
-  pieContainer,
   dayViewComponents
 } = styles;
 const useStyles = makeStyles({
@@ -21,10 +19,15 @@ const useStyles = makeStyles({
 });
 
 function DayView(props) {
-  const scheduledMealsList = JSON.parse(window.localStorage.getItem('scheduledMealsList'));
-  const filteredScheduledMealsList = scheduledMealsList.filter((meal) => {
-    return moment(meal.date).format('YYYY-MM-DD') === moment(props.dateProps).format('YYYY-MM-DD')
-  })
+  // const scheduledMealsList = JSON.parse(
+  //   window.localStorage.getItem("scheduledMealsList")
+  // );
+  // const filteredScheduledMealsList = scheduledMealsList.filter(meal => {
+  //   return (
+  //     moment(meal.date).format("YYYY-MM-DD") ===
+  //     moment(props.dateProps).format("YYYY-MM-DD")
+  //   );
+  // });
 
   const classes = useStyles();
   return (
@@ -42,15 +45,7 @@ function DayView(props) {
         />
       </span>
       <div className={dayViewComponents}>
-        <div className={buttonWrapper}>
-          <div>
-            Posilki:
-            <div>
-              {
-                filteredScheduledMealsList.map(meal => <div>{meal.name}</div>)
-              }
-            </div>
-          </div>
+        <div className={mealFormWrapper}>
           <MealForm
             dateProps={props.dateProps}
             addMealToSchedule={props.addMealToSchedule}
@@ -59,10 +54,6 @@ function DayView(props) {
             addToMealsArray={props.addToMealsArray}
             mealsArray={props.mealsArray}
           />
-        </div>
-        <div className={pieContainer}>
-          <PieChart 
-          dateProps={props.dateProps}/>
         </div>
       </div>
     </div>
