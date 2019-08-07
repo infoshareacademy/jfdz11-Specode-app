@@ -63,10 +63,6 @@ class MealForm extends React.Component {
   render() {
     return (
       <form className={formContainer} onSubmit={this.handleSubmit}>
-        <label>
-          <h3>Wybierz posiłek</h3>
-        </label>
-        <span>stworz wlasny posilek</span>
         <select
           className={chooseMealType}
           value={this.state.selectValue}
@@ -93,7 +89,6 @@ class MealForm extends React.Component {
         <button type="button" className={submit} onClick={this.createMeal}>
           Stworz wlasny posilek
         </button>
-        <span>albo wybierz z istniejacej listy posilkow</span>
         <MealsSearch
           mealsArray={this.props.mealsArray}
           onChange={this.handleMealSelectChange}

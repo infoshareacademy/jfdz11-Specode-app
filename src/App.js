@@ -4,8 +4,6 @@ import "./App.css";
 import { DashBoard } from "./scenes";
 import moment from "moment";
 import styles from "./App.css";
-import MealsLocalStorage from "./components/MealsLocalStorage/MealsLocalStorage";
-
 import * as firebase from "firebase";
 
 const { appWrapper } = styles;
@@ -13,13 +11,11 @@ const { appWrapper } = styles;
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.initLocalstorage();
     this.state = {
       todayFullDate: moment(),
       newMealId: "",
-      mealsArray: JSON.parse(localStorage.getItem("mealsList")) || [],
-      scheduledMealsArray:
-        JSON.parse(localStorage.getItem("scheduledMealsList")) || []
+      mealsArray: [],
+      scheduledMealsArray: []
     };
   }
 
@@ -63,33 +59,12 @@ class App extends React.Component {
       .off("value");
   }
 
-  initLocalstorage = () => {
-    const mealsList = JSON.parse(localStorage.getItem("mealsList"));
-    const scheduledMealsList = JSON.parse(
-      localStorage.getItem("scheduledMealsList")
-    );
-    if (mealsList === null) {
-      localStorage.setItem("mealsList", JSON.stringify([]));
-    }
-    if (scheduledMealsList === null) {
-      localStorage.setItem("scheduledMealsList", JSON.stringify([]));
-    }
-  };
-
   setDate = date => {
     this.setState({ todayFullDate: date });
   };
 
   addToMealsArray = mealObject => {
-    this.setState(
-      { mealsArray: [...this.state.mealsArray, mealObject] },
-      () => {
-        localStorage.setItem(
-          "mealsList",
-          JSON.stringify(this.state.mealsArray)
-        );
-      }
-    );
+    this.setState({ mealsArray: [...this.state.mealsArray, mealObject] });
   };
 
   addMealToSchedule = mealObjectToSchedule => {
@@ -121,7 +96,6 @@ class App extends React.Component {
   render() {
     return (
       <div className={appWrapper}>
-        <MealsLocalStorage />
         <DashBoard
           mealsArray={this.state.mealsArray}
           scheduledMealsArray={this.state.scheduledMealsArray}

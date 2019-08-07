@@ -3,7 +3,7 @@ import { DayAndCaloriesNav, MealForm } from "../../components";
 import { Clear } from "@material-ui/icons";
 import styles from "./DayView.module.css";
 import { makeStyles } from "@material-ui/core/styles";
-import moment from "moment";
+// import moment from "moment";
 
 const {
   mealFormWrapper,
