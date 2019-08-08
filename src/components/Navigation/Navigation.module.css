@@ -1,0 +1,25 @@
+#navigation {
+  display: grid;
+  border: 1px solid #fff;
+  grid-template-columns: 10% 60% 15% 15%;
+  list-style: none;
+  height: 60px;
+  text-align: center;
+}
+#navigation li {
+  color: #fff;
+  margin: auto;
+}
+#navigation li:first-child {
+  margin: auto 20px;
+}
+#navigation li button {
+  padding: 10px;
+  border: none;
+  background-color: inherit;
+  color: inherit;
+}
+#navigation li button:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}

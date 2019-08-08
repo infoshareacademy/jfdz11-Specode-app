@@ -7,6 +7,8 @@ import styles from "./App.css";
 import * as firebase from "firebase";
 import fire from "./firebase";
 import Login from "./scenes/Login/Login";
+import Navigation from "./components/Navigation/Navigation";
+
 const { appWrapper } = styles;
 
 class App extends React.Component {
@@ -17,51 +19,51 @@ class App extends React.Component {
       newMealId: "",
       mealsArray: [],
       scheduledMealsArray: [],
-      user: null
+      user: 1
     };
   }
 
   componentWillMount() {
-    this.authListener();
-    // firebase
-    //   .database()
-    //   .ref("mealsArray")
-    //   .on("value", snapshot => {
-    //     const mealsListObject = snapshot.val() || [];
-    //     let mealsListArray = Object.values(mealsListObject).map(entry => {
-    //       return { ...entry };
-    //     });
-    //     this.setState(
-    //       {
-    //         mealsArray: mealsListArray
-    //       },
-    //       () => {
-    //         let nextMealId = this.state.mealsArray.length + 1;
-    //         this.setState({ newMealId: nextMealId }, () => {});
-    //       }
-    //     );
-    //   });
-    // firebase
-    //   .database()
-    //   .ref("scheduledMeals")
-    //   .on("value", snapshot => {
-    //     const scheduledMealsList = snapshot.val() || [];
-    //     let scheduledMealsListArray = Object.entries(scheduledMealsList).map(
-    //       entry => {
-    //         const [id, meal] = entry;
-    //         return {
-    //           ...meal,
-    //           id
-    //         };
-    //       }
-    //     );
-    //     this.setState(
-    //       {
-    //         scheduledMealsArray: scheduledMealsListArray
-    //       },
-    //       () => {}
-    //     );
-    //   });
+    // this.authListener();
+    firebase
+      .database()
+      .ref("mealsArray")
+      .on("value", snapshot => {
+        const mealsListObject = snapshot.val() || [];
+        let mealsListArray = Object.values(mealsListObject).map(entry => {
+          return { ...entry };
+        });
+        this.setState(
+          {
+            mealsArray: mealsListArray
+          },
+          () => {
+            let nextMealId = this.state.mealsArray.length + 1;
+            this.setState({ newMealId: nextMealId }, () => {});
+          }
+        );
+      });
+    firebase
+      .database()
+      .ref("scheduledMeals")
+      .on("value", snapshot => {
+        const scheduledMealsList = snapshot.val() || [];
+        let scheduledMealsListArray = Object.entries(scheduledMealsList).map(
+          entry => {
+            const [id, meal] = entry;
+            return {
+              ...meal,
+              id
+            };
+          }
+        );
+        this.setState(
+          {
+            scheduledMealsArray: scheduledMealsListArray
+          },
+          () => {}
+        );
+      });
   }
   componentWillUnmount() {
     firebase
@@ -122,6 +124,7 @@ class App extends React.Component {
   render() {
     return (
       <div className={appWrapper}>
+        <Navigation />
         {this.state.user ? (
           <DashBoard
             mealsArray={this.state.mealsArray}
