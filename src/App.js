@@ -24,10 +24,13 @@ class App extends React.Component {
       .database()
       .ref("mealsArray")
       .on("value", snapshot => {
-        const mealsList = snapshot.val() || [];
+        const mealsListObject = snapshot.val() || [];
+        let mealsListArray = Object.values(mealsListObject).map(entry => {
+          return { ...entry };
+        });
         this.setState(
           {
-            mealsArray: mealsList
+            mealsArray: mealsListArray
           },
           () => {
             let nextMealId = this.state.mealsArray.length + 1;
@@ -49,9 +52,12 @@ class App extends React.Component {
             };
           }
         );
-        this.setState({
-          scheduledMealsArray: scheduledMealsListArray
-        });
+        this.setState(
+          {
+            scheduledMealsArray: scheduledMealsListArray
+          },
+          () => {}
+        );
       });
   }
   componentWillUnmount() {
@@ -69,8 +75,8 @@ class App extends React.Component {
     this.setState(
       { mealsArray: [...this.state.mealsArray, mealObject] },
       () => {
-        let { name, calories, type, id } = mealObject;
-        let firebaseMeal = { name, calories, type, id };
+        let { calories, id, name, type } = mealObject;
+        let firebaseMeal = { calories, id, name, type };
         firebase
           .database()
           .ref("mealsArray")
@@ -80,7 +86,6 @@ class App extends React.Component {
   };
 
   addMealToSchedule = mealObjectToSchedule => {
-    console.log(mealObjectToSchedule);
     this.setState(
       {
         scheduledMealsArray: [
