@@ -5,7 +5,8 @@ import { DashBoard } from "./scenes";
 import moment from "moment";
 import styles from "./App.css";
 import * as firebase from "firebase";
-
+import fire from "./firebase";
+import Login from "./scenes/Login/Login";
 const { appWrapper } = styles;
 
 class App extends React.Component {
@@ -15,56 +16,64 @@ class App extends React.Component {
       todayFullDate: moment(),
       newMealId: "",
       mealsArray: [],
-      scheduledMealsArray: []
+      scheduledMealsArray: [],
+      user: null
     };
   }
 
-  componentDidMount() {
-    firebase
-      .database()
-      .ref("mealsArray")
-      .on("value", snapshot => {
-        const mealsListObject = snapshot.val() || [];
-        let mealsListArray = Object.values(mealsListObject).map(entry => {
-          return { ...entry };
-        });
-        this.setState(
-          {
-            mealsArray: mealsListArray
-          },
-          () => {
-            let nextMealId = this.state.mealsArray.length + 1;
-            this.setState({ newMealId: nextMealId }, () => {});
-          }
-        );
-      });
-    firebase
-      .database()
-      .ref("scheduledMeals")
-      .on("value", snapshot => {
-        const scheduledMealsList = snapshot.val() || [];
-        let scheduledMealsListArray = Object.entries(scheduledMealsList).map(
-          entry => {
-            const [id, meal] = entry;
-            return {
-              ...meal,
-              id
-            };
-          }
-        );
-        this.setState(
-          {
-            scheduledMealsArray: scheduledMealsListArray
-          },
-          () => {}
-        );
-      });
+  componentWillMount() {
+    this.authListener();
+    // firebase
+    //   .database()
+    //   .ref("mealsArray")
+    //   .on("value", snapshot => {
+    //     const mealsListObject = snapshot.val() || [];
+    //     let mealsListArray = Object.values(mealsListObject).map(entry => {
+    //       return { ...entry };
+    //     });
+    //     this.setState(
+    //       {
+    //         mealsArray: mealsListArray
+    //       },
+    //       () => {
+    //         let nextMealId = this.state.mealsArray.length + 1;
+    //         this.setState({ newMealId: nextMealId }, () => {});
+    //       }
+    //     );
+    //   });
+    // firebase
+    //   .database()
+    //   .ref("scheduledMeals")
+    //   .on("value", snapshot => {
+    //     const scheduledMealsList = snapshot.val() || [];
+    //     let scheduledMealsListArray = Object.entries(scheduledMealsList).map(
+    //       entry => {
+    //         const [id, meal] = entry;
+    //         return {
+    //           ...meal,
+    //           id
+    //         };
+    //       }
+    //     );
+    //     this.setState(
+    //       {
+    //         scheduledMealsArray: scheduledMealsListArray
+    //       },
+    //       () => {}
+    //     );
+    //   });
   }
   componentWillUnmount() {
     firebase
       .database()
       .ref("mealsArray")
       .off("value");
+  }
+
+  authListener() {
+    fire.auth().onAuthStateChanged(user => {
+      user ? this.setState({ user }) : this.setState({ user: null });
+    });
   }
 
   setDate = date => {
@@ -113,16 +122,20 @@ class App extends React.Component {
   render() {
     return (
       <div className={appWrapper}>
-        <DashBoard
-          mealsArray={this.state.mealsArray}
-          scheduledMealsArray={this.state.scheduledMealsArray}
-          updateMealId={this.updateMealId}
-          newMealId={this.state.newMealId}
-          addMealToSchedule={this.addMealToSchedule}
-          addToMealsArray={this.addToMealsArray}
-          setDate={this.setDate}
-          dateProps={this.state.todayFullDate}
-        />
+        {this.state.user ? (
+          <DashBoard
+            mealsArray={this.state.mealsArray}
+            scheduledMealsArray={this.state.scheduledMealsArray}
+            updateMealId={this.updateMealId}
+            newMealId={this.state.newMealId}
+            addMealToSchedule={this.addMealToSchedule}
+            addToMealsArray={this.addToMealsArray}
+            setDate={this.setDate}
+            dateProps={this.state.todayFullDate}
+          />
+        ) : (
+          <Login />
+        )}
       </div>
     );
   }
