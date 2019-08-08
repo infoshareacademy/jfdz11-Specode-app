@@ -19,7 +19,13 @@ class App extends React.Component {
       newMealId: "",
       mealsArray: [],
       scheduledMealsArray: [],
-      user: 1
+      user: {
+        isLoggedIn: false,
+        userFirstName: "",
+        userPicture: null,
+        userMealsArray: [],
+        userScheduledMealsArray: []
+      }
     };
   }
 
@@ -122,9 +128,19 @@ class App extends React.Component {
   };
 
   render() {
+    // user: {
+    //   isLoggedIn: false,
+    //   userFirstName: "Witaj użytkowniku",
+    //   userPicture: null,
+    //   userMealsArray: [],
+    //   userScheduledMealsArray: [],
     return (
       <div className={appWrapper}>
-        <Navigation />
+        <Navigation
+          isLoggedIn={this.state.user.isLoggedIn}
+          userFirstName={this.state.user.userFirstName}
+          userPicture={this.state.user.userPicture}
+        />
         {this.state.user ? (
           <DashBoard
             mealsArray={this.state.mealsArray}

@@ -13,7 +13,7 @@ const Navigation = props => {
             style={{
               width: "40px",
               height: "40px",
-              backgroundColor: "red"
+              backgroundColor: "inherit"
             }}
           >
             <span style={{ margin: "auto" }}>
@@ -22,12 +22,18 @@ const Navigation = props => {
           </div>
         }
       </li>
-      <li>Witaj użytkowniku!</li>
-      <li className={buttonLogin}>
-        <button>Zaloguj</button>
-      </li>
+      <li>{`Witaj ${
+        props.isLoggedIn ? props.userFirstName : "użytkowniku!"
+      }`}</li>
       <li className={buttonRegister}>
-        <button>Zarejestruj się</button>
+        {props.isLoggedIn ? (
+          <button>Profil</button>
+        ) : (
+          <button>Zarejestruj się</button>
+        )}
+      </li>
+      <li className={buttonLogin}>
+        {props.isLoggedIn ? <button>Wyloguj</button> : <button>Zaloguj</button>}
       </li>
     </nav>
   );
