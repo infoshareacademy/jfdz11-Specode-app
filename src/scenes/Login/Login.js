@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import * as styles from "./Login.module.css";
+import * as firebase from "firebase";
 
 let { navLink } = styles;
 
@@ -41,8 +42,17 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  const [getPass, setPass] = useState("");
-  const [getEmail, setEmail] = useState("");
+  const [passwordValue, changePasswordValue] = useState();
+  const [emailValue, changeEmailValue] = useState();
+  const auth = firebase.auth();
+
+  const signInFunction = (emailValue, passwordValue) => {
+    let promise = auth.signInWithEmailAndPassword(emailValue, passwordValue);
+    promise.catch(e => {
+      alert(e.message);
+      console.log(e);
+    });
+  };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -64,6 +74,7 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={e => changeEmailValue(e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -75,6 +86,7 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={e => changePasswordValue(e.target.value)}
           />
           <Button
             type="submit"
@@ -82,6 +94,11 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={event => {
+              event.preventDefault();
+              console.log(emailValue, passwordValue);
+              signInFunction(emailValue, passwordValue);
+            }}
           >
             Zaloguj
           </Button>

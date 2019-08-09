@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import { NavLink } from "react-router-dom";
@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import * as styles from "./SignUp.module.css";
-
+import * as firebase from "firebase";
 let { navLink } = styles;
 
 const useStyles = makeStyles(theme => ({
@@ -41,7 +41,22 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignUp() {
   const classes = useStyles();
-
+  let [emailValue, changeEmailValue] = useState();
+  let [passwordValue, changePasswordValue] = useState();
+  let [nameValue, changeNameValue] = useState();
+  const auth = firebase.auth();
+  const signUpFunction = (emailValue, passwordValue, nameValue) => {
+    auth.createUserWithEmailAndPassword(emailValue, passwordValue).catch(e => {
+      alert(e.message);
+      console.log(typeof emailValue, typeof passwordValue);
+      console.log(e);
+    });
+  };
+  //   const signInFunction = (emailValue, passwordValue) => {
+  //     auth.signInWithEmailAndPassword(emailValue, passwordValue).catch(e => {
+  //       alert(e.message);
+  //       console.log(e);
+  //     });
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -56,6 +71,7 @@ export default function SignUp() {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
+                type="text"
                 autoComplete="fname"
                 name="firstName"
                 variant="outlined"
@@ -64,10 +80,12 @@ export default function SignUp() {
                 id="firstName"
                 label="Imię"
                 autoFocus
+                onChange={e => changeNameValue(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                type="email"
                 variant="outlined"
                 required
                 fullWidth
@@ -75,6 +93,7 @@ export default function SignUp() {
                 label="Adres email"
                 name="email"
                 autoComplete="email"
+                onChange={e => changeEmailValue(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -87,6 +106,7 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={e => changePasswordValue(e.target.value)}
               />
             </Grid>
           </Grid>
@@ -96,6 +116,11 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={event => {
+              event.preventDefault();
+              console.log(emailValue, passwordValue, nameValue);
+              signUpFunction(emailValue, passwordValue);
+            }}
           >
             Zarejestruj się
           </Button>
