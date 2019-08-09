@@ -7,7 +7,14 @@ import styles from "./App.css";
 import * as firebase from "firebase";
 import fire from "./firebase";
 import Login from "./scenes/Login/Login";
+import SignUp from "./scenes/SignUp/SignUp";
 import Navigation from "./components/Navigation/Navigation";
+import {
+  Route,
+  BrowserRouter as Router,
+  Switch,
+  Redirect
+} from "react-router-dom";
 
 const { appWrapper } = styles;
 
@@ -20,11 +27,12 @@ class App extends React.Component {
       mealsArray: [],
       scheduledMealsArray: [],
       user: {
-        isLoggedIn: false,
+        isLoggedIn: true,
         userFirstName: "",
         userPicture: null,
         userMealsArray: [],
-        userScheduledMealsArray: []
+        userScheduledMealsArray: [],
+        newMealId: ""
       }
     };
   }
@@ -83,6 +91,16 @@ class App extends React.Component {
       user ? this.setState({ user }) : this.setState({ user: null });
     });
   }
+  changeIsLoggedInState = () => {
+    console.log(this.state);
+
+    this.setState({
+      user: {
+        ...this.state.user,
+        isLoggedIn: false
+      }
+    });
+  };
 
   setDate = date => {
     this.setState({ todayFullDate: date });
@@ -128,34 +146,39 @@ class App extends React.Component {
   };
 
   render() {
-    // user: {
-    //   isLoggedIn: false,
-    //   userFirstName: "Witaj użytkowniku",
-    //   userPicture: null,
-    //   userMealsArray: [],
-    //   userScheduledMealsArray: [],
     return (
-      <div className={appWrapper}>
-        <Navigation
-          isLoggedIn={this.state.user.isLoggedIn}
-          userFirstName={this.state.user.userFirstName}
-          userPicture={this.state.user.userPicture}
-        />
-        {this.state.user ? (
-          <DashBoard
-            mealsArray={this.state.mealsArray}
-            scheduledMealsArray={this.state.scheduledMealsArray}
-            updateMealId={this.updateMealId}
-            newMealId={this.state.newMealId}
-            addMealToSchedule={this.addMealToSchedule}
-            addToMealsArray={this.addToMealsArray}
-            setDate={this.setDate}
-            dateProps={this.state.todayFullDate}
+      <Router>
+        <div className={appWrapper}>
+          <Navigation
+            isLoggedIn={this.state.user.isLoggedIn}
+            userFirstName={this.state.user.userFirstName}
+            userPicture={this.state.user.userPicture}
+            changeIsLoggedInState={this.changeIsLoggedInState}
           />
-        ) : (
-          <Login />
-        )}
-      </div>
+          <Switch>
+            <Route exact path="/dashboard">
+              <DashBoard
+                mealsArray={this.state.user.userMealsArray}
+                scheduledMealsArray={this.state.user.userScheduledMealsArray}
+                updateMealId={this.updateMealId}
+                newMealId={this.state.user.newMealId}
+                addMealToSchedule={this.addMealToSchedule}
+                addToMealsArray={this.addToMealsArray}
+                setDate={this.setDate}
+                dateProps={this.state.todayFullDate}
+              />
+            </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/sign-up">
+              <SignUp />
+            </Route>
+            <Route exact path="/profile" />
+          </Switch>
+          <Redirect exact from="/" to="/dashboard" />
+        </div>
+      </Router>
     );
   }
 }
