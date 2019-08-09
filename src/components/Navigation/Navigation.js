@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import * as styles from "./Navigation.module.css";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import { NavLink } from "react-router-dom";
 const Navigation = props => {
   console.log(props);
   const { navigation, userPhoto, buttonLogin, buttonRegister } = styles;
@@ -27,13 +28,23 @@ const Navigation = props => {
       }`}</li>
       <li className={buttonRegister}>
         {props.isLoggedIn ? (
-          <button>Profil</button>
+          <NavLink exact to="/dashboard">
+            Profil
+          </NavLink>
         ) : (
-          <button>Zarejestruj się</button>
+          <NavLink exact to="/sign-up">
+            Zarejestruj się
+          </NavLink>
         )}
       </li>
       <li className={buttonLogin}>
-        {props.isLoggedIn ? <button>Wyloguj</button> : <button>Zaloguj</button>}
+        {props.isLoggedIn ? (
+          <button onClick={props.changeIsLoggedInState}>Wyloguj</button>
+        ) : (
+          <NavLink exact to="/login">
+            Zaloguj się
+          </NavLink>
+        )}
       </li>
     </nav>
   );
