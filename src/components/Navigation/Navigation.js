@@ -4,7 +4,13 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import { NavLink } from "react-router-dom";
 const Navigation = props => {
   console.log(props);
-  const { navigation, userPhoto, buttonLogin, buttonRegister } = styles;
+  const {
+    navigation,
+    userPhoto,
+    buttonLogin,
+    buttonRegister,
+    navLink
+  } = styles;
   return (
     <nav id={navigation}>
       <li>
@@ -26,22 +32,29 @@ const Navigation = props => {
       <li>{`Witaj ${
         props.isLoggedIn ? props.userFirstName : "użytkowniku!"
       }`}</li>
-      <li className={buttonRegister}>
+      <li>
         {props.isLoggedIn ? (
-          <NavLink exact to="/dashboard">
+          <NavLink className={navLink} exact to="/dashboard">
             Profil
           </NavLink>
         ) : (
-          <NavLink exact to="/sign-up">
+          <NavLink className={navLink} exact to="/sign-up">
             Zarejestruj się
           </NavLink>
         )}
       </li>
-      <li className={buttonLogin}>
+      <li>
         {props.isLoggedIn ? (
-          <button onClick={props.changeIsLoggedInState}>Wyloguj</button>
+          <NavLink
+            className={navLink}
+            exact
+            to="/login"
+            onClick={props.changeIsLoggedInState}
+          >
+            Wyloguj
+          </NavLink>
         ) : (
-          <NavLink exact to="/login">
+          <NavLink className={navLink} exact to="/login">
             Zaloguj się
           </NavLink>
         )}
