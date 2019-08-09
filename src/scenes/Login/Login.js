@@ -1,17 +1,18 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import * as styles from "./Login.module.css";
+
+let { navLink } = styles;
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -85,14 +86,16 @@ export default function SignIn() {
             Zaloguj
           </Button>
           <Grid container>
-            <Grid item xs>
+            {/* <Grid item xs>
               <Link href="#" variant="body2">
                 Zapomniałeś hasła?
               </Link>
-            </Grid>
+            </Grid> */}
             <Grid item>
-              <Link href="#" variant="body2">
-                {"Nie masz konta? Zarejestruj się! :)"}
+              <Link>
+                <NavLink className={navLink} exact to="/sign-up">
+                  Nie masz jeszcze konta? Zarejestruj się! :)
+                </NavLink>
               </Link>
             </Grid>
           </Grid>

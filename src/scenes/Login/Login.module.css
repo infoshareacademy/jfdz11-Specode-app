@@ -1,0 +1,8 @@
+.navLink {
+  text-decoration: none;
+  color: inherit;
+}
+.navLink:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
