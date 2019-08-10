@@ -44,19 +44,39 @@ export default function SignUp() {
   let [emailValue, changeEmailValue] = useState();
   let [passwordValue, changePasswordValue] = useState();
   let [nameValue, changeNameValue] = useState();
+  let [userIdValue, setUserIdValue] = useState();
   const auth = firebase.auth();
+  //   const writeUserData = (userId, name, email, imageId) => {
+  //       firebase.database().ref.
+  //   }
+  //   https://firebase.google.com/docs/database/web/read-and-write?authuser=0
   const signUpFunction = (emailValue, passwordValue, nameValue) => {
-    auth.createUserWithEmailAndPassword(emailValue, passwordValue).catch(e => {
-      alert(e.message);
-      console.log(typeof emailValue, typeof passwordValue);
-      console.log(e);
-    });
+    auth
+      .createUserWithEmailAndPassword(emailValue, passwordValue)
+      .then(res => {
+        console.log(res);
+        console.log(res.user.uid);
+        let userId = res.user.uid;
+        let userObject = {
+          userId: {
+            scheduledMealsArray: [],
+            mealsArray: [],
+            profilePictureUrl: ""
+          }
+        };
+        firebase
+          .database()
+          .ref("users")
+          .push({
+            userObject
+          });
+      })
+      //   .then(user => alert("Zarejestrowano pomyślnie " + user.user.uid))
+      .catch(e => {
+        alert(e.message);
+      });
   };
-  //   const signInFunction = (emailValue, passwordValue) => {
-  //     auth.signInWithEmailAndPassword(emailValue, passwordValue).catch(e => {
-  //       alert(e.message);
-  //       console.log(e);
-  //     });
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -138,3 +158,17 @@ export default function SignUp() {
     </Container>
   );
 }
+
+// import React from 'react';
+// import Button from '@material-ui/core/Button';
+// import firebase from 'firebase';
+
+// const SignOutButton = () => {
+//     const signOut = () => {
+//         firebase.auth().signOut();
+//     };
+
+//     return <Button color="secondary" onClick={signOut}>Sign out</Button>
+// };
+
+// export default SignOutButton;

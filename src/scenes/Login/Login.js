@@ -47,11 +47,17 @@ export default function SignIn() {
   const auth = firebase.auth();
 
   const signInFunction = (emailValue, passwordValue) => {
-    let promise = auth.signInWithEmailAndPassword(emailValue, passwordValue);
-    promise.catch(e => {
-      alert(e.message);
-      console.log(e);
-    });
+    auth
+      .signInWithEmailAndPassword(emailValue, passwordValue)
+      .then(() => alert("Zalogowano pomyślnie"))
+      .then(user => {
+        console.log(user);
+        //props na zmiane stanu
+      })
+      .catch(e => {
+        alert(e.message);
+        console.log(e);
+      });
   };
   return (
     <Container component="main" maxWidth="xs">

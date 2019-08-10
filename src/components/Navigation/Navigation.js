@@ -3,7 +3,6 @@ import * as styles from "./Navigation.module.css";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { NavLink } from "react-router-dom";
 const Navigation = props => {
-  console.log(props);
   const { navigation, userPhoto, navLink } = styles;
   return (
     <nav id={navigation}>
