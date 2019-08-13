@@ -12,6 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import * as styles from "./SignUp.module.css";
 import * as firebase from "firebase";
+import { withRouter } from "react-router-dom";
 let { navLink } = styles;
 
 const useStyles = makeStyles(theme => ({
@@ -39,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignUp(props) {
+const SignUp = props => {
   const classes = useStyles();
   let [emailValue, changeEmailValue] = useState();
   let [passwordValue, changePasswordValue] = useState();
@@ -79,41 +80,18 @@ export default function SignUp(props) {
     setId(res.user.uid);
     setUserName(nameValue);
     changeLoginState();
+    props.history.push("/dashboard");
   };
-  const signUpFunction = (emailValue, passwordValue, nameValue, props) => {
-    let scheduledMealsObj = { scheduledMealsObj: [] };
-    console.log(nameValue);
+  const signUpFunction = (emailValue, passwordValue, nameValue) => {
     auth
       .createUserWithEmailAndPassword(emailValue, passwordValue)
       .then(res => {
         console.log(res.user.uid);
         createNewUserInfoInFireBase(res);
-        createNewUserScheduledMealsInFireBase(res);
         return res;
-        // // firebase
-        // //   .database()
-        // //   .ref("customMeals")
-        // //   .push(res.user.uid);
-        // firebase
-        //   .database() //CUSTOM MEALS
-        //   .ref("customMeals/" + res.user.uid)
-        //   .push({
-        //     customMealsObj: {}
-        //   });
-        // // firebase
-        // //   .database()
-        // //   .ref("scheduledMeals")
-        // //   .push(res.user.uid);
-        // firebase
-        //   .database() //SCHEDULED MEALS
-        //   .ref("scheduledMeals/" + res.user.uid)
-        //   .push(scheduledMealsObj);
       })
-      .then((res, props) => {
+      .then(res => {
         window.alert("Zarejestrowano pomyślnie ");
-        // console.log(res);
-        // console.log(nameValue);
-        // console.log(emailValue);
         setStateInParentComp(res, emailValue, nameValue);
       })
       .catch(e => {
@@ -200,7 +178,9 @@ export default function SignUp(props) {
       </div>
     </Container>
   );
-}
+};
+
+export default withRouter(SignUp);
 
 // import React from 'react';
 // import Button from '@material-ui/core/Button';

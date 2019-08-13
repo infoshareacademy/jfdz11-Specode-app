@@ -9,6 +9,7 @@ import fire from "./firebase";
 import Login from "./scenes/Login/Login";
 import SignUp from "./scenes/SignUp/SignUp";
 import Navigation from "./components/Navigation/Navigation";
+
 import {
   Route,
   BrowserRouter as Router,
@@ -117,7 +118,9 @@ class App extends React.Component {
       .ref("mealsArray")
       .off("value");
   }
-
+  componentDidMount() {
+    console.log(this.props);
+  }
   // authListener() {
   //   fire.auth().onAuthStateChanged(user => {
   //     user ? this.setState({ user }) : this.setState({ user: null });
