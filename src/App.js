@@ -27,18 +27,43 @@ class App extends React.Component {
       mealsArray: [],
       scheduledMealsArray: [],
       user: {
-        isLoggedIn: true,
+        userEmailValue: "",
+        isLoggedIn: false,
         userFirstName: "",
         userPicture: null,
         userMealsArray: [],
         userScheduledMealsArray: [],
-        newMealId: ""
+        newMealId: "",
+        userId: ""
       }
     };
   }
-
-  componentWillMount() {
-    // this.authListener();
+  getEmailValue = email => {
+    console.log(this.state);
+    this.setState({
+      user: {
+        ...this.state.user,
+        userEmailValue: email
+      }
+    });
+  };
+  getFirstNameValue = name => {
+    this.setState({
+      user: {
+        ...this.state.user,
+        userFirstName: name
+      }
+    });
+  };
+  getUserIdFromSignUp = userId => {
+    this.setState({
+      user: {
+        ...this.state.user,
+        userId: userId
+      }
+    });
+  };
+  getMealsArrayFromFireBase() {
     firebase
       .database()
       .ref("mealsArray")
@@ -57,6 +82,8 @@ class App extends React.Component {
           }
         );
       });
+  }
+  getScheduledMealsFromFirebase() {
     firebase
       .database()
       .ref("scheduledMeals")
@@ -79,6 +106,11 @@ class App extends React.Component {
         );
       });
   }
+  componentWillMount() {
+    // this.authListener();
+    this.getMealsArrayFromFireBase();
+    this.getScheduledMealsFromFirebase();
+  }
   componentWillUnmount() {
     firebase
       .database()
@@ -86,20 +118,26 @@ class App extends React.Component {
       .off("value");
   }
 
-  authListener() {
-    fire.auth().onAuthStateChanged(user => {
-      user ? this.setState({ user }) : this.setState({ user: null });
-    });
-  }
+  // authListener() {
+  //   fire.auth().onAuthStateChanged(user => {
+  //     user ? this.setState({ user }) : this.setState({ user: null });
+  //   });
+  // }
   changeIsLoggedInState = () => {
-    console.log(this.state);
+    console.log(this.state.user.isLoggedIn);
 
-    this.setState({
-      user: {
-        ...this.state.user,
-        isLoggedIn: false
+    this.setState(
+      {
+        user: {
+          ...this.state.user,
+          isLoggedIn: !this.state.isLoggedIn
+        }
+      },
+      () => {
+        console.log(this.state.user.isLoggedIn);
+        console.log(this.state.user);
       }
-    });
+    );
   };
 
   setDate = date => {
@@ -172,7 +210,12 @@ class App extends React.Component {
               <Login />
             </Route>
             <Route exact path="/sign-up">
-              <SignUp />
+              <SignUp
+                setEmailState={this.getEmailValue}
+                setIdState={this.getUserIdFromSignUp}
+                setUserNameState={this.getFirstNameValue}
+                changeIsLoggedInState={this.changeIsLoggedInState}
+              />
             </Route>
             <Route exact path="/profile" />
           </Switch>

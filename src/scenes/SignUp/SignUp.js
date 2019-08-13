@@ -39,39 +39,83 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignUp() {
+export default function SignUp(props) {
   const classes = useStyles();
   let [emailValue, changeEmailValue] = useState();
   let [passwordValue, changePasswordValue] = useState();
   let [nameValue, changeNameValue] = useState();
-  let [userIdValue, setUserIdValue] = useState();
   const auth = firebase.auth();
-  //   const writeUserData = (userId, name, email, imageId) => {
-  //       firebase.database().ref.
-  //   }
-  //   https://firebase.google.com/docs/database/web/read-and-write?authuser=0
-  const signUpFunction = (emailValue, passwordValue, nameValue) => {
+
+  let setEmail = e => props.setEmailState(e);
+  let setId = e => props.setIdState(e);
+  let setUserName = e => props.setUserNameState(e);
+  let changeLoginState = () => props.changeIsLoggedInState();
+
+  const createNewUserInfoInFireBase = res => {
+    firebase
+      .database()
+      .ref("users/" + res.user.uid)
+      .set({
+        userEmail: res.user.email,
+        userImgUrl: "",
+        userFirstName: nameValue
+      });
+  };
+
+  const createNewUserScheduledMealsInFireBase = res => {
+    firebase
+      .database()
+      .ref("scheduledMeals/" + res.user.uid)
+      .set({
+        customMealsObj: null
+      });
+  };
+  const setStateInParentComp = (res, emailValue) => {
+    // props.setEmail(emailValue);
+    // props.setIdState(res.user.uid);
+    // props.setUserNameState(nameValue);
+    // props.changeIsLoggedInState();
+    setEmail(emailValue);
+    setId(res.user.uid);
+    setUserName(nameValue);
+    changeLoginState();
+  };
+  const signUpFunction = (emailValue, passwordValue, nameValue, props) => {
+    let scheduledMealsObj = { scheduledMealsObj: [] };
+    console.log(nameValue);
     auth
       .createUserWithEmailAndPassword(emailValue, passwordValue)
       .then(res => {
-        console.log(res);
         console.log(res.user.uid);
-        let userId = res.user.uid;
-        let userObject = {
-          userId: {
-            scheduledMealsArray: [],
-            mealsArray: [],
-            profilePictureUrl: ""
-          }
-        };
-        firebase
-          .database()
-          .ref("users")
-          .push({
-            userObject
-          });
+        createNewUserInfoInFireBase(res);
+        createNewUserScheduledMealsInFireBase(res);
+        return res;
+        // // firebase
+        // //   .database()
+        // //   .ref("customMeals")
+        // //   .push(res.user.uid);
+        // firebase
+        //   .database() //CUSTOM MEALS
+        //   .ref("customMeals/" + res.user.uid)
+        //   .push({
+        //     customMealsObj: {}
+        //   });
+        // // firebase
+        // //   .database()
+        // //   .ref("scheduledMeals")
+        // //   .push(res.user.uid);
+        // firebase
+        //   .database() //SCHEDULED MEALS
+        //   .ref("scheduledMeals/" + res.user.uid)
+        //   .push(scheduledMealsObj);
       })
-      //   .then(user => alert("Zarejestrowano pomyślnie " + user.user.uid))
+      .then((res, props) => {
+        window.alert("Zarejestrowano pomyślnie ");
+        // console.log(res);
+        // console.log(nameValue);
+        // console.log(emailValue);
+        setStateInParentComp(res, emailValue, nameValue);
+      })
       .catch(e => {
         alert(e.message);
       });
@@ -138,8 +182,7 @@ export default function SignUp() {
             className={classes.submit}
             onClick={event => {
               event.preventDefault();
-              console.log(emailValue, passwordValue, nameValue);
-              signUpFunction(emailValue, passwordValue);
+              signUpFunction(emailValue, passwordValue, nameValue, props);
             }}
           >
             Zarejestruj się
