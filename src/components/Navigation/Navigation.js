@@ -40,9 +40,9 @@ const Navigation = props => {
         {props.isLoggedIn ? (
           <NavLink
             className={navLink}
+            onClick={props.changeIsLoggedInState}
             exact
             to="/login"
-            onClick={props.changeIsLoggedInState}
           >
             Wyloguj
           </NavLink>
