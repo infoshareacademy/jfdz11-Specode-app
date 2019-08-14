@@ -38,7 +38,24 @@ class App extends React.Component {
       }
     };
   }
-
+  logOutChangeState = () => {
+    this.setState({
+      todayFullDate: moment(),
+      newMealId: "",
+      mealsArray: [],
+      scheduledMealsArray: [],
+      user: {
+        userEmailValue: "",
+        isLoggedIn: false,
+        userFirstName: "",
+        userPicture: null,
+        userMealsArray: [],
+        userScheduledMealsArray: [],
+        newMealId: "",
+        userId: ""
+      }
+    });
+  };
   getEmailValue = email => {
     console.log(this.state);
     this.setState({
@@ -179,6 +196,7 @@ class App extends React.Component {
       <Router>
         <div className={appWrapper}>
           <Navigation
+            logOutChangeState={this.logOutChangeState}
             isLoggedIn={this.state.user.isLoggedIn}
             userFirstName={this.state.user.userFirstName}
             userPicture={this.state.user.userPicture}
