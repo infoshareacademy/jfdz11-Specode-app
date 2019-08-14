@@ -63,19 +63,15 @@ const SignUp = props => {
       });
   };
 
-  const createNewUserScheduledMealsInFireBase = res => {
-    firebase
-      .database()
-      .ref("scheduledMeals/" + res.user.uid)
-      .set({
-        customMealsObj: null
-      });
-  };
+  // const createNewUserScheduledMealsInFireBase = res => {
+  //   firebase
+  //     .database()
+  //     .ref("scheduledMeals/" + res.user.uid)
+  //     .set({
+  //       customMealsObj: null
+  //     });
+  // };
   const setStateInParentComp = (res, emailValue) => {
-    // props.setEmail(emailValue);
-    // props.setIdState(res.user.uid);
-    // props.setUserNameState(nameValue);
-    // props.changeIsLoggedInState();
     setEmail(emailValue);
     setId(res.user.uid);
     setUserName(nameValue);

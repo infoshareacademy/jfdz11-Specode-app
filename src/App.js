@@ -5,7 +5,6 @@ import { DashBoard } from "./scenes";
 import moment from "moment";
 import styles from "./App.css";
 import * as firebase from "firebase";
-import fire from "./firebase";
 import Login from "./scenes/Login/Login";
 import SignUp from "./scenes/SignUp/SignUp";
 import Navigation from "./components/Navigation/Navigation";
@@ -56,7 +55,7 @@ class App extends React.Component {
       }
     });
   };
-  getUserIdFromSignUp = userId => {
+  getUserIdFromSigning = userId => {
     this.setState({
       user: {
         ...this.state.user,
@@ -118,9 +117,7 @@ class App extends React.Component {
       .ref("mealsArray")
       .off("value");
   }
-  componentDidMount() {
-    console.log(this.props);
-  }
+  componentDidMount() {}
   // authListener() {
   //   fire.auth().onAuthStateChanged(user => {
   //     user ? this.setState({ user }) : this.setState({ user: null });
@@ -128,12 +125,12 @@ class App extends React.Component {
   // }
   changeIsLoggedInState = () => {
     console.log(this.state.user.isLoggedIn);
-
+    console.log(this.state.user);
     this.setState(
       {
         user: {
           ...this.state.user,
-          isLoggedIn: !this.state.isLoggedIn
+          isLoggedIn: !this.state.user.isLoggedIn
         }
       },
       () => {
@@ -210,12 +207,16 @@ class App extends React.Component {
               />
             </Route>
             <Route exact path="/login">
-              <Login />
+              <Login
+                setIdState={this.getUserIdFromSigning}
+                setUserNameState={this.getFirstNameValue}
+                changeIsLoggedInState={this.changeIsLoggedInState}
+              />
             </Route>
             <Route exact path="/sign-up">
               <SignUp
                 setEmailState={this.getEmailValue}
-                setIdState={this.getUserIdFromSignUp}
+                setIdState={this.getUserIdFromSigning}
                 setUserNameState={this.getFirstNameValue}
                 changeIsLoggedInState={this.changeIsLoggedInState}
               />
