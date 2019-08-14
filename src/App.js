@@ -38,6 +38,7 @@ class App extends React.Component {
       }
     };
   }
+
   getEmailValue = email => {
     console.log(this.state);
     this.setState({
@@ -83,10 +84,10 @@ class App extends React.Component {
         );
       });
   }
-  getScheduledMealsFromFirebase() {
+  getScheduledMealsFromFirebase = userUid => {
     firebase
       .database()
-      .ref("scheduledMeals")
+      .ref("scheduledMeals/" + userUid)
       .on("value", snapshot => {
         const scheduledMealsList = snapshot.val() || [];
         let scheduledMealsListArray = Object.entries(scheduledMealsList).map(
@@ -100,44 +101,33 @@ class App extends React.Component {
         );
         this.setState(
           {
-            scheduledMealsArray: scheduledMealsListArray
+            user: {
+              ...this.state.user,
+              userScheduledMealsArray: scheduledMealsListArray
+            }
           },
-          () => {}
+          () => {
+            this.setState({
+              scheduledMealsArray: scheduledMealsListArray
+            });
+          }
         );
       });
-  }
-  componentWillMount() {
-    // this.authListener();
-    this.getMealsArrayFromFireBase();
-    this.getScheduledMealsFromFirebase();
-  }
+  };
   componentWillUnmount() {
     firebase
       .database()
       .ref("mealsArray")
       .off("value");
   }
-  componentDidMount() {}
-  // authListener() {
-  //   fire.auth().onAuthStateChanged(user => {
-  //     user ? this.setState({ user }) : this.setState({ user: null });
-  //   });
-  // }
+
   changeIsLoggedInState = () => {
-    console.log(this.state.user.isLoggedIn);
-    console.log(this.state.user);
-    this.setState(
-      {
-        user: {
-          ...this.state.user,
-          isLoggedIn: !this.state.user.isLoggedIn
-        }
-      },
-      () => {
-        console.log(this.state.user.isLoggedIn);
-        console.log(this.state.user);
+    this.setState({
+      user: {
+        ...this.state.user,
+        isLoggedIn: !this.state.user.isLoggedIn
       }
-    );
+    });
   };
 
   setDate = date => {
@@ -163,18 +153,19 @@ class App extends React.Component {
       {
         scheduledMealsArray: [
           ...this.state.scheduledMealsArray,
-          mealObjectToSchedule
+          {
+            ...mealObjectToSchedule,
+            date: mealObjectToSchedule.date.toDate().toISOString()
+          }
         ]
       },
       () => {
-        let firebaseMeal = {
-          ...mealObjectToSchedule,
-          date: mealObjectToSchedule.date.toDate().toISOString()
-        };
         firebase
           .database()
-          .ref("scheduledMeals")
-          .push(firebaseMeal);
+          .ref("scheduledMeals/" + this.state.user.userId)
+          .set({
+            ...this.state.scheduledMealsArray
+          });
       }
     );
   };
@@ -199,7 +190,7 @@ class App extends React.Component {
                 mealsArray={this.state.user.userMealsArray}
                 scheduledMealsArray={this.state.user.userScheduledMealsArray}
                 updateMealId={this.updateMealId}
-                newMealId={this.state.user.newMealId}
+                newMealId={this.state.newMealId}
                 addMealToSchedule={this.addMealToSchedule}
                 addToMealsArray={this.addToMealsArray}
                 setDate={this.setDate}
@@ -211,6 +202,9 @@ class App extends React.Component {
                 setIdState={this.getUserIdFromSigning}
                 setUserNameState={this.getFirstNameValue}
                 changeIsLoggedInState={this.changeIsLoggedInState}
+                getScheduledMealsFromFirebase={
+                  this.getScheduledMealsFromFirebase
+                }
               />
             </Route>
             <Route exact path="/sign-up">

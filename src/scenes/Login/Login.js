@@ -47,14 +47,6 @@ const SignIn = props => {
   const [emailValue, changeEmailValue] = useState();
   const auth = firebase.auth();
 
-  const sliceEmailValue = emailValue => {
-    let indexOfAtSign = emailValue.indexOf("@");
-    console.log(indexOfAtSign);
-    let name = emailValue.slice(0, indexOfAtSign);
-
-    console.log(name);
-  };
-
   const signInFunction = (emailValue, passwordValue) => {
     auth
       .signInWithEmailAndPassword(emailValue, passwordValue)
@@ -64,7 +56,7 @@ const SignIn = props => {
             props.setIdState(user.uid);
             props.setUserNameState(emailValue);
             props.changeIsLoggedInState();
-            sliceEmailValue(emailValue);
+            props.getScheduledMealsFromFirebase(user.uid);
           }
         });
       })

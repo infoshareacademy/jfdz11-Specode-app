@@ -26,6 +26,7 @@ function DayAndCaloriesNav(props) {
           onClick={() => {
             let prevDate = dateProps.clone().subtract(1, "days");
             setDate(prevDate);
+            console.log(prevDate);
           }}
         />
       </span>
@@ -42,6 +43,7 @@ function DayAndCaloriesNav(props) {
           color="inherit"
           onClick={() => {
             let nextDate = dateProps.clone().add(1, "days");
+            console.log(nextDate);
             setDate(nextDate);
           }}
         />

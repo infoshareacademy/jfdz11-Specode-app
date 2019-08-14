@@ -18,7 +18,9 @@ class MealForm extends React.Component {
       selectedMeal: null
     };
   }
-
+  componentDidMount() {
+    console.log(this.props.dateProps.toDate().toISOString());
+  }
   handleChangeOne = event => {
     this.setState({ inputValueOne: event.target.value });
   };
