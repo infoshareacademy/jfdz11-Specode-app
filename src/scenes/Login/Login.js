@@ -12,6 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import * as styles from "./Login.module.css";
 import * as firebase from "firebase";
+import { withRouter } from "react-router-dom";
 
 let { navLink } = styles;
 
@@ -40,19 +41,36 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignIn() {
+const SignIn = props => {
   const classes = useStyles();
   const [passwordValue, changePasswordValue] = useState();
   const [emailValue, changeEmailValue] = useState();
   const auth = firebase.auth();
 
+  const sliceEmailValue = emailValue => {
+    let indexOfAtSign = emailValue.indexOf("@");
+    console.log(indexOfAtSign);
+    let name = emailValue.slice(0, indexOfAtSign);
+
+    console.log(name);
+  };
+
   const signInFunction = (emailValue, passwordValue) => {
     auth
       .signInWithEmailAndPassword(emailValue, passwordValue)
-      .then(() => alert("Zalogowano pomyślnie"))
-      .then(user => {
-        console.log(user);
-        //props na zmiane stanu
+      .then(() => {
+        firebase.auth().onAuthStateChanged(user => {
+          if (user) {
+            props.setIdState(user.uid);
+            props.setUserNameState(emailValue);
+            props.changeIsLoggedInState();
+            sliceEmailValue(emailValue);
+          }
+        });
+      })
+      .then(() => {
+        props.history.push("/dashboard");
+        alert("Zalogowano pomyślnie");
       })
       .catch(e => {
         alert(e.message);
@@ -126,4 +144,6 @@ export default function SignIn() {
       </div>
     </Container>
   );
-}
+};
+
+export default withRouter(SignIn);
