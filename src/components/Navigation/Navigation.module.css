@@ -1,7 +1,7 @@
 #navigation {
   display: grid;
   border: 1px solid #fff;
-  grid-template-columns: 10% 60% 15% 15%;
+  grid-template-columns: 10% 45% 15% 15% 15%;
   list-style: none;
   height: 60px;
   text-align: center;

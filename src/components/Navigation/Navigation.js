@@ -1,6 +1,7 @@
 import React from "react";
 import * as styles from "./Navigation.module.css";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import HomeRounded from "@material-ui/icons/HomeRounded";
 import { NavLink } from "react-router-dom";
 const Navigation = props => {
   const { navigation, userPhoto, navLink } = styles;
@@ -25,9 +26,16 @@ const Navigation = props => {
       <li>{`Witaj ${
         props.isLoggedIn ? props.userFirstName : "użytkowniku!"
       }`}</li>
+      {props.isLoggedIn ? (
+        <li>
+          <NavLink className={navLink} exact to="/dashboard">
+            <HomeRounded />
+          </NavLink>
+        </li>
+      ) : null}
       <li>
         {props.isLoggedIn ? (
-          <NavLink className={navLink} exact to="/dashboard">
+          <NavLink className={navLink} exact to="/profile">
             Profil
           </NavLink>
         ) : (
