@@ -1,9 +1,10 @@
 #navigation {
+  box-sizing: border-box;
   display: grid;
   border: 1px solid #fff;
   grid-template-columns: 10% 45% 15% 15% 15%;
   list-style: none;
-  height: 60px;
+  height: 9vh;
   text-align: center;
 }
 #navigation li {

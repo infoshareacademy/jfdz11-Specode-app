@@ -1,7 +1,7 @@
 import React from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./App.css";
-import { DashBoard, ProfilePage } from "./scenes";
+import { DashBoard, ProfilePage, LandingPage } from "./scenes";
 import moment from "moment";
 import styles from "./App.css";
 import * as firebase from "firebase";
@@ -203,6 +203,31 @@ class App extends React.Component {
             changeIsLoggedInState={this.changeIsLoggedInState}
           />
           <Switch>
+            {/* <React.Fragment>
+              {this.state.user.isLoggedIn === false ? (
+                <Route exact path="/landing-page">
+                  <LandingPage />
+                </Route>
+              ) : (
+                <Route exact path="/dashboard">
+                  <DashBoard
+                    mealsArray={this.state.user.userMealsArray}
+                    scheduledMealsArray={
+                      this.state.user.userScheduledMealsArray
+                    }
+                    updateMealId={this.updateMealId}
+                    newMealId={this.state.newMealId}
+                    addMealToSchedule={this.addMealToSchedule}
+                    addToMealsArray={this.addToMealsArray}
+                    setDate={this.setDate}
+                    dateProps={this.state.todayFullDate}
+                  />
+                </Route>
+              )}
+            </React.Fragment> */}
+            <Route exact path="/landing-page">
+              <LandingPage />
+            </Route>
             <Route exact path="/dashboard">
               <DashBoard
                 mealsArray={this.state.user.userMealsArray}
@@ -237,7 +262,13 @@ class App extends React.Component {
               <ProfilePage />
             </Route>
           </Switch>
-          <Redirect exact from="/" to="/dashboard" />
+          <React.Fragment>
+            {this.state.user.isLoggedIn === false ? (
+              <Redirect exact from="/" to="/landing-page" />
+            ) : (
+              <Redirect exact from="/" to="/dashboard" />
+            )}
+          </React.Fragment>
         </div>
       </Router>
     );

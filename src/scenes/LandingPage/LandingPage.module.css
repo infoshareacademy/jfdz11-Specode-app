@@ -1,0 +1,13 @@
+.landingPageWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("https://images.unsplash.com/photo-1558497446-1fd7429d9be4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80");
+  background-size: cover;
+  width: 100vw;
+  height: 91vh;
+}
+.header {
+  color: #fff;
+  text-shadow: 2px 2px grey;
+}
