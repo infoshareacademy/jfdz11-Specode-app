@@ -1,7 +1,7 @@
 import React from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./App.css";
-import { DashBoard } from "./scenes";
+import { DashBoard, ProfilePage } from "./scenes";
 import moment from "moment";
 import styles from "./App.css";
 import * as firebase from "firebase";
@@ -159,8 +159,8 @@ class App extends React.Component {
         let firebaseMeal = { calories, id, name, type };
         firebase
           .database()
-          .ref("mealsArray")
-          .push(firebaseMeal);
+          .ref("customMeals/" + this.state.user.userId)
+          .set(firebaseMeal);
       }
     );
   };
@@ -233,7 +233,9 @@ class App extends React.Component {
                 changeIsLoggedInState={this.changeIsLoggedInState}
               />
             </Route>
-            <Route exact path="/profile" />
+            <Route exact path="/profile">
+              <ProfilePage />
+            </Route>
           </Switch>
           <Redirect exact from="/" to="/dashboard" />
         </div>
