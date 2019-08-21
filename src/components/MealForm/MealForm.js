@@ -18,6 +18,7 @@ class MealForm extends React.Component {
       selectedMeal: null
     };
   }
+
   handleChangeOne = event => {
     this.setState({ inputValueOne: event.target.value });
   };

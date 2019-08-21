@@ -82,7 +82,6 @@ const SignUp = props => {
     auth
       .createUserWithEmailAndPassword(emailValue, passwordValue)
       .then(res => {
-        console.log(res.user.uid);
         createNewUserInfoInFireBase(res);
         return res;
       })

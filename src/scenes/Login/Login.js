@@ -55,6 +55,7 @@ const SignIn = props => {
           if (user) {
             props.setIdState(user.uid);
             props.setUserNameState(emailValue);
+            props.getMealsArrayFromFireBase(user.uid);
             props.changeIsLoggedInState();
             props.getScheduledMealsFromFirebase(user.uid);
           }

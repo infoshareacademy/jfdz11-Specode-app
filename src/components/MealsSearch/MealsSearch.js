@@ -5,13 +5,13 @@ import styles from "./MealsSearch.module.css";
 const { selectWrapper } = styles;
 
 export default function MealsSearch(props) {
-  let localStorageMeals = props.mealsArray;
-  let localStorageMealsToArray = Object.values(localStorageMeals);
+  let userCustomMeals = props.mealsArray;
+  let localStorageMealsToArray = Object.values(userCustomMeals);
   let mapWithLabelAtt = localStorageMealsToArray.map(obj => {
     obj.label = obj.name;
     return obj;
   });
-
+  ///TODO ściągnąć common meals i połączyć z tymi uzytkownika
   const groupedOptions = [
     {
       label: "Śniadania",

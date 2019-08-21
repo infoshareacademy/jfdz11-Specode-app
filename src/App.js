@@ -24,16 +24,15 @@ class App extends React.Component {
     this.state = {
       todayFullDate: moment(),
       newMealId: "",
-      mealsArray: [],
-      scheduledMealsArray: [],
+      userCustomMealsArray: [],
+      concatedMealsForSelect: [],
       user: {
         userEmailValue: "",
         isLoggedIn: false,
         userFirstName: "",
         userPicture: null,
-        userMealsArray: [],
+        userCustomMealsArray: [],
         userScheduledMealsArray: [],
-        newMealId: "",
         userId: ""
       }
     };
@@ -42,22 +41,20 @@ class App extends React.Component {
     this.setState({
       todayFullDate: moment(),
       newMealId: "",
-      mealsArray: [],
+      commonMeals: [],
       scheduledMealsArray: [],
       user: {
         userEmailValue: "",
         isLoggedIn: false,
         userFirstName: "",
         userPicture: null,
-        userMealsArray: [],
+        userCustomMealsArray: [],
         userScheduledMealsArray: [],
-        newMealId: "",
         userId: ""
       }
     });
   };
   getEmailValue = email => {
-    console.log(this.state);
     this.setState({
       user: {
         ...this.state.user,
@@ -81,56 +78,6 @@ class App extends React.Component {
       }
     });
   };
-  getMealsArrayFromFireBase() {
-    firebase
-      .database()
-      .ref("mealsArray")
-      .on("value", snapshot => {
-        const mealsListObject = snapshot.val() || [];
-        let mealsListArray = Object.values(mealsListObject).map(entry => {
-          return { ...entry };
-        });
-        this.setState(
-          {
-            mealsArray: mealsListArray
-          },
-          () => {
-            let nextMealId = this.state.mealsArray.length + 1;
-            this.setState({ newMealId: nextMealId }, () => {});
-          }
-        );
-      });
-  }
-  getScheduledMealsFromFirebase = userUid => {
-    firebase
-      .database()
-      .ref("scheduledMeals/" + userUid)
-      .on("value", snapshot => {
-        const scheduledMealsList = snapshot.val() || [];
-        let scheduledMealsListArray = Object.entries(scheduledMealsList).map(
-          entry => {
-            const [id, meal] = entry;
-            return {
-              ...meal,
-              id
-            };
-          }
-        );
-        this.setState(
-          {
-            user: {
-              ...this.state.user,
-              userScheduledMealsArray: scheduledMealsListArray
-            }
-          },
-          () => {
-            this.setState({
-              scheduledMealsArray: scheduledMealsListArray
-            });
-          }
-        );
-      });
-  };
   componentWillUnmount() {
     firebase
       .database()
@@ -151,42 +98,119 @@ class App extends React.Component {
     this.setState({ todayFullDate: date });
   };
 
-  addToMealsArray = mealObject => {
-    this.setState(
-      { mealsArray: [...this.state.mealsArray, mealObject] },
-      () => {
-        let { calories, id, name, type } = mealObject;
-        let firebaseMeal = { calories, id, name, type };
-        firebase
-          .database()
-          .ref("customMeals/" + this.state.user.userId)
-          .set(firebaseMeal);
-      }
-    );
-  };
-
   addMealToSchedule = mealObjectToSchedule => {
     this.setState(
       {
-        scheduledMealsArray: [
-          ...this.state.scheduledMealsArray,
-          {
-            ...mealObjectToSchedule,
-            date: mealObjectToSchedule.date.toDate().toISOString()
-          }
-        ]
+        user: {
+          ...this.state.user,
+          userScheduledMealsArray: [
+            ...this.state.user.userScheduledMealsArray,
+            {
+              ...mealObjectToSchedule,
+              date: mealObjectToSchedule.date.toDate().toISOString()
+            }
+          ]
+        }
       },
       () => {
         firebase
           .database()
           .ref("scheduledMeals/" + this.state.user.userId)
           .set({
-            ...this.state.scheduledMealsArray
+            ...this.state.user.userScheduledMealsArray
           });
       }
     );
   };
 
+  getScheduledMealsFromFirebase = userUid => {
+    firebase
+      .database()
+      .ref("scheduledMeals/" + userUid)
+      .on("value", snapshot => {
+        const scheduledMealsList = snapshot.val() || [];
+        let scheduledUserMealsFirebase = Object.entries(scheduledMealsList).map(
+          entry => {
+            const [id, meal] = entry;
+            return {
+              ...meal,
+              id
+            };
+          }
+        );
+        this.setState(
+          {
+            user: {
+              ...this.state.user,
+              userScheduledMealsArray: scheduledUserMealsFirebase
+            }
+          },
+          () => {
+            console.log(this.state.user.userScheduledMealsArray);
+            console.log(`to planowane ^^`);
+            this.getCommonMealsAndConcatWithUserCustomOnes();
+          }
+        );
+      });
+  };
+  getUserCustomMealsFromFirebase = userUid => {
+    firebase
+      .database()
+      .ref("customMeals/" + userUid)
+      .on("value", snapshot => {
+        const mealsListObject = snapshot.val() || [];
+        let customMealsFirebase = Object.values(mealsListObject).map(entry => {
+          return { ...entry };
+        });
+        this.setState({
+          user: {
+            ...this.state.user,
+            userCustomMealsArray: customMealsFirebase
+          }
+        });
+      });
+  };
+  addToUserCustomMealsArray = mealObject => {
+    let { calories, id, name, type } = mealObject;
+    let firebaseMeal = { calories, id, name, type };
+    let customUserMeals = [
+      ...this.state.user.userCustomMealsArray,
+      firebaseMeal
+    ];
+    console.log(customUserMeals);
+
+    this.setState(
+      {
+        user: { ...this.state.user, userCustomMealsArray: customUserMeals }
+      },
+      () => {
+        this.getCommonMealsAndConcatWithUserCustomOnes();
+        firebase
+          .database()
+          .ref("customMeals/" + this.state.user.userId)
+          .set(customUserMeals);
+      }
+    );
+  };
+
+  getCommonMealsAndConcatWithUserCustomOnes = () => {
+    firebase
+      .database()
+      .ref("mealsArray")
+      .on("value", snapshot => {
+        let commonMeals = snapshot.val();
+        let commonMealsArr = Object.values(commonMeals).map(e => {
+          return { ...e };
+        });
+
+        this.setState({
+          concatedMealsForSelect: [
+            ...this.state.user.userCustomMealsArray,
+            ...commonMealsArr
+          ]
+        });
+      });
+  };
   updateMealId = () => {
     this.setState({ newMealId: this.state.newMealId + 1 });
   };
@@ -203,39 +227,17 @@ class App extends React.Component {
             changeIsLoggedInState={this.changeIsLoggedInState}
           />
           <Switch>
-            {/* <React.Fragment>
-              {this.state.user.isLoggedIn === false ? (
-                <Route exact path="/landing-page">
-                  <LandingPage />
-                </Route>
-              ) : (
-                <Route exact path="/dashboard">
-                  <DashBoard
-                    mealsArray={this.state.user.userMealsArray}
-                    scheduledMealsArray={
-                      this.state.user.userScheduledMealsArray
-                    }
-                    updateMealId={this.updateMealId}
-                    newMealId={this.state.newMealId}
-                    addMealToSchedule={this.addMealToSchedule}
-                    addToMealsArray={this.addToMealsArray}
-                    setDate={this.setDate}
-                    dateProps={this.state.todayFullDate}
-                  />
-                </Route>
-              )}
-            </React.Fragment> */}
             <Route exact path="/landing-page">
               <LandingPage />
             </Route>
             <Route exact path="/dashboard">
               <DashBoard
-                mealsArray={this.state.user.userMealsArray}
+                mealsArray={this.state.concatedMealsForSelect}
                 scheduledMealsArray={this.state.user.userScheduledMealsArray}
                 updateMealId={this.updateMealId}
                 newMealId={this.state.newMealId}
                 addMealToSchedule={this.addMealToSchedule}
-                addToMealsArray={this.addToMealsArray}
+                addToMealsArray={this.addToUserCustomMealsArray}
                 setDate={this.setDate}
                 dateProps={this.state.todayFullDate}
               />
@@ -248,6 +250,7 @@ class App extends React.Component {
                 getScheduledMealsFromFirebase={
                   this.getScheduledMealsFromFirebase
                 }
+                getMealsArrayFromFireBase={this.getUserCustomMealsFromFirebase}
               />
             </Route>
             <Route exact path="/sign-up">
