@@ -1,0 +1,146 @@
+[
+  {
+    "name": "Jajecznica i pieczywo",
+    "calories": 390,
+    "type": "śniadanie",
+    "id": 1
+  },
+  {
+    "name": "Wrap z jajkiem i bekonem",
+    "calories": 421,
+    "type": "śniadanie",
+    "id": 2
+  },
+  {
+    "name": "Placki owsiane z cukinia",
+    "calories": 327,
+    "type": "kolacja",
+    "id": 3
+  },
+  {
+    "name": "Pasta borkułowa z feta i pieczywo",
+    "calories": 250,
+    "type": "kolacja",
+    "id": 4
+  },
+  {
+    "name": "Sałatka z pomidorami i rukolą",
+    "calories": 326,
+    "type": "kolacja",
+    "id": 5
+  },
+  {
+    "name": "Koktajl szpinakowo-bananowy",
+    "calories": 248,
+    "type": "śniadanie",
+    "id": 6
+  },
+  {
+    "name": "Koktajl bananowo-gruszkowy",
+    "calories": 198,
+    "type": "śniadanie",
+    "id": 7
+  },
+  {
+    "name": "Budyń kakaowy z orzechami",
+    "calories": 227,
+    "type": "śniadanie",
+    "id": 8
+  },
+  {
+    "name": "Sałatka z brokułami, serem i jajkiem",
+    "calories": 373,
+    "type": "kolacja",
+    "id": 9
+  },
+  {
+    "name": "Makaron z kurczakiem w sosie śmietanowym",
+    "calories": 587,
+    "type": "obiad",
+    "id": 10
+  },
+  {
+    "name": "Zapiekanka ziemniaczana z mięsem mielonym",
+    "calories": 642,
+    "type": "obiad",
+    "id": 11
+  },
+  {
+    "name": "Kurczak po chińsku z ryżem",
+    "calories": 492,
+    "type": "obiad",
+    "id": 12
+  },
+  {
+    "name": "Curry z ciecierzycą i ryżem",
+    "calories": 521,
+    "type": "obiad",
+    "id": 13
+  },
+  {
+    "name": "Kotlety po lwowsku z ziemniakami",
+    "calories": 612,
+    "type": "obiad",
+    "id": 14
+  },
+  {
+    "name": "Spaghetti z pieczonymi klopsami",
+    "calories": 716,
+    "type": "obiad",
+    "id": 15
+  },
+  {
+    "name": "Pasta z makreli, twarogu i pieczywo",
+    "calories": 241,
+    "type": "kolacja",
+    "id": 16
+  },
+  {
+    "name": "Sałatka meksykańska z ryżem",
+    "calories": 383,
+    "type": "kolacja",
+    "id": 17
+  },
+  {
+    "name": "Kurczak pieczony z ziemniakami",
+    "calories": 700,
+    "type": "obiad",
+    "id": 18
+  },
+  {
+    "name": "Zapiekanka makaronowa z kurczakiem i pieczarkami",
+    "calories": 562,
+    "type": "obiad",
+    "id": 19
+  },
+  {
+    "name": "Naleśniki z dżemem",
+    "calories": 319,
+    "type": "śniadanie",
+    "id": 20
+  },
+  {
+    "name": "Wafle ryżowe z masłem orzechwym",
+    "calories": 450,
+    "type": "śniadanie",
+    "id": 21
+  },
+  {
+    "name": "Owsianka z owocami",
+    "calories": 315,
+    "type": "śniadanie",
+    "id": 22
+  },
+  {
+    "name": "Pieczywo z awokado i bazylią",
+    "calories": 289,
+    "type": "kolacja",
+    "id": 23
+  },
+  {
+    "name": "Wrap z tuńczykiem i kukurydzą",
+    "calories": 315,
+    "type": "kolacja",
+    "id": 24
+  }
+]
