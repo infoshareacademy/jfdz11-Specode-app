@@ -1,10 +1,9 @@
-import React, { Fragment } from 'react'
-import { MyCalendar, LineChart, Title, Footer } from '../../components'
+import React, { Fragment } from "react";
+import { MyCalendar } from "../../components";
 
 function DashBoard(props) {
   return (
     <Fragment>
-      <Title>Planer żywieniowy</Title>
       <MyCalendar
         mealsArray={props.mealsArray}
         updateMealId={props.updateMealId}
@@ -15,10 +14,8 @@ function DashBoard(props) {
         dateProps={props.dateProps}
         scheduledMealsArray={props.scheduledMealsArray}
       />
-      <LineChart />
-      <Footer />
     </Fragment>
-  )
+  );
 }
 
-export default DashBoard
+export default DashBoard;

@@ -1,0 +1,34 @@
+#navigation {
+  box-sizing: border-box;
+  display: grid;
+  border: 1px solid #fff;
+  grid-template-columns: 10% 45% 15% 15% 15%;
+  list-style: none;
+  height: 9vh;
+  text-align: center;
+}
+#navigation li {
+  color: #fff;
+  margin: auto;
+}
+#navigation li:first-child {
+  margin: auto 20px;
+}
+#navigation li button {
+  padding: 10px;
+  border: none;
+  background-color: inherit;
+  color: inherit;
+}
+#navigation li button:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+.navLink {
+  text-decoration: none;
+  color: inherit;
+}
+.navLink:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
