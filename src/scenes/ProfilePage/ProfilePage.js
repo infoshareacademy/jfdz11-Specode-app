@@ -49,9 +49,6 @@ class ProfilePage extends Component {
     }
   }
 
-  deleteAll(event) {
-    this.handleDeleteAccount();
-  }
   handleOnInputFileChange = event => {
     this.setState({
       file: event.target.files[0]
@@ -63,7 +60,10 @@ class ProfilePage extends Component {
       .storage()
       .ref("avatars/" + this.state.user.uid)
       .delete()
-      .then(() => this.getAvatarUrl());
+      .then(() => {
+        this.getAvatarUrl();
+        alert("Usunięto pomyślnie");
+      });
   };
 
   handleAdd = () => {
@@ -120,6 +120,7 @@ class ProfilePage extends Component {
                 margin: "0 auto"
               }}
             />
+            <Typography component="h3">Dodaj lub asuń avatar</Typography>
             <div style={{ margin: "20px" }}>
               <input
                 accept="image/*"
@@ -130,13 +131,13 @@ class ProfilePage extends Component {
                 onChange={this.handleOnInputFileChange}
               />
               <label htmlFor="raised-button-file">
-                <Fab size="small" color="default" component="span">
+                <Fab size="default" color="default" component="span">
                   <ImageIcon />
                 </Fab>
               </label>
               {this.state.file && `${this.state.file.name}`}
               <Fab
-                size="small"
+                size="default"
                 color="primary"
                 component="span"
                 onClick={this.handleAdd}
@@ -144,20 +145,12 @@ class ProfilePage extends Component {
                 <AddIcon />
               </Fab>
               <Fab
-                size="small"
+                size="default"
                 color="secondary"
                 component="span"
                 onClick={this.handleRemove}
               >
                 <RemoveIcon />
-              </Fab>
-              <Fab
-                size="default"
-                color="default"
-                component="span"
-                onClick={this.handleDeleteAccount.bind(this)}
-              >
-                Delete
               </Fab>
             </div>
           </div>
@@ -167,9 +160,17 @@ class ProfilePage extends Component {
           <Typography component="h3" variant="h6">
             User Id: {this.state.user && this.state.user.uid}
           </Typography>
+          <Typography component="h3" variant="h6">
+            Usuń konto
+          </Typography>
           <div style={{ margin: "20px" }}>
-            <Fab size="small" color="primary" aria-label="Edit">
-              <EditIcon />
+            <Fab
+              size="default"
+              color="default"
+              component="span"
+              onClick={this.handleDeleteAccount.bind(this)}
+            >
+              USUŃ
             </Fab>
           </div>
         </Auth>
