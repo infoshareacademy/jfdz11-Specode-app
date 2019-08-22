@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
+import { withRouter } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
+import { PageWrapper } from "../../components";
 import avatarPlaceholder from "./avatar-placeholder.jpg";
 import Fab from "@material-ui/core/Fab";
 import EditIcon from "@material-ui/icons/Edit";
@@ -56,6 +57,22 @@ class ProfilePage extends Component {
     }
   };
 
+  handleDeleteAccount = () => {
+    if (window.confirm("Jesteś pewny, że chcesz usunąć konto?")) {
+      var user = firebase.auth().currentUser;
+      var credential = firebase.auth.EmailAuthProvider.credential(
+        user.email,
+        window.prompt("POdaj hasło", "hasło")
+      );
+      user
+        .reauthenticateWithCredential(credential)
+        .then(function() {
+          user.delete();
+        })
+        .catch(error => alert(error.message));
+    }
+  };
+
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       this.setState(
@@ -70,7 +87,7 @@ class ProfilePage extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
+      <PageWrapper>
         <Auth>
           <Typography component="h1" variant="h4">
             Profile
@@ -81,11 +98,9 @@ class ProfilePage extends Component {
                 this.state.avatarUrl ? this.state.avatarUrl : avatarPlaceholder
               }
               style={{
-                bigAvatar: {
-                  width: 60,
-                  height: 60,
-                  margin: "0 auto"
-                }
+                width: 60,
+                height: 60,
+                margin: "0 auto"
               }}
             />
             <div style={{ margin: "20px" }}>
@@ -119,6 +134,14 @@ class ProfilePage extends Component {
               >
                 <RemoveIcon />
               </Fab>
+              <Fab
+                size="default"
+                color="default"
+                component="span"
+                onClick={this.handleDeleteAccount}
+              >
+                Delete
+              </Fab>
             </div>
           </div>
           <Typography component="h3" variant="h6">
@@ -133,7 +156,7 @@ class ProfilePage extends Component {
             </Fab>
           </div>
         </Auth>
-      </div>
+      </PageWrapper>
     );
   }
 }
