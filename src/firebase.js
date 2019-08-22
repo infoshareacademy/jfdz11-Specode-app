@@ -14,7 +14,7 @@ const fire = firebase.initializeApp({
   authDomain: "jfdz11-specode-diet-plan-app.firebaseapp.com",
   databaseURL: "https://jfdz11-specode-diet-plan-app.firebaseio.com",
   projectId: "jfdz11-specode-diet-plan-app",
-  storageBucket: "",
+  storageBucket: "jfdz11-specode-diet-plan-app.appspot.com",
   messagingSenderId: "455413461149",
   appId: "1:455413461149:web:0a8396fb049a265d"
 });
