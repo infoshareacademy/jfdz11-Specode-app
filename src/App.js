@@ -22,6 +22,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      test: "hello",
       todayFullDate: moment(),
       newMealId: "",
       userCustomMealsArray: [],
@@ -37,6 +38,7 @@ class App extends React.Component {
       }
     };
   }
+
   logOutChangeState = () => {
     this.setState({
       todayFullDate: moment(),
@@ -262,7 +264,10 @@ class App extends React.Component {
               />
             </Route>
             <Route exact path="/profile">
-              <ProfilePage />
+              <ProfilePage
+                changeIsLoggedInState={this.changeIsLoggedInState.bind(this)}
+                logOutChangeState={this.logOutChangeState.bind(this)}
+              />
             </Route>
           </Switch>
           <React.Fragment>

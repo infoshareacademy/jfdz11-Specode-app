@@ -8,7 +8,6 @@ import LineChart from "./LineChart";
 import Title from "./Title";
 import Footer from "./Footer";
 import PageWrapper from "./PageWrapper";
-import CircularIntegration from "./CircularIntegration";
 
 export {
   MyCalendar,
@@ -20,6 +19,5 @@ export {
   LineChart,
   Title,
   Footer,
-  PageWrapper,
-  CircularIntegration
+  PageWrapper
 };

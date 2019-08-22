@@ -13,12 +13,45 @@ import firebase from "firebase";
 import Auth from "./Auth";
 
 class ProfilePage extends Component {
-  state = {
-    avatarUrl: "",
-    user: null,
-    file: null
-  };
+  constructor(props) {
+    super();
+    this.state = {
+      avatarUrl: "",
+      user: "test",
+      file: null,
+      isLoggedIn: ""
+    };
+  }
 
+  changeState() {
+    this.props.changeIsLoggedInState(this.state);
+  }
+
+  logOut() {
+    this.props.logOutChangeState(this.state);
+  }
+
+  handleDeleteAccount() {
+    if (window.confirm("Jesteś pewny, że chcesz usunąć konto?")) {
+      var user = firebase.auth().currentUser;
+      var credential = firebase.auth.EmailAuthProvider.credential(
+        user.email,
+        window.prompt("POdaj hasło", "hasło")
+      );
+      user
+        .reauthenticateWithCredential(credential)
+        .then(function() {
+          user.delete();
+        })
+        .catch(error => alert(error.message));
+      this.logOut();
+      this.changeState();
+    }
+  }
+
+  deleteAll(event) {
+    this.handleDeleteAccount();
+  }
   handleOnInputFileChange = event => {
     this.setState({
       file: event.target.files[0]
@@ -54,22 +87,6 @@ class ProfilePage extends Component {
         .getDownloadURL()
         .then(url => this.setState({ avatarUrl: url }))
         .catch(() => this.setState({ avatarUrl: null }));
-    }
-  };
-
-  handleDeleteAccount = () => {
-    if (window.confirm("Jesteś pewny, że chcesz usunąć konto?")) {
-      var user = firebase.auth().currentUser;
-      var credential = firebase.auth.EmailAuthProvider.credential(
-        user.email,
-        window.prompt("POdaj hasło", "hasło")
-      );
-      user
-        .reauthenticateWithCredential(credential)
-        .then(function() {
-          user.delete();
-        })
-        .catch(error => alert(error.message));
     }
   };
 
@@ -138,7 +155,7 @@ class ProfilePage extends Component {
                 size="default"
                 color="default"
                 component="span"
-                onClick={this.handleDeleteAccount}
+                onClick={this.handleDeleteAccount.bind(this)}
               >
                 Delete
               </Fab>
