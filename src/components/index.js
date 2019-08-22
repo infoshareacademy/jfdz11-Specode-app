@@ -7,6 +7,7 @@ import PieChart from "./PieChart";
 import LineChart from "./LineChart";
 import Title from "./Title";
 import Footer from "./Footer";
+import PageWrapper from "./PageWrapper";
 
 export {
   MyCalendar,
@@ -17,5 +18,6 @@ export {
   PieChart,
   LineChart,
   Title,
-  Footer
+  Footer,
+  PageWrapper
 };
