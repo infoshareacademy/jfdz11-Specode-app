@@ -8,6 +8,16 @@
   height: 91vh;
 }
 .header {
+  padding: 15px;
+  margin: 40px;
+  background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
   text-shadow: 2px 2px grey;
+}
+
+
+@media only screen and (min-width: 800px) {
+  .header {
+    margin: 150px;
+  }
 }
