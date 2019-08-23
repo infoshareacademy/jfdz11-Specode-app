@@ -1,7 +1,7 @@
 #navigation {
   box-sizing: border-box;
-  display: grid;
-  border: 1px solid #fff;
+  display: flex;
+  border: 2px solid #fff;
   grid-template-columns: 10% 45% 15% 15% 15%;
   list-style: none;
   height: 9vh;
@@ -31,4 +31,5 @@
 .navLink:hover {
   cursor: pointer;
   opacity: 0.8;
+  border-bottom: 1px solid rgb(179, 255, 179);
 }
