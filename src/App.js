@@ -220,16 +220,46 @@ class App extends React.Component {
     this.setState({ newMealId: this.state.newMealId + 1 });
   };
 
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        firebase
+          .storage()
+          .ref("avatars/" + user.uid)
+          .getDownloadURL()
+          .then(url =>
+            this.setState({
+              ...this.state,
+              user: {
+                ...this.state.user,
+                userAvatarUrl: url
+              }
+            })
+          )
+          .catch(() =>
+            this.setState({
+              user: null
+            })
+          );
+      } else {
+        this.setState({
+          user: null
+        });
+      }
+    });
+  }
+
   render() {
     return (
       <Router>
+        {console.log("IsLogged:", this.state.user.isLoggedIn)}
         <div className={appWrapper}>
           <Navigation
-            logOutChangeState={this.logOutChangeState}
+            logOutChangeState={this.logOutChangeState.bind(this)}
             isLoggedIn={this.state.user.isLoggedIn}
             userFirstName={this.state.user.userFirstName}
             userPicture={this.state.user.userPicture}
-            changeIsLoggedInState={this.changeIsLoggedInState}
+            changeIsLoggedInState={this.changeIsLoggedInState.bind(this)}
             getAvatarUrl={this.getAvatarUrl}
             userAvatarUrl={this.state.user.userAvatarUrl}
           />
