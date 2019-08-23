@@ -185,12 +185,7 @@ class ProfilePage extends Component {
           Usuń konto
         </Typography>
         <div style={{ margin: "20px" }}>
-          <Fab
-            size="default"
-            color="default"
-            component="span"
-            onClick={this.handleDeleteAccount.bind(this)}
-          >
+          <Fab size="default" color="default" component="span">
             USUŃ
           </Fab>
         </div>

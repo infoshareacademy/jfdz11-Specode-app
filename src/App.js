@@ -40,50 +40,6 @@ class App extends React.Component {
     };
   }
 
-  getAvatarUrl = () => {
-    var user = firebase.auth().currentUser;
-    if (user) {
-      firebase
-        .storage()
-        .ref("avatars/" + this.state.user.uid)
-        .getDownloadURL()
-        .then(url =>
-          this.setState({
-            user: {
-              ...this.state.user,
-              userAvatarUrl: url
-            }
-          })
-        )
-        .catch(() =>
-          this.setState({
-            user: {
-              ...this.state.user,
-              userAvatarUrl: null
-            }
-          })
-        );
-    }
-  };
-
-  getUserCustomMealsFromFirebase = userUid => {
-    firebase
-      .database()
-      .ref("customMeals/" + userUid)
-      .on("value", snapshot => {
-        const mealsListObject = snapshot.val() || [];
-        let customMealsFirebase = Object.values(mealsListObject).map(entry => {
-          return { ...entry };
-        });
-        this.setState({
-          user: {
-            ...this.state.user,
-            userCustomMealsArray: customMealsFirebase
-          }
-        });
-      });
-  };
-
   logOutChangeState = () => {
     this.setState({
       todayFullDate: moment(),
@@ -198,6 +154,24 @@ class App extends React.Component {
             this.getCommonMealsAndConcatWithUserCustomOnes();
           }
         );
+      });
+  };
+
+  getUserCustomMealsFromFirebase = userUid => {
+    firebase
+      .database()
+      .ref("customMeals/" + userUid)
+      .on("value", snapshot => {
+        const mealsListObject = snapshot.val() || [];
+        let customMealsFirebase = Object.values(mealsListObject).map(entry => {
+          return { ...entry };
+        });
+        this.setState({
+          user: {
+            ...this.state.user,
+            userCustomMealsArray: customMealsFirebase
+          }
+        });
       });
   };
 
