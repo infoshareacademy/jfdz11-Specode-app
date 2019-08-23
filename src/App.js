@@ -220,12 +220,47 @@ class App extends React.Component {
     this.setState({ newMealId: this.state.newMealId + 1 });
   };
 
+  handleAvatarChange = () => {
+    firebase
+      .storage()
+      .ref("avatars/" + this.state.user.uid)
+      .getDownloadURL()
+      .then(url =>
+        this.setState({
+          ...this.state,
+          user: {
+            ...this.state.user,
+            userAvatarUrl: url
+          }
+        })
+      )
+      .catch(() =>
+        this.setState({
+          ...this.state,
+          user: {
+            ...this.state.user,
+            userAvatarUrl: null
+          }
+        })
+      );
+  };
+
+  handleRemoveAvatar = () => {
+    firebase
+      .storage()
+      .ref("avatars/" + this.state.user.uid)
+      .delete()
+      .then(() => {
+        this.handleAvatarChange();
+      });
+  };
+
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         firebase
           .storage()
-          .ref("avatars/" + user.uid)
+          .ref("avatars/" + this.state.user.uid)
           .getDownloadURL()
           .then(url =>
             this.setState({
@@ -238,12 +273,20 @@ class App extends React.Component {
           )
           .catch(() =>
             this.setState({
-              user: null
+              ...this.state,
+              user: {
+                ...this.state.user,
+                userAvatarUrl: null
+              }
             })
           );
       } else {
         this.setState({
-          user: null
+          ...this.state,
+          user: {
+            ...this.state.user,
+            userAvatarUrl: null
+          }
         });
       }
     });
@@ -252,7 +295,7 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        {console.log("IsLogged:", this.state.user.isLoggedIn)}
+        {this.state.user.isLoggedIn}
         <div className={appWrapper}>
           <Navigation
             logOutChangeState={this.logOutChangeState.bind(this)}
@@ -306,6 +349,9 @@ class App extends React.Component {
                 logOutChangeState={this.logOutChangeState.bind(this)}
                 userAvatarUrl={this.state.user.userAvatarUrl}
                 userPicture={this.state.user.userPicture}
+                onAvatarChange={this.handleAvatarChange.bind(this)}
+                onAvatarRemove={this.handleRemoveAvatar.bind(this)}
+                userEmailValue={this.state.user.userEmailValue}
               />
             </Route>
           </Switch>

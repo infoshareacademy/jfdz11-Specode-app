@@ -15,12 +15,12 @@ class ProfilePage extends Component {
     super(props);
     this.state = {
       user: {
-        userEmailValue: props.userEmailValue,
+        userEmailValue: "",
         isLoggedIn: false,
-        userFirstName: props.userFirstName,
+        userFirstName: "",
         userId: "",
-        userPicture: props.userPicture,
-        userAvatarUrl: props.userAvatarUrl
+        userPicture: "",
+        userAvatarUrl: ""
       }
     };
   }
@@ -61,16 +61,24 @@ class ProfilePage extends Component {
   };
 
   handleRemove = () => {
+    this.props.onAvatarRemove(this.state);
+  };
+
+  handleRemove2 = () => {
     firebase
       .storage()
       .ref("avatars/" + this.state.user.uid)
       .delete()
       .then(() => {
         this.getAvatarUrl();
+        this.props.onAvatarChange(this.state);
         alert("Usunięto pomyślnie");
       });
   };
 
+  handleAdd() {
+    this.props.onAvatarChange(this.state);
+  }
   handleAdd2 = () => {
     if (this.state.user.userPicture && this.state.user) {
       firebase
@@ -80,6 +88,7 @@ class ProfilePage extends Component {
         .then(() => {
           alert("Dodano pomyślnie");
           this.getAvatarUrl();
+          this.props.onAvatarChange(this.state);
         });
     }
   };
@@ -161,7 +170,7 @@ class ProfilePage extends Component {
               size="default"
               color="primary"
               component="span"
-              onClick={this.handleAdd2}
+              onClick={this.handleAdd2.bind(this)}
             >
               <AddIcon />
             </Fab>
@@ -169,7 +178,7 @@ class ProfilePage extends Component {
               size="default"
               color="secondary"
               component="span"
-              onClick={this.handleRemove}
+              onClick={this.handleRemove2.bind(this)}
             >
               <RemoveIcon />
             </Fab>
@@ -185,7 +194,12 @@ class ProfilePage extends Component {
           Usuń konto
         </Typography>
         <div style={{ margin: "20px" }}>
-          <Fab size="default" color="default" component="span">
+          <Fab
+            size="default"
+            color="default"
+            component="span"
+            onClick={this.handleDeleteAccount.bind(this)}
+          >
             USUŃ
           </Fab>
         </div>

@@ -83,6 +83,7 @@ class Navigation extends React.Component {
       <nav id={navigation}>
         {console.log("userAvatar", this.props.userAvatarUrl)}
         {console.log("isLoggedIn:", this.props.isLoggedIn)}
+        {console.log("Name:", this.props.userFirstName)}
         <li>
           {this.props.isLoggedIn ? (
             <Avatar
