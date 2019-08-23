@@ -3,24 +3,25 @@ import * as styles from "./Navigation.module.css";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import HomeRounded from "@material-ui/icons/HomeRounded";
 import { NavLink } from "react-router-dom";
+import Avatar from "@material-ui/core/Avatar";
+import avatarPlaceholder from "../../scenes/ProfilePage/avatar-placeholder.jpg";
+
 const Navigation = props => {
   const { navigation, userPhoto, navLink } = styles;
   return (
     <nav id={navigation}>
+      {console.log("userAvatar", props.userAvatarUrl)}
+      {console.log("isLoggedIn:", props.isLoggedIn)}
       <li>
         {
-          <div
+          <Avatar
             className={userPhoto}
+            src={props.userAvatarUrl ? props.userAvatarUrl : avatarPlaceholder}
             style={{
-              width: "40px",
-              height: "40px",
-              backgroundColor: "inherit"
+              width: 40,
+              height: 40
             }}
-          >
-            <span style={{ margin: "auto" }}>
-              <AccountCircle fontSize="large" />
-            </span>
-          </div>
+          />
         }
       </li>
       <li>{`Witaj ${

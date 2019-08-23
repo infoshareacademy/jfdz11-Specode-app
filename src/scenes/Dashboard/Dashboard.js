@@ -4,6 +4,7 @@ import { MyCalendar } from "../../components";
 function DashBoard(props) {
   return (
     <Fragment>
+      {props.getAvatarUrl}
       <MyCalendar
         mealsArray={props.mealsArray}
         updateMealId={props.updateMealId}
