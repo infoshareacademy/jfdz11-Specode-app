@@ -15,6 +15,7 @@ import {
   Switch,
   Redirect
 } from "react-router-dom";
+import { CreateNewFolderOutlined } from "@material-ui/icons";
 
 const { appWrapper } = styles;
 
@@ -22,7 +23,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      test: "hello",
       todayFullDate: moment(),
       newMealId: "",
       userCustomMealsArray: [],
@@ -34,10 +34,55 @@ class App extends React.Component {
         userPicture: null,
         userCustomMealsArray: [],
         userScheduledMealsArray: [],
-        userId: ""
+        userId: "",
+        userAvatarUrl: ""
       }
     };
   }
+
+  getAvatarUrl = () => {
+    var user = firebase.auth().currentUser;
+    if (user) {
+      firebase
+        .storage()
+        .ref("avatars/" + this.state.user.uid)
+        .getDownloadURL()
+        .then(url =>
+          this.setState({
+            user: {
+              ...this.state.user,
+              userAvatarUrl: url
+            }
+          })
+        )
+        .catch(() =>
+          this.setState({
+            user: {
+              ...this.state.user,
+              userAvatarUrl: null
+            }
+          })
+        );
+    }
+  };
+
+  getUserCustomMealsFromFirebase = userUid => {
+    firebase
+      .database()
+      .ref("customMeals/" + userUid)
+      .on("value", snapshot => {
+        const mealsListObject = snapshot.val() || [];
+        let customMealsFirebase = Object.values(mealsListObject).map(entry => {
+          return { ...entry };
+        });
+        this.setState({
+          user: {
+            ...this.state.user,
+            userCustomMealsArray: customMealsFirebase
+          }
+        });
+      });
+  };
 
   logOutChangeState = () => {
     this.setState({
@@ -155,23 +200,7 @@ class App extends React.Component {
         );
       });
   };
-  getUserCustomMealsFromFirebase = userUid => {
-    firebase
-      .database()
-      .ref("customMeals/" + userUid)
-      .on("value", snapshot => {
-        const mealsListObject = snapshot.val() || [];
-        let customMealsFirebase = Object.values(mealsListObject).map(entry => {
-          return { ...entry };
-        });
-        this.setState({
-          user: {
-            ...this.state.user,
-            userCustomMealsArray: customMealsFirebase
-          }
-        });
-      });
-  };
+
   addToUserCustomMealsArray = mealObject => {
     let { calories, id, name, type } = mealObject;
     let firebaseMeal = { calories, id, name, type };
@@ -227,6 +256,8 @@ class App extends React.Component {
             userFirstName={this.state.user.userFirstName}
             userPicture={this.state.user.userPicture}
             changeIsLoggedInState={this.changeIsLoggedInState}
+            getAvatarUrl={this.getAvatarUrl}
+            userAvatarUrl={this.state.user.userAvatarUrl}
           />
           <Switch>
             <Route exact path="/landing-page">
@@ -242,6 +273,8 @@ class App extends React.Component {
                 addToMealsArray={this.addToUserCustomMealsArray}
                 setDate={this.setDate}
                 dateProps={this.state.todayFullDate}
+                getAvatarUrl={this.state.getAvatarUrl}
+                userAvatarUrl={this.state.user.userAvatarUrl}
               />
             </Route>
             <Route exact path="/login">
@@ -267,6 +300,8 @@ class App extends React.Component {
               <ProfilePage
                 changeIsLoggedInState={this.changeIsLoggedInState.bind(this)}
                 logOutChangeState={this.logOutChangeState.bind(this)}
+                userAvatarUrl={this.state.user.userAvatarUrl}
+                userPicture={this.state.user.userPicture}
               />
             </Route>
           </Switch>

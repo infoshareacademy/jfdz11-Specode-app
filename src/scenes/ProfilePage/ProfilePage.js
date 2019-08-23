@@ -5,24 +5,25 @@ import Typography from "@material-ui/core/Typography";
 import { PageWrapper } from "../../components";
 import avatarPlaceholder from "./avatar-placeholder.jpg";
 import Fab from "@material-ui/core/Fab";
-import EditIcon from "@material-ui/icons/Edit";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import ImageIcon from "@material-ui/icons/Image";
 import firebase from "firebase";
-import Auth from "./Auth";
 
 class ProfilePage extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
-      avatarUrl: "",
-      user: "test",
-      file: null,
-      isLoggedIn: ""
+      user: {
+        userEmailValue: props.userEmailValue,
+        isLoggedIn: false,
+        userFirstName: props.userFirstName,
+        userId: "",
+        userPicture: props.userPicture,
+        userAvatarUrl: props.userAvatarUrl
+      }
     };
   }
-
   changeState() {
     this.props.changeIsLoggedInState(this.state);
   }
@@ -36,7 +37,7 @@ class ProfilePage extends Component {
       var user = firebase.auth().currentUser;
       var credential = firebase.auth.EmailAuthProvider.credential(
         user.email,
-        window.prompt("POdaj hasło", "hasło")
+        window.prompt("Podaj hasło", "hasło")
       );
       user
         .reauthenticateWithCredential(credential)
@@ -49,9 +50,13 @@ class ProfilePage extends Component {
     }
   }
 
-  handleOnInputFileChange = event => {
+  handleOnInputFileChange2 = event => {
+    console.log(event);
     this.setState({
-      file: event.target.files[0]
+      user: {
+        ...this.state.user,
+        userPicture: event.target.files[0]
+      }
     });
   };
 
@@ -66,12 +71,12 @@ class ProfilePage extends Component {
       });
   };
 
-  handleAdd = () => {
-    if (this.state.file && this.state.user) {
+  handleAdd2 = () => {
+    if (this.state.user.userPicture && this.state.user) {
       firebase
         .storage()
         .ref("avatars/" + this.state.user.uid)
-        .put(this.state.file)
+        .put(this.state.user.userPicture)
         .then(() => {
           alert("Dodano pomyślnie");
           this.getAvatarUrl();
@@ -85,8 +90,22 @@ class ProfilePage extends Component {
         .storage()
         .ref("avatars/" + this.state.user.uid)
         .getDownloadURL()
-        .then(url => this.setState({ avatarUrl: url }))
-        .catch(() => this.setState({ avatarUrl: null }));
+        .then(url =>
+          this.setState({
+            user: {
+              ...this.state.user,
+              userAvatarUrl: url
+            }
+          })
+        )
+        .catch(() =>
+          this.setState({
+            user: {
+              ...this.state.user,
+              userAvatarUrl: null
+            }
+          })
+        );
     }
   };
 
@@ -102,78 +121,79 @@ class ProfilePage extends Component {
   }
 
   render() {
-    const { classes } = this.props;
     return (
       <PageWrapper>
-        <Auth>
-          <Typography component="h1" variant="h4">
-            Profile
-          </Typography>
+        <Typography component="h1" variant="h4">
+          Profile
+        </Typography>
+        <div style={{ margin: "20px" }}>
+          <Avatar
+            src={
+              this.state.user.userAvatarUrl
+                ? this.state.user.userAvatarUrl
+                : avatarPlaceholder
+            }
+            style={{
+              width: 60,
+              height: 60,
+              margin: "0 auto"
+            }}
+          />
+          {console.log(this.state.user.userAvatarUrl)}
+          <Typography component="h3">Dodaj lub asuń avatar</Typography>
           <div style={{ margin: "20px" }}>
-            <Avatar
-              src={
-                this.state.avatarUrl ? this.state.avatarUrl : avatarPlaceholder
-              }
-              style={{
-                width: 60,
-                height: 60,
-                margin: "0 auto"
-              }}
+            <input
+              accept="image/*"
+              style={{ display: "none" }}
+              id="raised-button-file"
+              multiple
+              type="file"
+              onChange={this.handleOnInputFileChange2}
             />
-            <Typography component="h3">Dodaj lub asuń avatar</Typography>
-            <div style={{ margin: "20px" }}>
-              <input
-                accept="image/*"
-                style={{ display: "none" }}
-                id="raised-button-file"
-                multiple
-                type="file"
-                onChange={this.handleOnInputFileChange}
-              />
-              <label htmlFor="raised-button-file">
-                <Fab size="default" color="default" component="span">
-                  <ImageIcon />
-                </Fab>
-              </label>
-              {this.state.file && `${this.state.file.name}`}
-              <Fab
-                size="default"
-                color="primary"
-                component="span"
-                onClick={this.handleAdd}
-              >
-                <AddIcon />
+            <label htmlFor="raised-button-file">
+              <Fab size="default" color="default" component="span">
+                <ImageIcon />
               </Fab>
-              <Fab
-                size="default"
-                color="secondary"
-                component="span"
-                onClick={this.handleRemove}
-              >
-                <RemoveIcon />
-              </Fab>
-            </div>
-          </div>
-          <Typography component="h3" variant="h6">
-            Email: {this.state.user && this.state.user.email}
-          </Typography>
-          <Typography component="h3" variant="h6">
-            User Id: {this.state.user && this.state.user.uid}
-          </Typography>
-          <Typography component="h3" variant="h6">
-            Usuń konto
-          </Typography>
-          <div style={{ margin: "20px" }}>
+            </label>
+            {this.state.user.userPicture &&
+              `${this.state.user.userPicture.name}`}
             <Fab
               size="default"
-              color="default"
+              color="primary"
               component="span"
-              onClick={this.handleDeleteAccount.bind(this)}
+              onClick={this.handleAdd2}
             >
-              USUŃ
+              <AddIcon />
+            </Fab>
+            <Fab
+              size="default"
+              color="secondary"
+              component="span"
+              onClick={this.handleRemove}
+            >
+              <RemoveIcon />
             </Fab>
           </div>
-        </Auth>
+        </div>
+        <Typography component="h3" variant="h6">
+          Email: {this.state.user && this.state.user.email}
+        </Typography>
+        <Typography component="h3" variant="h6">
+          User Id: {this.state.user && this.state.user.uid}
+        </Typography>
+        <Typography component="h3" variant="h6">
+          Usuń konto
+        </Typography>
+        <div style={{ margin: "20px" }}>
+          <Fab
+            size="default"
+            color="default"
+            component="span"
+            onClick={this.handleDeleteAccount.bind(this)}
+          >
+            USUŃ
+          </Fab>
+        </div>
       </PageWrapper>
     );
   }
