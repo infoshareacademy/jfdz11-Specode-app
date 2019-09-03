@@ -8,9 +8,7 @@ const UserContextProvider = props => {
     isLoggedIn: false,
     userId: "",
     userFirstName: "",
-    userPicture: null,
-    userCustomMealsArray: [],
-    userScheduledMealsArray: []
+    userPicture: null
   });
 
   const setUserEmail = email => {
@@ -28,39 +26,6 @@ const UserContextProvider = props => {
   const setUserPicture = url => {
     setUser({ ...user, userPicture: url });
   };
-  const setUserCustomMeals = userId => {
-    firebase
-      .database()
-      .ref("customMeals/" + userId)
-      .on("value", snapshot => {
-        const mealsListObject = snapshot.val() || [];
-        let customMealsFirebase = Object.values(mealsListObject).map(entry => {
-          return { ...entry };
-        });
-        setUser({ ...user, userCustomMealsArray: customMealsFirebase });
-      });
-  };
-  const setUserScheduledMealsArray = userId => {
-    firebase
-      .database()
-      .ref("scheduledMeals/" + userId)
-      .on("value", snapshot => {
-        const scheduledMealsSnapshot = snapshot.val() || [];
-        let scheduledUserMealsFirebase = Object.entries(
-          scheduledMealsSnapshot
-        ).map(entry => {
-          const [id, meal] = entry;
-          return {
-            ...meal,
-            id
-          };
-        });
-        setUser({
-          ...user,
-          userScheduledMealsArray: scheduledUserMealsFirebase
-        });
-      });
-  };
 
   return (
     <UserContext.Provider
@@ -70,9 +35,7 @@ const UserContextProvider = props => {
         setUserFirstName,
         changeIsLoggedIn,
         setUserId,
-        setUserPicture,
-        setUserScheduledMealsArray,
-        setUserCustomMeals
+        setUserPicture
       }}
     >
       {props.children}
