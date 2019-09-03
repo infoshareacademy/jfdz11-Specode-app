@@ -3,13 +3,14 @@ import React, { createContext, useState } from "react";
 export const UserContext = createContext();
 
 const UserContextProvider = props => {
-  const [user, setUser] = useState()({
+  let initialState = {
     userEmailValue: "",
     isLoggedIn: false,
     userId: "",
     userFirstName: "",
     userPicture: null
-  });
+  };
+  const [user, setUser] = useState(initialState);
 
   const setUserEmail = email => {
     setUser({ ...user, userEmailValue: email });
@@ -26,6 +27,9 @@ const UserContextProvider = props => {
   const setUserPicture = url => {
     setUser({ ...user, userPicture: url });
   };
+  const setInitialStateAfterLogout = () => {
+    setUser(initialState);
+  };
 
   return (
     <UserContext.Provider
@@ -35,7 +39,8 @@ const UserContextProvider = props => {
         setUserFirstName,
         changeIsLoggedIn,
         setUserId,
-        setUserPicture
+        setUserPicture,
+        setInitialStateAfterLogout
       }}
     >
       {props.children}
