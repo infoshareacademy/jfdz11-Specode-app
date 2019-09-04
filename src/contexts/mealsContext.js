@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 import { UserContext } from "./userContext";
 import * as firebase from "firebase";
 //install uuid and manage meals id in firebase etc
@@ -11,30 +11,39 @@ const MealsContextProvider = props => {
   const {
     user: { userId }
   } = useContext(UserContext);
-  const [meals, setMeals] = useState()({
+  const [meals, setMeals] = useState({
     userCustomMealsArray: [],
     userScheduledMealsArray: [],
     commonMealsForAll: [],
-    concatedCommonAndCustom: [...userCustomMeals, ...commonMealsForAll]
+    concatedCommonAndCustom: []
   });
 
-  useEffect(() => {
-    firebase
-      .database()
-      .ref("scheduledMeals/" + userId)
-      .set({
-        userScheduledMealsArray
-      });
-  }, [userScheduledMealsArray]);
+  useEffect(
+    userId => {
+      let userScheduledMealsArray = meals.userScheduledMealsArray;
 
-  useEffect(() => {
-    firebase
-      .database()
-      .ref("customMeals/" + userId)
-      .set({
-        userCustomMealsArray
-      });
-  }, [userCustomMealsArray]);
+      firebase
+        .database()
+        .ref("scheduledMeals/" + userId)
+        .set({
+          userScheduledMealsArray
+        });
+    },
+    [meals.userScheduledMealsArray]
+  );
+
+  useEffect(
+    userId => {
+      let userCustomMealsArray = meals.userCustomMealsArray;
+      firebase
+        .database()
+        .ref("customMeals/" + userId)
+        .set({
+          userCustomMealsArray
+        });
+    },
+    [meals.userCustomMealsArray]
+  );
 
   const setUserCustomMeals = () => {
     firebase
@@ -45,7 +54,7 @@ const MealsContextProvider = props => {
         let customMealsFirebase = Object.values(mealsListObject).map(entry => {
           return { ...entry };
         });
-        setUser({ ...user, userCustomMealsArray: customMealsFirebase });
+        setMeals({ ...meals, userCustomMealsArray: customMealsFirebase });
       });
   };
   const setUserScheduledMealsArray = () => {
@@ -63,8 +72,8 @@ const MealsContextProvider = props => {
             id
           };
         });
-        setUser({
-          ...user,
+        setMeals({
+          ...meals,
           userScheduledMealsArray: scheduledUserMealsFirebase
         });
       });
@@ -77,14 +86,14 @@ const MealsContextProvider = props => {
     };
     setMeals({
       ...meals,
-      userScheduledMealsArray: [...userScheduledMealsArray, mealWithDate]
+      userScheduledMealsArray: [...meals.userScheduledMealsArray, mealWithDate]
     });
   };
 
   const addMealToCustom = mealObjectToCustom => {
     setMeals({
       ...meals,
-      userCustomMealsArray: [...userCustomMealsArray, mealObjectToCustom]
+      userCustomMealsArray: [...meals.userCustomMealsArray, mealObjectToCustom]
     });
   };
 
@@ -101,6 +110,16 @@ const MealsContextProvider = props => {
       });
   };
 
+  const setConcatedArray = () => {
+    setMeals({
+      ...meals,
+      concatedCommonAndCustom: [
+        ...meals.commonMealsArr,
+        ...meals.userCustomMealsArray
+      ]
+    });
+  };
+
   return (
     <MealsContext.Provider
       value={{
@@ -109,7 +128,8 @@ const MealsContextProvider = props => {
         addMealToCustom,
         addMealToSchedule,
         setUserCustomMeals,
-        setUserScheduledMealsArray
+        setUserScheduledMealsArray,
+        setConcatedArray
       }}
     >
       {props.children}
