@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -13,6 +13,8 @@ import Container from "@material-ui/core/Container";
 import * as styles from "./Login.module.css";
 import * as firebase from "firebase";
 import { withRouter } from "react-router-dom";
+import { UserContext } from "../../contexts/userContext";
+import { MealsContext } from "../../contexts/mealsContext";
 
 let { navLink } = styles;
 
@@ -42,6 +44,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignIn = props => {
+  const { setUserId, setUserFirstName, changeIsLoggedIn } = useContext(
+    UserContext
+  );
+  const {
+    setUserCustomMeals,
+    setUserScheduledMealsArray,
+    setCommonMealsFromFirebase,
+    setConcatedArray
+  } = useContext(MealsContext);
+
   const classes = useStyles();
   const [passwordValue, changePasswordValue] = useState();
   const [emailValue, changeEmailValue] = useState();
@@ -53,11 +65,13 @@ const SignIn = props => {
       .then(() => {
         firebase.auth().onAuthStateChanged(user => {
           if (user) {
-            props.setIdState(user.uid);
-            props.setUserNameState(emailValue);
-            props.getMealsArrayFromFireBase(user.uid);
-            props.changeIsLoggedInState();
-            props.getScheduledMealsFromFirebase(user.uid);
+            setUserId(user.uid);
+            setUserFirstName(emailValue);
+            setCommonMealsFromFirebase();
+            setUserScheduledMealsArray();
+            setUserCustomMeals();
+            setConcatedArray();
+            changeIsLoggedIn();
           }
         });
       })
