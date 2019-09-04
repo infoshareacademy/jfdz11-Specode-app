@@ -16,7 +16,7 @@ const UserContextProvider = props => {
     setUser({ ...user, userEmailValue: email });
   };
   const changeIsLoggedIn = () => {
-    setUser({ ...user, isLoggedIn: !isLoggedIn });
+    setUser({ ...user, isLoggedIn: !initialState.isLoggedIn });
   };
   const setUserId = id => {
     setUser({ ...user, userId: id });
