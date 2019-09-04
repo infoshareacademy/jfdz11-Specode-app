@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./App.css";
-import { DashBoard, ProfilePage, LandingPage } from "./scenes";
-
+import { DashBoard, ProfilePage, LandingPage, Login, SignUp } from "./scenes";
 import styles from "./App.css";
-
-import Login from "./scenes/Login/Login";
-import SignUp from "./scenes/SignUp/SignUp";
 import Navigation from "./components/Navigation/Navigation";
+import { UserContext } from "./contexts/userContext";
+import UserContextProvider from "./contexts/userContext";
+import MealsContextProvider from "./contexts/mealsContext";
 
 import {
   Route,
@@ -18,7 +17,10 @@ import {
 
 const { appWrapper } = styles;
 
-const App = () => {
+const App = props => {
+  const {
+    user: { isLoggedIn }
+  } = useContext(UserContext);
   return (
     <Router>
       <div className={appWrapper}>
@@ -41,7 +43,7 @@ const App = () => {
           </Route>
         </Switch>
         <React.Fragment>
-          {this.state.user.isLoggedIn === false ? ( ///get context if logged in
+          {isLoggedIn === false ? ( ///get context if logged in
             <Redirect exact from="/" to="/landing-page" />
           ) : (
             <Redirect exact from="/" to="/dashboard" />
