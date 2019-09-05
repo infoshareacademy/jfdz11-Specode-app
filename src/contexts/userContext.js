@@ -1,4 +1,5 @@
 import React, { createContext, useState } from "react";
+import firebase from "firebase";
 
 export const UserContext = createContext();
 
@@ -16,7 +17,9 @@ const UserContextProvider = props => {
     setUser({ ...user, userEmailValue: email });
   };
   const changeIsLoggedIn = () => {
-    setUser({ ...user, isLoggedIn: !initialState.isLoggedIn });
+    user.isLoggedIn
+      ? setUser(initialState)
+      : setUser({ ...user, isLoggedIn: !user.isLoggedIn });
   };
   const setUserId = id => {
     setUser({ ...user, userId: id });
@@ -31,6 +34,27 @@ const UserContextProvider = props => {
     setUser(initialState);
   };
 
+  const createNewUserInfoInFirebaseAndChangeState = (
+    id,
+    userFirstName,
+    userEmail
+  ) => {
+    setUserEmail(userEmail);
+    setUserFirstName(userFirstName);
+    console.log(user.userFirstName);
+    debugger;
+    setUserId(id);
+    changeIsLoggedIn();
+    firebase
+      .database()
+      .ref("users/" + id)
+      .set({
+        userEmail,
+        userImgUrl: "",
+        userFirstName
+      });
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -40,7 +64,8 @@ const UserContextProvider = props => {
         changeIsLoggedIn,
         setUserId,
         setUserPicture,
-        setInitialStateAfterLogout
+        setInitialStateAfterLogout,
+        createNewUserInfoInFirebaseAndChangeState
       }}
     >
       {props.children}
