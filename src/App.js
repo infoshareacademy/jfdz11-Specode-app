@@ -5,8 +5,6 @@ import { DashBoard, ProfilePage, LandingPage, Login, SignUp } from "./scenes";
 import styles from "./App.css";
 import Navigation from "./components/Navigation/Navigation";
 import { UserContext } from "./contexts/userContext";
-import UserContextProvider from "./contexts/userContext";
-import MealsContextProvider from "./contexts/mealsContext";
 
 import {
   Route,
