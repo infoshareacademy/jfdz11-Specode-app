@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import * as styles from "./Navigation.module.css";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import HomeRounded from "@material-ui/icons/HomeRounded";
@@ -9,7 +9,12 @@ const Navigation = props => {
     changeIsLoggedIn,
     user: { isLoggedIn, userFirstName }
   } = useContext(UserContext);
-  console.log(userFirstName); //// coś nie działa
+
+  // useEffect(() => {
+  //   a, [];
+  // });
+  // console.log(userFirstName); //// coś nie działa
+
   const { navigation, userPhoto, navLink } = styles;
   return (
     <nav id={navigation}>

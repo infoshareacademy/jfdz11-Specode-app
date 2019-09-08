@@ -17,9 +17,15 @@ const MealsContextProvider = props => {
     commonMealsForAll: [],
     concatedCommonAndCustom: []
   });
-
+  useEffect(() => {
+    console.log(meals.commonMealsForAll);
+  }, [meals.commonMealsForAll]);
+  useEffect(() => {
+    console.log(meals);
+  }, [meals]);
   useEffect(
     userId => {
+      console.log("schehduled meals updated");
       let userScheduledMealsArray = meals.userScheduledMealsArray;
 
       firebase
@@ -34,6 +40,7 @@ const MealsContextProvider = props => {
 
   useEffect(
     userId => {
+      console.log("custom meals updated");
       let userCustomMealsArray = meals.userCustomMealsArray;
       firebase
         .database()
@@ -57,10 +64,11 @@ const MealsContextProvider = props => {
         setMeals({ ...meals, userCustomMealsArray: customMealsFirebase });
       });
   };
-  const setUserScheduledMealsArray = () => {
+  const setUserScheduledMealsArray = id => {
+    console.log(JSON.stringify(meals));
     firebase
       .database()
-      .ref("scheduledMeals/" + userId)
+      .ref("scheduledMeals/" + id)
       .on("value", snapshot => {
         const scheduledMealsSnapshot = snapshot.val() || [];
         let scheduledUserMealsFirebase = Object.entries(
@@ -76,6 +84,23 @@ const MealsContextProvider = props => {
           ...meals,
           userScheduledMealsArray: scheduledUserMealsFirebase
         });
+
+        debugger;
+        console.log("funkcja set user scheduled odpalona");
+      });
+  };
+  const setCommonMealsFromFirebase = () => {
+    firebase
+      .database()
+      .ref("mealsArray")
+      .on("value", snapshot => {
+        let commonMeals = snapshot.val();
+        let commonMealsArr = Object.values(commonMeals).map(element => {
+          return { ...element };
+        });
+        setMeals({ ...meals, commonMealsForAll: commonMealsArr });
+        debugger;
+        console.log("funkcja set common meals odpalona");
       });
   };
 
@@ -97,27 +122,16 @@ const MealsContextProvider = props => {
     });
   };
 
-  const setCommonMealsFromFirebase = () => {
-    firebase
-      .database()
-      .ref("mealsArray")
-      .on("value", snapshot => {
-        let commonMeals = snapshot.val();
-        let commonMealsArr = Object.values(commonMeals).map(element => {
-          return { ...element };
-        });
-        setMeals({ ...meals, commonMealsForAll: commonMealsArr });
-      });
-  };
-
   const setConcatedArray = () => {
-    setMeals({
-      ...meals,
-      concatedCommonAndCustom: [
-        ...meals.commonMealsArr,
-        ...meals.userCustomMealsArray
-      ]
-    });
+    console.log(meals.commonMealsForAll);
+    console.log(meals.userCustomMealsArray);
+    // setMeals({
+    //   ...meals,
+    //   concatedCommonAndCustom: [
+    //     ...meals.commonMealsArr,
+    //     ...meals.userCustomMealsArray
+    //   ]
+    // });
   };
 
   return (

@@ -44,9 +44,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignIn = props => {
-  const { setUserId, setUserFirstName, changeIsLoggedIn } = useContext(
-    UserContext
-  );
+  const { setUserId, setUserEmail, changeIsLoggedIn } = useContext(UserContext);
   const {
     setUserCustomMeals,
     setUserScheduledMealsArray,
@@ -66,11 +64,11 @@ const SignIn = props => {
         firebase.auth().onAuthStateChanged(user => {
           if (user) {
             setUserId(user.uid);
-            setUserFirstName(emailValue);
+            setUserEmail(emailValue);
             setCommonMealsFromFirebase();
-            setUserScheduledMealsArray();
-            setUserCustomMeals();
-            setConcatedArray();
+            setUserScheduledMealsArray(user.uid);
+            // setUserCustomMeals();
+            // setConcatedArray();
             changeIsLoggedIn();
           }
         });

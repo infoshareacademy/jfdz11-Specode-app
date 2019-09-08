@@ -23,9 +23,11 @@ const UserContextProvider = props => {
   };
   const setUserId = id => {
     setUser({ ...user, userId: id });
+    console.log(id + "user id set");
   };
   const setUserFirstName = userName => {
     setUser({ ...user, userFirstName: userName });
+    console.log(userName + "user name set");
   };
   const setUserPicture = url => {
     setUser({ ...user, userPicture: url });
@@ -42,7 +44,7 @@ const UserContextProvider = props => {
     setUserEmail(userEmail);
     setUserFirstName(userFirstName);
     console.log(user.userFirstName);
-    debugger;
+
     setUserId(id);
     changeIsLoggedIn();
     firebase
