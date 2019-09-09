@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import { NavLink } from "react-router-dom";
@@ -13,6 +13,8 @@ import Container from "@material-ui/core/Container";
 import * as styles from "./SignUp.module.css";
 import * as firebase from "firebase";
 import { withRouter } from "react-router-dom";
+import { UserContext } from "../../contexts/userContext";
+
 let { navLink } = styles;
 
 const useStyles = makeStyles(theme => ({
@@ -41,56 +43,29 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignUp = props => {
+  const { createNewUserInfoInFirebaseAndChangeState } = useContext(UserContext);
   const classes = useStyles();
   let [emailValue, changeEmailValue] = useState();
   let [passwordValue, changePasswordValue] = useState();
   let [nameValue, changeNameValue] = useState();
   const auth = firebase.auth();
 
-  let setEmail = e => props.setEmailState(e);
-  let setId = e => props.setIdState(e);
-  let setUserName = e => props.setUserNameState(e);
-  let changeLoginState = () => props.changeIsLoggedInState();
-
-  const createNewUserInfoInFireBase = res => {
-    firebase
-      .database()
-      .ref("users/" + res.user.uid)
-      .set({
-        userEmail: res.user.email,
-        userImgUrl: "",
-        userFirstName: nameValue
-      });
-  };
-
-  // const createNewUserScheduledMealsInFireBase = res => {
-  //   firebase
-  //     .database()
-  //     .ref("scheduledMeals/" + res.user.uid)
-  //     .set({
-  //       customMealsObj: null
-  //     });
-  // };
-  const setStateInParentComp = (res, emailValue) => {
-    setEmail(emailValue);
-    setId(res.user.uid);
-    setUserName(nameValue);
-    changeLoginState();
-    props.history.push("/dashboard");
-  };
   const signUpFunction = (emailValue, passwordValue, nameValue) => {
     auth
       .createUserWithEmailAndPassword(emailValue, passwordValue)
       .then(res => {
-        createNewUserInfoInFireBase(res);
-        return res;
+        createNewUserInfoInFirebaseAndChangeState(
+          res.user.uid,
+          nameValue,
+          emailValue
+        );
       })
-      .then(res => {
-        window.alert("Zarejestrowano pomyślnie ");
-        setStateInParentComp(res, emailValue, nameValue);
+      .then(() => {
+        props.history.push("./dashboard");
+        window.alert("Zarejestrowano pomyślnie " + nameValue);
       })
-      .catch(e => {
-        alert(e.message);
+      .catch(error => {
+        alert(error.message);
       });
   };
 

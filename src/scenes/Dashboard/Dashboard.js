@@ -1,20 +1,14 @@
 import React, { Fragment } from "react";
 import { MyCalendar } from "../../components";
+import DateContextProvider from "../../contexts/dateContext";
 
 function DashBoard(props) {
   return (
-    <Fragment>
-      <MyCalendar
-        mealsArray={props.mealsArray}
-        updateMealId={props.updateMealId}
-        newMealId={props.newMealId}
-        addMealToSchedule={props.addMealToSchedule}
-        addToMealsArray={props.addToMealsArray}
-        setDate={props.setDate}
-        dateProps={props.dateProps}
-        scheduledMealsArray={props.scheduledMealsArray}
-      />
-    </Fragment>
+    <DateContextProvider>
+      <Fragment>
+        <MyCalendar />
+      </Fragment>
+    </DateContextProvider>
   );
 }
 
