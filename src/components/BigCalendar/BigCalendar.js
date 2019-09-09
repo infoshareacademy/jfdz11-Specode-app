@@ -47,7 +47,7 @@ const MyCalendar = props => {
         }}
       />
       <Modal open={isModalOpen}>
-        <DayView />
+        <DayView setModalOpenState={setModalOpenState} />
       </Modal>
     </div>
   );
