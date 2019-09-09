@@ -10,14 +10,12 @@ import { DateContext } from "../../contexts/dateContext";
 const localizer = BigCalendar.momentLocalizer(moment);
 
 const MyCalendar = props => {
-  const {
-    meals: { userScheduledMealsArray }
-  } = useContext(MealsContext);
+  const { userScheduledMeals } = useContext(MealsContext);
   const { changeDate, date } = useContext(DateContext);
   const [isModalOpen, setModalOpenState] = useState(false);
 
   const prepareScheduledMealsForCalendar = () => {
-    const events = userScheduledMealsArray.map(scheduledMeal => {
+    const events = userScheduledMeals.map(scheduledMeal => {
       return {
         title: scheduledMeal.type,
         start: scheduledMeal.date,

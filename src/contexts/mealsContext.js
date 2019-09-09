@@ -11,37 +11,49 @@ const MealsContextProvider = props => {
   const {
     user: { userId }
   } = useContext(UserContext);
-  const [meals, setMeals] = useState({
-    userCustomMealsArray: [],
-    userScheduledMealsArray: [],
-    commonMealsForAll: [],
-    concatedCommonAndCustom: []
-  });
+
+  const [userCustomMealsArray, setUserCustomMealsArray] = useState([]);
+  const [userScheduledMeals, setUserScheduledMeals] = useState([]);
+  const [commonMealsForAll, setCommonMealsForAll] = useState([]);
+  const [concatedCommonAndCustom, setConcatedCommonAndCustom] = useState([]);
+
   useEffect(() => {
-    console.log(meals.commonMealsForAll);
-  }, [meals.commonMealsForAll]);
-  useEffect(() => {
-    console.log(meals);
-  }, [meals]);
+    console.log(commonMealsForAll);
+    console.log("common for all ^^");
+    console.log(concatedCommonAndCustom);
+    console.log("concated ^^");
+    console.log(userScheduledMeals);
+    console.log("scheduled meals ^^");
+    console.log(userCustomMealsArray);
+    console.log("custom meals ^^");
+  }, [
+    commonMealsForAll,
+    concatedCommonAndCustom,
+    userScheduledMeals,
+    userCustomMealsArray
+  ]);
+
   useEffect(
     userId => {
-      console.log("schehduled meals updated");
-      let userScheduledMealsArray = meals.userScheduledMealsArray;
+      console.log(userScheduledMeals);
+      console.log("scheduled meals ^^");
 
       firebase
         .database()
-        .ref("scheduledMeals/" + userId)
+        .ref("scheduledMeals/" + userId) ///po pierwszym pobraniu nie powinno ustawiac tego samego
         .set({
-          userScheduledMealsArray
+          userScheduledMeals
         });
     },
-    [meals.userScheduledMealsArray]
+    [userScheduledMeals]
   );
 
   useEffect(
     userId => {
-      console.log("custom meals updated");
-      let userCustomMealsArray = meals.userCustomMealsArray;
+      console.log(userCustomMealsArray);
+      console.log("custom meals ^^");
+      setConcatedArray();
+
       firebase
         .database()
         .ref("customMeals/" + userId)
@@ -49,10 +61,10 @@ const MealsContextProvider = props => {
           userCustomMealsArray
         });
     },
-    [meals.userCustomMealsArray]
+    [userCustomMealsArray]
   );
 
-  const setUserCustomMeals = () => {
+  const setUserCustomMeals = userId => {
     firebase
       .database()
       .ref("customMeals/" + userId)
@@ -61,11 +73,10 @@ const MealsContextProvider = props => {
         let customMealsFirebase = Object.values(mealsListObject).map(entry => {
           return { ...entry };
         });
-        setMeals({ ...meals, userCustomMealsArray: customMealsFirebase });
+        setUserCustomMealsArray([...customMealsFirebase]);
       });
   };
   const setUserScheduledMealsArray = id => {
-    console.log(JSON.stringify(meals));
     firebase
       .database()
       .ref("scheduledMeals/" + id)
@@ -80,13 +91,7 @@ const MealsContextProvider = props => {
             id
           };
         });
-        setMeals({
-          ...meals,
-          userScheduledMealsArray: scheduledUserMealsFirebase
-        });
-
-        debugger;
-        console.log("funkcja set user scheduled odpalona");
+        setUserScheduledMeals([...scheduledUserMealsFirebase]);
       });
   };
   const setCommonMealsFromFirebase = () => {
@@ -98,9 +103,7 @@ const MealsContextProvider = props => {
         let commonMealsArr = Object.values(commonMeals).map(element => {
           return { ...element };
         });
-        setMeals({ ...meals, commonMealsForAll: commonMealsArr });
-        debugger;
-        console.log("funkcja set common meals odpalona");
+        setCommonMealsForAll([...commonMealsArr]);
       });
   };
 
@@ -109,35 +112,23 @@ const MealsContextProvider = props => {
       ...mealObjectToSchedule,
       date: mealObjectToSchedule.date.toDate().toISOString()
     };
-    setMeals({
-      ...meals,
-      userScheduledMealsArray: [...meals.userScheduledMealsArray, mealWithDate]
-    });
+    setUserScheduledMeals([...userScheduledMeals, mealWithDate]);
   };
 
   const addMealToCustom = mealObjectToCustom => {
-    setMeals({
-      ...meals,
-      userCustomMealsArray: [...meals.userCustomMealsArray, mealObjectToCustom]
-    });
+    setUserCustomMealsArray([...userCustomMealsArray, mealObjectToCustom]);
   };
 
   const setConcatedArray = () => {
-    console.log(meals.commonMealsForAll);
-    console.log(meals.userCustomMealsArray);
-    // setMeals({
-    //   ...meals,
-    //   concatedCommonAndCustom: [
-    //     ...meals.commonMealsArr,
-    //     ...meals.userCustomMealsArray
-    //   ]
-    // });
+    setConcatedCommonAndCustom([...commonMealsForAll, ...userCustomMealsArray]);
   };
 
   return (
     <MealsContext.Provider
       value={{
-        meals,
+        userCustomMealsArray,
+        userScheduledMeals,
+        concatedCommonAndCustom,
         setCommonMealsFromFirebase,
         addMealToCustom,
         addMealToSchedule,

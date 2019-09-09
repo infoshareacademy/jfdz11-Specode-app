@@ -67,7 +67,7 @@ const SignIn = props => {
             setUserEmail(emailValue);
             setCommonMealsFromFirebase();
             setUserScheduledMealsArray(user.uid);
-            // setUserCustomMeals();
+            setUserCustomMeals();
             // setConcatedArray();
             changeIsLoggedIn();
           }
