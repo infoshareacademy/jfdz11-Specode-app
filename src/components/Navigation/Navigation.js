@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import * as styles from "./Navigation.module.css";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import HomeRounded from "@material-ui/icons/HomeRounded";
 import { NavLink } from "react-router-dom";
+import { UserContext } from "../../contexts/userContext";
 const Navigation = props => {
+  const {
+    changeIsLoggedIn,
+    user: { isLoggedIn, userFirstName }
+  } = useContext(UserContext);
+
+  // useEffect(() => {
+  //   a, [];
+  // });
+  // console.log(userFirstName); //// coś nie działa
+
   const { navigation, userPhoto, navLink } = styles;
   return (
     <nav id={navigation}>
@@ -23,10 +34,8 @@ const Navigation = props => {
           </div>
         }
       </li>
-      <li>{`Witaj ${
-        props.isLoggedIn ? props.userFirstName : "użytkowniku!"
-      }`}</li>
-      {props.isLoggedIn ? (
+      <li>{`Witaj ${isLoggedIn ? userFirstName : "użytkowniku!"}`}</li>
+      {isLoggedIn ? (
         <li>
           <NavLink className={navLink} exact to="/dashboard">
             <HomeRounded />
@@ -34,7 +43,7 @@ const Navigation = props => {
         </li>
       ) : null}
       <li>
-        {props.isLoggedIn ? (
+        {isLoggedIn ? (
           <NavLink className={navLink} exact to="/profile">
             Profil
           </NavLink>
@@ -45,10 +54,10 @@ const Navigation = props => {
         )}
       </li>
       <li>
-        {props.isLoggedIn ? (
+        {isLoggedIn ? (
           <NavLink
             className={navLink}
-            onClick={(props.changeIsLoggedInState, props.logOutChangeState)}
+            onClick={changeIsLoggedIn}
             exact
             to="/login"
           >

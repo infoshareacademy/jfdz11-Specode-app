@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Select from "react-select";
 import styles from "./MealsSearch.module.css";
+import { MealsContext } from "../../contexts/mealsContext";
 
 const { selectWrapper } = styles;
 
-export default function MealsSearch(props) {
-  let userCustomMeals = props.mealsArray;
-  let localStorageMealsToArray = Object.values(userCustomMeals);
-  let mapWithLabelAtt = localStorageMealsToArray.map(obj => {
+const MealsSearch = props => {
+  const { concatedCommonAndCustom } = useContext(MealsContext);
+
+  let concatedMealsToArray = Object.values(concatedCommonAndCustom);
+  let mapWithLabelAtt = concatedMealsToArray.map(obj => {
     obj.label = obj.name;
     return obj;
   });
@@ -61,4 +63,6 @@ export default function MealsSearch(props) {
       />
     </span>
   );
-}
+};
+
+export default MealsSearch;
