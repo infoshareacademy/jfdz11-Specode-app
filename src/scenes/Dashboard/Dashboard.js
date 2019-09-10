@@ -1,8 +1,10 @@
 import React, { Fragment } from "react";
 import { MyCalendar } from "../../components";
+import DateContextProvider from "../../contexts/dateContext";
 
 function DashBoard(props) {
   return (
+<<<<<<< HEAD
     <Fragment>
       {props.getAvatarUrl}
       <MyCalendar
@@ -16,6 +18,13 @@ function DashBoard(props) {
         scheduledMealsArray={props.scheduledMealsArray}
       />
     </Fragment>
+=======
+    <DateContextProvider>
+      <Fragment>
+        <MyCalendar />
+      </Fragment>
+    </DateContextProvider>
+>>>>>>> MarcinJarowskiFirebase
   );
 }
 

@@ -4,8 +4,16 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "./firebase";
-
-ReactDOM.render(<App />, document.getElementById("root"));
+import UserContextProvider from "./contexts/userContext";
+import MealsContextProvider from "./contexts/mealsContext";
+ReactDOM.render(
+  <UserContextProvider>
+    <MealsContextProvider>
+      <App />
+    </MealsContextProvider>
+  </UserContextProvider>,
+  document.getElementById("root")
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

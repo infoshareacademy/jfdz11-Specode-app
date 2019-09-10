@@ -28,21 +28,11 @@ function DayView(props) {
         />
       </span>
       <span className={dayNav}>
-        <DayAndCaloriesNav
-          setDate={props.setDate}
-          dateProps={props.dateProps}
-        />
+        <DayAndCaloriesNav />
       </span>
       <div className={dayViewComponents}>
         <div className={mealFormWrapper}>
-          <MealForm
-            dateProps={props.dateProps}
-            addMealToSchedule={props.addMealToSchedule}
-            updateMealId={props.updateMealId}
-            newMealId={props.newMealId}
-            addToMealsArray={props.addToMealsArray}
-            mealsArray={props.mealsArray}
-          />
+          <MealForm />
         </div>
       </div>
     </div>

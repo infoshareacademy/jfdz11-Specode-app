@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./DayAndCaloriesNav.module.css";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@material-ui/icons";
+import { DateContext } from "../../contexts/dateContext";
 
 import "moment/locale/pl";
 
@@ -14,8 +15,7 @@ const {
 } = styles;
 
 function DayAndCaloriesNav(props) {
-  const { setDate, dateProps } = props;
-
+  const { date, changeDate } = useContext(DateContext);
   // console.log(dateProps);
   return (
     <div className={mainContainer}>
@@ -24,15 +24,15 @@ function DayAndCaloriesNav(props) {
           fontSize="large"
           color="inherit"
           onClick={() => {
-            let prevDate = dateProps.clone().subtract(1, "days");
-            setDate(prevDate);
+            let prevDate = date.clone().subtract(1, "days");
+            changeDate(prevDate);
           }}
         />
       </span>
       <span className={dateAndCaloriesBox}>
         <span className={selectedDay}>
-          <span>{dateProps.format("dddd")}</span>
-          <span>{dateProps.format("ll")}</span>
+          <span>{date.format("dddd")}</span>
+          <span>{date.format("ll")}</span>
         </span>
         <span className={caloriesBox}>kcal</span>
       </span>
@@ -41,8 +41,8 @@ function DayAndCaloriesNav(props) {
           fontSize="large"
           color="inherit"
           onClick={() => {
-            let nextDate = dateProps.clone().add(1, "days");
-            setDate(nextDate);
+            let nextDate = date.clone().add(1, "days");
+            changeDate(nextDate);
           }}
         />
       </span>

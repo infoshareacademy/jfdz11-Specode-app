@@ -23,7 +23,11 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "react-select": "^3.0.4",
+<<<<<<< HEAD
     "redux": "^4.0.4"
+=======
+    "uuid": "^3.3.3"
+>>>>>>> MarcinJarowskiFirebase
   },
   "scripts": {
     "start": "react-scripts start",

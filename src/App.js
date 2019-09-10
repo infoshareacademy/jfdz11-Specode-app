@@ -1,13 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./App.css";
-import { DashBoard, ProfilePage, LandingPage } from "./scenes";
-import moment from "moment";
+import { DashBoard, ProfilePage, LandingPage, Login, SignUp } from "./scenes";
 import styles from "./App.css";
-import * as firebase from "firebase";
-import Login from "./scenes/Login/Login";
-import SignUp from "./scenes/SignUp/SignUp";
 import Navigation from "./components/Navigation/Navigation";
+import { UserContext } from "./contexts/userContext";
 
 import {
   Route,
@@ -19,6 +16,7 @@ import { CreateNewFolderOutlined } from "@material-ui/icons";
 
 const { appWrapper } = styles;
 
+<<<<<<< HEAD
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -317,5 +315,43 @@ class App extends React.Component {
     );
   }
 }
+=======
+const App = props => {
+  const {
+    user: { isLoggedIn }
+  } = useContext(UserContext);
+  return (
+    <Router>
+      <div className={appWrapper}>
+        <Navigation />
+        <Switch>
+          <Route exact path="/landing-page">
+            <LandingPage />
+          </Route>
+          <Route exact path="/dashboard">
+            <DashBoard />
+          </Route>
+          <Route exact path="/login">
+            <Login />
+          </Route>
+          <Route exact path="/sign-up">
+            <SignUp />
+          </Route>
+          <Route exact path="/profile">
+            <ProfilePage />
+          </Route>
+        </Switch>
+        <React.Fragment>
+          {isLoggedIn === false ? ( ///get context if logged in
+            <Redirect exact from="/" to="/landing-page" />
+          ) : (
+            <Redirect exact from="/" to="/dashboard" />
+          )}
+        </React.Fragment>
+      </div>
+    </Router>
+  );
+};
+>>>>>>> MarcinJarowskiFirebase
 
 export default App;
