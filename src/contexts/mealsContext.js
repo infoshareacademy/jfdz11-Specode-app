@@ -8,35 +8,33 @@ import * as firebase from "firebase";
 export const MealsContext = createContext();
 
 const MealsContextProvider = props => {
-  const {
-    user: { userId }
-  } = useContext(UserContext);
+  const { userId } = useContext(UserContext);
 
   const [userCustomMealsArray, setUserCustomMealsArray] = useState([]);
   const [userScheduledMeals, setUserScheduledMeals] = useState([]);
   const [commonMealsForAll, setCommonMealsForAll] = useState([]);
   const [concatedCommonAndCustom, setConcatedCommonAndCustom] = useState([]);
 
-  useEffect(() => {
-    console.log(commonMealsForAll);
-    console.log("common for all ^^");
-    console.log(concatedCommonAndCustom);
-    console.log("concated ^^");
-    console.log(userScheduledMeals);
-    console.log("scheduled meals ^^");
-    console.log(userCustomMealsArray);
-    console.log("custom meals ^^");
-  }, [
-    commonMealsForAll,
-    concatedCommonAndCustom,
-    userScheduledMeals,
-    userCustomMealsArray
-  ]);
+  // useEffect(() => {
+  //   console.log(commonMealsForAll);
+  //   console.log("common for all ^^");
+  //   console.log(concatedCommonAndCustom);
+  //   console.log("concated ^^");
+  //   console.log(userScheduledMeals);
+  //   console.log("scheduled meals ^^");
+  //   console.log(userCustomMealsArray);
+  //   console.log("custom meals ^^");
+  // }, [
+  //   commonMealsForAll,
+  //   concatedCommonAndCustom,
+  //   userScheduledMeals,
+  //   userCustomMealsArray
+  // ]);
 
   useEffect(
     userId => {
-      console.log(userScheduledMeals);
-      console.log("scheduled meals ^^");
+      // console.log(userScheduledMeals);
+      // console.log("scheduled meals ^^");
 
       firebase
         .database()
@@ -50,8 +48,8 @@ const MealsContextProvider = props => {
 
   useEffect(
     userId => {
-      console.log(userCustomMealsArray);
-      console.log("custom meals ^^");
+      // console.log(userCustomMealsArray);
+      // console.log("custom meals ^^");
       setConcatedArray();
 
       firebase

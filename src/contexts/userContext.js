@@ -4,36 +4,33 @@ import firebase from "firebase";
 export const UserContext = createContext();
 
 const UserContextProvider = props => {
-  let initialState = {
-    userEmailValue: "",
-    isLoggedIn: false,
-    userId: "",
-    userFirstName: "",
-    userPicture: null
-  };
-  const [user, setUser] = useState(initialState);
+  const [userEmailValue, setUserEmailValue] = useState("");
+  const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
+  const [userId, setUserNewId] = useState("");
+  const [userFirstName, setUserFirstNameValue] = useState("");
+  const [userPicture, setUserPictureUrl] = useState(null);
 
   const setUserEmail = email => {
-    setUser({ ...user, userEmailValue: email });
+    setUserEmailValue(email);
   };
   const changeIsLoggedIn = () => {
-    user.isLoggedIn
-      ? setUser(initialState)
-      : setUser({ ...user, isLoggedIn: !user.isLoggedIn });
+    setUserIsLoggedIn(!userIsLoggedIn);
   };
   const setUserId = id => {
-    setUser({ ...user, userId: id });
-    console.log(id + "user id set");
+    setUserNewId(id);
   };
   const setUserFirstName = userName => {
-    setUser({ ...user, userFirstName: userName });
-    console.log(userName + "user name set");
+    setUserFirstNameValue(userName);
   };
   const setUserPicture = url => {
-    setUser({ ...user, userPicture: url });
+    setUserPictureUrl(url);
   };
   const setInitialStateAfterLogout = () => {
-    setUser(initialState);
+    setUserEmail("");
+    setUserFirstName("");
+    setUserPicture("");
+    setUserId("");
+    setUserIsLoggedIn(false);
   };
 
   const createNewUserInfoInFirebaseAndChangeState = (
@@ -43,8 +40,6 @@ const UserContextProvider = props => {
   ) => {
     setUserEmail(userEmail);
     setUserFirstName(userFirstName);
-    console.log(user.userFirstName);
-
     setUserId(id);
     changeIsLoggedIn();
     firebase
@@ -54,20 +49,44 @@ const UserContextProvider = props => {
         userEmail,
         userImgUrl: "",
         userFirstName
+      })
+      .then(() => {
+        console.log("user data update successful");
+      })
+      .catch(() => {
+        console.log("user data update failed");
+      });
+  };
+
+  const updateDisplayName = name => {
+    let user = firebase.auth().currentUser;
+    user
+      .updateProfile({
+        displayName: name
+      })
+      .then(() => {
+        console.log("name update successful");
+      })
+      .catch(() => {
+        console.log("name update failed");
       });
   };
 
   return (
     <UserContext.Provider
       value={{
-        user,
+        userId,
+        userFirstName,
+        userEmailValue,
+        userIsLoggedIn,
         setUserEmail,
         setUserFirstName,
         changeIsLoggedIn,
         setUserId,
         setUserPicture,
         setInitialStateAfterLogout,
-        createNewUserInfoInFirebaseAndChangeState
+        createNewUserInfoInFirebaseAndChangeState,
+        updateDisplayName
       }}
     >
       {props.children}

@@ -7,9 +7,9 @@ import { UserContext } from "../../contexts/userContext";
 const Navigation = props => {
   const {
     changeIsLoggedIn,
-    user: { isLoggedIn, userFirstName }
+    userIsLoggedIn: isLoggedIn,
+    userFirstName
   } = useContext(UserContext);
-
   const { navLoggedIn, navLoggedOut, navLink } = styles;
   let navId = isLoggedIn ? navLoggedIn : navLoggedOut;
   return (

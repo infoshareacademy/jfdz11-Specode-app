@@ -43,7 +43,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignUp = props => {
-  const { createNewUserInfoInFirebaseAndChangeState } = useContext(UserContext);
+  const {
+    createNewUserInfoInFirebaseAndChangeState,
+    updateDisplayName,
+    setUserFirstName
+  } = useContext(UserContext);
   const classes = useStyles();
   let [emailValue, changeEmailValue] = useState();
   let [passwordValue, changePasswordValue] = useState();
@@ -59,6 +63,8 @@ const SignUp = props => {
           nameValue,
           emailValue
         );
+        setUserFirstName(nameValue);
+        updateDisplayName(nameValue);
       })
       .then(() => {
         props.history.push("./dashboard");
