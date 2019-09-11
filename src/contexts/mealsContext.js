@@ -8,9 +8,7 @@ import * as firebase from "firebase";
 export const MealsContext = createContext();
 
 const MealsContextProvider = props => {
-  const {
-    user: { userId }
-  } = useContext(UserContext);
+  const { userId } = useContext(UserContext);
 
   const [userCustomMealsArray, setUserCustomMealsArray] = useState([]);
   const [userScheduledMeals, setUserScheduledMeals] = useState([]);
@@ -38,12 +36,12 @@ const MealsContextProvider = props => {
       console.log(userScheduledMeals);
       console.log("scheduled meals ^^");
 
-      firebase
-        .database()
-        .ref("scheduledMeals/" + userId) ///po pierwszym pobraniu nie powinno ustawiac tego samego
-        .set({
-          userScheduledMeals
-        });
+      // firebase
+      //   .database()
+      //   .ref("scheduledMeals/" + userId) ///po pierwszym pobraniu nie powinno ustawiac tego samego
+      //   .set({
+      //     userScheduledMeals
+      //   });
     },
     [userScheduledMeals]
   );
@@ -54,12 +52,12 @@ const MealsContextProvider = props => {
       console.log("custom meals ^^");
       setConcatedArray();
 
-      firebase
-        .database()
-        .ref("customMeals/" + userId)
-        .set({
-          userCustomMealsArray
-        });
+      // firebase
+      //   .database()
+      //   .ref("customMeals/" + userId)
+      //   .set({
+      //     userCustomMealsArray
+      //   });
     },
     [userCustomMealsArray]
   );
@@ -116,7 +114,8 @@ const MealsContextProvider = props => {
   };
 
   const addMealToCustom = mealObjectToCustom => {
-    setUserCustomMealsArray([...userCustomMealsArray, mealObjectToCustom]);
+    let { date, ...mealWithoutDate } = mealObjectToCustom;
+    setUserCustomMealsArray([...userCustomMealsArray, mealWithoutDate]);
   };
 
   const setConcatedArray = () => {

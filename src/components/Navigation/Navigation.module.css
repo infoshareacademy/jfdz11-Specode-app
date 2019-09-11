@@ -1,35 +1,31 @@
-#navigation {
+#navLoggedOut,
+#navLoggedIn {
   box-sizing: border-box;
   display: flex;
-  border: 2px solid #fff;
-  grid-template-columns: 10% 45% 15% 15% 15%;
+  flex-direction: row;
+  border: 1px solid #fff;
   list-style: none;
   height: 9vh;
   text-align: center;
 }
-#navigation li {
+
+#navLoggedOut li,
+#navLoggedIn li {
   color: #fff;
   margin: auto;
-}
-#navigation li:first-child {
-  margin: auto 20px;
-}
-#navigation li button {
   padding: 10px;
-  border: none;
-  background-color: inherit;
-  color: inherit;
 }
-#navigation li button:hover {
-  cursor: pointer;
-  opacity: 0.8;
+#navLoggedOut li:first-child,
+#navLoggedIn li:first-child {
+  margin: auto 20px;
 }
 .navLink {
   text-decoration: none;
   color: inherit;
+  /* transition: all 0.2s ease-in-out; */
 }
 .navLink:hover {
   cursor: pointer;
-  opacity: 0.8;
-  border-bottom: 1px solid rgb(179, 255, 179);
+  text-shadow: 1px 1px 1px #fff;
 }
+

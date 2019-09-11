@@ -317,9 +317,7 @@ class App extends React.Component {
 }
 =======
 const App = props => {
-  const {
-    user: { isLoggedIn }
-  } = useContext(UserContext);
+  const { userIsLoggedIn } = useContext(UserContext);
   return (
     <Router>
       <div className={appWrapper}>
@@ -342,7 +340,7 @@ const App = props => {
           </Route>
         </Switch>
         <React.Fragment>
-          {isLoggedIn === false ? ( ///get context if logged in
+          {userIsLoggedIn === false ? ( ///get context if logged in
             <Redirect exact from="/" to="/landing-page" />
           ) : (
             <Redirect exact from="/" to="/dashboard" />

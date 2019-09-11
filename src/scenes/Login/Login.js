@@ -44,7 +44,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignIn = props => {
-  const { setUserId, setUserEmail, changeIsLoggedIn } = useContext(UserContext);
+  const {
+    setUserId,
+    setUserEmail,
+    changeIsLoggedIn,
+    setUserFirstName
+  } = useContext(UserContext);
   const {
     setUserCustomMeals,
     setUserScheduledMealsArray,
@@ -65,6 +70,7 @@ const SignIn = props => {
           if (user) {
             setUserId(user.uid);
             setUserEmail(emailValue);
+            setUserFirstName(user.displayName);
             setCommonMealsFromFirebase();
             setUserScheduledMealsArray(user.uid);
             setUserCustomMeals();
@@ -79,7 +85,7 @@ const SignIn = props => {
       })
       .catch(e => {
         alert(e.message);
-        console.log(e);
+        console.log(e.message);
       });
   };
   return (
@@ -125,7 +131,6 @@ const SignIn = props => {
             className={classes.submit}
             onClick={event => {
               event.preventDefault();
-              console.log(emailValue, passwordValue);
               signInFunction(emailValue, passwordValue);
             }}
           >
