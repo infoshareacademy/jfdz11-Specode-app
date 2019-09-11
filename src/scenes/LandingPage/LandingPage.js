@@ -7,7 +7,7 @@ const LandingPage = props => {
 
   return (
     <div className={landingPageWrapper}>
-      <h1 className={header}>OHHHH DAWAJ REJESTRUJ SIĘ I OBCZAJ TĘ SZAMKĘ</h1>
+      <h1 className={header}>Przejmij kontrolę nad swoim ciałem, śledź kalorię i dobieraj posiłki razem z nami! Bądź zmotywowany!</h1>
     </div>
   );
 };

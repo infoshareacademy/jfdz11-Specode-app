@@ -3,6 +3,9 @@ import * as styles from "./Navigation.module.css";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import HomeRounded from "@material-ui/icons/HomeRounded";
 import { NavLink } from "react-router-dom";
+import Avatar from "@material-ui/core/Avatar";
+import avatarPlaceholder from "../../scenes/ProfilePage/avatar-placeholder.jpg";
+
 import { UserContext } from "../../contexts/userContext";
 const Navigation = props => {
   const {
