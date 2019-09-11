@@ -10,29 +10,12 @@ const Navigation = props => {
     user: { isLoggedIn, userFirstName }
   } = useContext(UserContext);
 
-  // useEffect(() => {
-  //   a, [];
-  // });
-  // console.log(userFirstName); //// coś nie działa
-
-  const { navigation, userPhoto, navLink } = styles;
+  const { navLoggedIn, navLoggedOut, navLink } = styles;
+  let navId = isLoggedIn ? navLoggedIn : navLoggedOut;
   return (
-    <nav id={navigation}>
+    <nav id={navId}>
       <li>
-        {
-          <div
-            className={userPhoto}
-            style={{
-              width: "40px",
-              height: "40px",
-              backgroundColor: "inherit"
-            }}
-          >
-            <span style={{ margin: "auto" }}>
-              <AccountCircle fontSize="large" />
-            </span>
-          </div>
-        }
+        <AccountCircle fontSize="large" />
       </li>
       <li>{`Witaj ${isLoggedIn ? userFirstName : "użytkowniku!"}`}</li>
       {isLoggedIn ? (
