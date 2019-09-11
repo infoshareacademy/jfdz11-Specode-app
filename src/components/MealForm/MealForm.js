@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import MealsSearch from "../MealsSearch/MealsSearch";
+import { MealsContext } from "../../contexts/mealsContext";
+import { DateContext } from "../../contexts/dateContext";
+import uuid from "uuid";
 import {
   formContainer,
   chooseMealType,
@@ -8,97 +11,59 @@ import {
   submit
 } from "./MealForm.module.css";
 
-class MealForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectValue: "śniadanie",
-      inputValueOne: "",
-      inputValueTwo: "",
-      selectedMeal: null
-    };
-  }
+const MealForm = () => {
+  const { addMealToSchedule, addMealToCustom } = useContext(MealsContext);
+  const { date } = useContext(DateContext);
+  const [mealName, setMealName] = useState("");
+  const [mealKcal, setMealKcal] = useState("");
+  const [mealType, setMealType] = useState("śniadanie");
 
-  handleChangeOne = event => {
-    this.setState({ inputValueOne: event.target.value });
-  };
-  handleChangeTwo = event => {
-    this.setState({ inputValueTwo: event.target.value });
-  };
-  handleChangeSelect = event => {
-    this.setState({ selectValue: event.target.value });
-  };
-
-  createMeal = event => {
+  const createMeal = event => {
     const meal = {
-      name: this.state.inputValueOne,
-      calories: this.state.inputValueTwo,
-      type: this.state.selectValue,
-      id: this.props.newMealId,
-      date: this.props.dateProps
+      name: mealName,
+      calories: mealKcal,
+      type: mealType,
+      id: uuid(),
+      date
     };
     event.preventDefault();
-    this.props.addToMealsArray(meal);
-    this.props.addMealToSchedule(meal);
-    this.props.updateMealId();
+    addMealToSchedule(meal);
+    addMealToCustom(meal);
+    setMealType("");
+    setMealKcal("");
+    setMealName("");
   };
-
-  selectMeal = event => {
-    event.preventDefault();
-    if (this.state.selectedMeal !== null) {
-      this.props.addMealToSchedule({
-        ...this.state.selectedMeal,
-        date: this.props.dateProps
-      });
-      this.props.updateMealId();
-    }
-  };
-
-  handleMealSelectChange = meal => {
-    this.setState({
-      selectedMeal: meal
-    });
-  };
-
-  render() {
-    return (
-      <form className={formContainer} onSubmit={this.handleSubmit}>
-        <select
-          className={chooseMealType}
-          value={this.state.selectValue}
-          onChange={this.handleChangeSelect}
-        >
-          <option value="śniadanie">Śniadanie</option>
-          <option value="obiad">Obiad</option>
-          <option value="kolacja">Kolacja</option>
-        </select>
-        <input
-          className={chooseMealName}
-          type="ext"
-          placeholder="nazwa posiłku"
-          value={this.state.inputValueOne}
-          onChange={this.handleChangeOne}
-        />
-        <input
-          className={chooseMealCalories}
-          type="number"
-          placeholder="ilość kalorii"
-          value={this.state.inputValueTwo}
-          onChange={this.handleChangeTwo}
-        />
-        <button type="button" className={submit} onClick={this.createMeal}>
-          Stworz wlasny posilek
-        </button>
-        <MealsSearch
-          mealsArray={this.props.mealsArray}
-          onChange={this.handleMealSelectChange}
-        />
-        <button type="button" className={submit} onClick={this.selectMeal}>
-          Wybierz posilek
-        </button>
-      </form>
-    );
-  }
-}
+  return (
+    <form className={formContainer} onSubmit={createMeal}>
+      <select
+        className={chooseMealType}
+        value={mealType}
+        onChange={event => setMealType(event.target.value)}
+      >
+        <option value="śniadanie">Śniadanie</option>
+        <option value="obiad">Obiad</option>
+        <option value="kolacja">Kolacja</option>
+      </select>
+      <input
+        className={chooseMealName}
+        type="ext"
+        placeholder="nazwa posiłku"
+        value={mealName}
+        onChange={event => setMealName(event.target.value)}
+      />
+      <input
+        className={chooseMealCalories}
+        type="number"
+        placeholder="ilość kalorii"
+        value={mealKcal}
+        onChange={event => setMealKcal(event.target.value)}
+      />
+      <button type="submit" className={submit}>
+        Stworz wlasny posilek
+      </button>
+      <MealsSearch />
+    </form>
+  );
+};
 
 export default MealForm;
